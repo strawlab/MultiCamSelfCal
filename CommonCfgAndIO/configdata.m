@@ -180,7 +180,8 @@ elseif strcmp(experiment,'flydra')
   config.cal.GLOBAL_ITER_THR = 0.5;
   config.cal.INL_TOL	= 10; % 
   config.cal.NUM_CAMS_FILL = 2;
-  config.cal.DO_BA		= 1; % changed ADS 2006 04 03
+  config.cal.DO_BA		= 1;
+  config.cal.START_BA		= 1;
   config.cal.MIN_PTS_VAL = 30;
   config.cal.UNDO_RADIAL= 0;
   config.cal.NTUPLES	= 3;
