@@ -17,7 +17,7 @@ rays=inv(kk_new)*[px';py';ones(1,length(px))];
 x=[rays(1,:)./rays(3,:);rays(2,:)./rays(3,:)];
 
 
-title2=strcat('Complete Distortion Model');
+title2='Complete Distortion Model';
 
 fh1 = 2;
 
@@ -83,7 +83,7 @@ hold off;
 
 
 
-title2=strcat('Tangential Component of the Distortion Model');
+title2='Tangential Component of the Distortion Model';
 
 fh2 = 3;
 
@@ -152,7 +152,7 @@ hold off;
 
 
 
-title2=strcat('Radial Component of the Distortion Model');
+title2='Radial Component of the Distortion Model';
 
 fh3 = 4;
 

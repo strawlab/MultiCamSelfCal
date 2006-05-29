@@ -10,13 +10,13 @@
 clear all
 
 % add necessary paths
-addpath ../CommonCfgAndIO
-addpath ../RadialDistortions
-addpath ./CoreFunctions
-addpath ./OutputFunctions
-addpath ./BlueCLocal
-addpath ./LocalAlignments
-addpath ../RansacM; % ./Ransac for mex functions (it is significantly faster for noisy data)
+addpath ('../CommonCfgAndIO')
+addpath ('../RadialDistortions')
+addpath ('./CoreFunctions')
+addpath ('./OutputFunctions')
+addpath ('./BlueCLocal')
+addpath ('./LocalAlignments')
+addpath ('../RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
 % get the configuration						
 config = configdata(expname);
 disp('Multi-Camera Self-Calibration, Tomas Svoboda et al., 07/2003')
@@ -122,7 +122,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   inliers.IdMat = findinl(linear.Ws,linear.IdMat,INL_TOL);
 
-  addpath ./MartinecPajdla;
+  addpath ('./MartinecPajdla');
   setpaths;		% set paths for M&P algorithms
 
   % remove zero-columns or just 1 point columns
@@ -221,8 +221,9 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   end
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  v = version; Octave = v(1)<'5';  % Crude Octave test
 
-  if 1
+  if ~Octave,
 	% plot reconstructed cameras and points
 	drawscene(Xe,Ce,Re,3,'cloud','reconstructed points/camera setup');
 	drawscene(in.Xe,in.Ce,in.Re,4,'cloud','reconstructed points/camera setup only inliers are used',config.cal.cams2use);

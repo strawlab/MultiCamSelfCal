@@ -47,16 +47,40 @@ if ~isfield(opt, 'verbose'),
 if ~isfield(opt.create_nullspace, 'verbose')
   opt.create_nullspace.verbose  = opt.verbose; end
 
-if ~opt.verbose, fprintf('Repr. error in proj. space (no fact.');
-  if ~opt.no_factorization, fprintf('/fact.'); end
-  if ~opt.no_BA, fprintf('/BA'); end; fprintf(') is ... '); end
+v = version; Octave = v(1)<'5';  % Crude Octave test 
+  
+if ~opt.verbose, 
+  fprintf('Repr. error in proj. space (no fact.');
+  if Octave
+    fflush(stdout);
+  end
+  if ~opt.no_factorization, fprintf('/fact.'); 
+    if Octave
+      fflush(stdout);
+    end
+  end
+  if ~opt.no_BA
+    fprintf('/BA'); 
+    if Octave
+      fflush(stdout);
+    end
+  end; 
+  fprintf(') is ... '); 
+  if Octave
+    fflush(stdout);
+  end
+end
   
 nbeg = size(M,2);
 ptbeg = find(sum(~isnan(M(1:3:end,:))) >= 2); u2beg = setdiff(1:nbeg,ptbeg);
 M = M(:,ptbeg);
 if ~isempty(u2beg), 
   fprintf('Removed correspondences in < 2 images (%d):%s\n', length(u2beg),...
-          sprintf(' %d', u2beg(1:min(20, length(u2beg))))); end
+      sprintf(' %d', u2beg(1:min(20, length(u2beg))))); 
+  if Octave
+    fflush(stdout);
+  end
+end
 
 [m n] = size(M); m = m/3; M0 = M;
 cols = []; recoverable = inf; Omega = [];
@@ -137,7 +161,14 @@ while recoverable > 0 ... % not all parts of JIM are restored
       info.err.no_fact = dist(M0(k2i(r1),r2), R, opt.metric);
       if opt.verbose,
         fprintf('Error (no factorization): %f\n', info.err.no_fact);
-      else, fprintf(' %f', info.err.no_fact); end
+	if Octave
+	  fflush(stdout);
+	end
+      else, fprintf(' %f', info.err.no_fact);
+	if Octave
+	  fflush(stdout);
+	end
+      end
  
     end
   end
@@ -151,7 +182,12 @@ if length(r1)<2, % rank cannot be 4
 
 if ~opt.no_factorization
   if opt.verbose
-    fprintf(1,'Factorization into structure and motion...'); tic; end
+    fprintf(1,'Factorization into structure and motion...');
+    if Octave
+      fflush(stdout);
+    end
+  tic; 
+end
 
   % depths estimated from info.Mdepths (which is approximated by R)
   Mdepths_un = normMback(info.Mdepths, T(r1,:,:));

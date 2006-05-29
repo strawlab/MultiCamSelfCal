@@ -11,6 +11,8 @@
 
 function selfcalib = goradf(config,par2estimate,INL_TOL)
 
++v = version; Octave = v(1)<'5';  % Crude Octave test
+
 % assignment of the parameters to estimate
 initFOV = par2estimate(1);
 center_optim = par2estimate(2);
@@ -38,9 +40,12 @@ for i = idxcams,
 	kc(1:4) = [0,0,0,0];
 	selfcalib.goradproblem=1;
   else
-	visualize_distortions
-	figure(2),
-	eval(['print -depsc ', config.paths.data, sprintf('NonLinModel.cam%d.eps',i)]) 
+
+    if ~Octave,
+      visualize_distortions
+      figure(2),
+      eval(['print -depsc ', config.paths.data, sprintf('NonLinModel.cam%d.eps',i)]) 
+    end
   end
   %
   disp(sprintf('***** camera %d **********************************',i))

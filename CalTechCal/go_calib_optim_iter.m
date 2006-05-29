@@ -343,7 +343,7 @@ while (change > 1e-9)&(iter < MaxIter),
     % Compute the size of the Jacobian matrix:
     N_points_views_active = N_points_views(ind_active);
     
-    JJ3 = sparse([],[],[],15 + 6*n_ima,15 + 6*n_ima,126*n_ima + 225);
+    JJ3 = sparse(15 + 6*n_ima,15 + 6*n_ima);
     ex3 = zeros(15 + 6*n_ima,1);
     
     
@@ -536,7 +536,7 @@ sigma_x = std(ex(:));
 % Compute the size of the Jacobian matrix:
 N_points_views_active = N_points_views(ind_active);
 
-JJ3 = sparse([],[],[],15 + 6*n_ima,15 + 6*n_ima,126*n_ima + 225);
+JJ3 = sparse(15 + 6*n_ima,15 + 6*n_ima);
 
 for kk = ind_active,
     
