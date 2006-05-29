@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# convert the *PVI files from on a local discs and copy only the *.jpg files
+
+echo "Tool to process PVI sequences, Tomas Svoboda, ETHZ, 07/2002"	 
+
+# basepath for the selfcalib codes
+selfcalib_basepath=/home/svoboda/Work/BlueCCal/BlueCFindingPoints
+
+####################################################### 
+### config definitions
+### the variables should be specified in .cshrc
+### or something like that
+#######################################################
+# basepath for binaries and auxiliary scripts
+basepath=$BlueC_BASEPATH
+# image basename
+imname=$BlueC_IMNAME
+# machine basename
+mname=$BlueC_MNAME
+workmachine=$BlueC_WORKMACHINE
+# working directory on local machines 
+localdir=$BlueC_LOCALDIR
+# for all available indexes
+indexes=$BlueC_INDEXES
+
+# first clean the old local data
+for i in $indexes; do
+	command="ssh ${mname}${i} rm -f ${localdir}/*.dat*"
+	echo $command
+	eval $command
+done
+
+for i in $indexes; do
+	command="ssh ${mname}${i} rm -f ${localdir}/*.tiff"
+	echo $command
+	eval $command
+done
+
+wait
+
+# call the local finding procedure
+for i in $indexes; do
+	command="ssh ${mname}${i} /usr/sepp/bin/matlab -nosplash -nojvm < ${selfcalib_basepath}/im2pointsLocally.m > ${selfcalib_basepath}/im2pointsLocally.out.${i} &"
+
+	echo $command
+	eval $command
+	sleep 1
+done
+
+wait
+
+# clean output files
+rm im2pointsLocally.out.*
+

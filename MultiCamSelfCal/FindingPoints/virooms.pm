@@ -1,0 +1,16 @@
+$process={"compname"=>"viroom00","camIds"=>[3,4],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom00","camIds"=>[5,6],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom01","camIds"=>[7,8],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom01","camIds"=>[9,10],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom02","camIds"=>[11,12],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom02","camIds"=>[14],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom03","camIds"=>[15,16],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);
+$process={"compname"=>"viroom03","camIds"=>[17,18],"scriptName"=>"","catcmd"=>"","mcmd"=>"","donefile"=>""};
+push(@processes,$process);

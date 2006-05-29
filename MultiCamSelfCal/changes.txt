@@ -1,0 +1,56 @@
+$Id: changes.txt,v 2.2 2005/05/24 09:15:31 svoboda Exp $
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+List of the most significant changes since the last public release
+from 30th July 2003
+
+- The RANSAC validation was rewritten as m-functions. Hence, no
+  re-compilation of the c-codes is necessary. The user can switch
+  between the mex- and m- version of the RANSAC by specifying the path
+  in gocal.m addpath ../RansacM; % ./Ransac for mex functions The
+  m-version can be slow for highly noisy data.
+
+  The m-version of the RANSAC uses the 8-point algorithm not the
+  7-point algorithm as the c-version. It is then less optimal. I was
+  just too lazy to rewrite the more complicated 7-point algorithm. I
+  did many experiments, the 8-point algorithm did well in all cases. 
+
+- gocal.m ... code cleaned, output better formatted (new function
+  dispcamstats)
+
+- local alignments ... code cleaned, redundant I/O parameters
+  (possible source of errors) removed
+
+- getpoint.m ... code cleaned, made a bit faster. Made compatible with
+  the newest image processing toolbox, ver>5
+
+- showpoints.m ... it possible to switch between single images and
+  image mosaics. The image mosaics may sometimes speed-up the
+  debugging process when something goes wrong with the point
+  detection.  
+
+- The standard Matlab function quiver was copied to the BlueCCal
+  distribution since it has problems in the newest Matlab ver>7.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+List of changes against to the last public release from 18th July 2003:
+
+Fixed Bugs in Code:
+
+- radial distorion ... proper handling of images with resolution
+  different than 640x480
+
+
+Functionality:
+
+- support for non-color images added. You may either specify
+  config.imgs.LEDcolor='intensity' and the color images will be
+  converted to a grayscale or the GETPOINT detects that the image is
+  only grayscale and it will be handled as such
+
+- main cycle in GOCAL. Some upgrade to make it more robust. I am
+  testing the upgrades on all datasets I have. It should be backward
+  compatible. Typically, new bad data discovers a small
+  functionality-bug in the main iterative cycle. 
