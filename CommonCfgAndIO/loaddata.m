@@ -31,6 +31,13 @@ if ~USED_MULTIPROC
 	% try,load the file with Images resolutions which is on of the output files
 	% from finding LEDs procedure or take the pre-defined resolutions specified in the configdata
 	try, Res = load(config.files.Res); catch,  Res   = repmat(config.imgs.res,size(IdMat,1),1); end
+
+	resample_factor = config.cal.USE_NTH_FRAME;
+	if resample_factor ~= 1
+            start_i = 1;
+	    Ws = Ws(1:end,start_i:resample_factor:end);
+	    IdMat = IdMat(1:end,start_i:resample_factor:end);
+        end
   catch
     warning('Data from mono-processor version not found, trying the multi-proc ones ...') 
 	USED_MULTIPROC=1;

@@ -161,6 +161,30 @@ elseif strcmp(experiment,'BlueCRZ')
   % config.cal.cams2use	= [3:12,14:18];
   % config.cal.cams2use	= [5,6,12];
   % config.cal.cams2use	= [3,4,5,6,9,10,17,18];
+elseif strcmp(experiment,'flydra')
+%  config.paths.data	= ['/home/astraw/lacie/20060515_landing/recal20060515/'];
+  config.paths.data	= ['/mnt/lacie/astraw/20060515_landing/recal20060515/'];
+  config.files.basename = 'basename';
+  config.files.idxcams	= [1:5];	% related to the imnames
+  config.imgs.subpix	= 1/2; % only used in finding points, not
+                               % useful here
+  config.cal.USE_NTH_FRAME = 20;
+  config.cal.nonlinpar	= [30,0,1,0,0,0];
+  config.cal.NL_UPDATE	= [1,0,1,0,0,0]; % FOV, 1st term of radial distortion
+%  config.cal.NL_UPDATE	= [1,0,1,1,0,0];
+%  config.cal.NL_UPDATE	= [1,0,1,1,1,0];
+%  config.cal.NL_UPDATE	= [1,1,1,1,1,1];
+  config.cal.DO_GLOBAL_ITER = 1;
+  config.cal.GLOBAL_ITER_MAX = 100;
+%  config.cal.GLOBAL_ITER_THR = 0.8;
+  config.cal.GLOBAL_ITER_THR = 0.5;
+  config.cal.INL_TOL	= 10; % 
+  config.cal.NUM_CAMS_FILL = 2;
+  config.cal.DO_BA		= 1; % changed ADS 2006 04 03
+  config.cal.MIN_PTS_VAL = 30;
+  config.cal.UNDO_RADIAL= 0;
+  config.cal.NTUPLES	= 3;
+  config.cal.SQUARE_PIX	= 1;
 elseif strcmp(experiment,'BlueCHoengg')
   config.paths.data		= ['/local/MultiCam/Data/CalibData4Testing/20030615_Hoengg/'];
   config.files.basename = 'arctic';
@@ -383,6 +407,7 @@ try, config.cal.UNDO_RADIAL;	  catch,	config.cal.UNDO_RADIAL = 0; end;
 try, config.cal.UNDO_HEIKK;		  catch,	config.cal.UNDO_HEIKK = 0; end; % only for testing, not a part of standard package
 try, config.cal.NTUPLES;		  catch,  config.cal.NTUPLES	= 3; end;	% size of the camera tuples, 2-5 implemented
 try, config.cal.MIN_PTS_VAL;	  catch,  config.cal.MIN_PTS_VAL = 30; end; % minimal number of correnspondences in the sample
+try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% most of the cameras have square pixels
 
 % image extensions
 try, config.files.imgext;  catch,  config.files.imgext	= 'jpg'; end;
