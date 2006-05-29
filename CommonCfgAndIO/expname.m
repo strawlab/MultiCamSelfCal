@@ -15,13 +15,13 @@ function name = expname()
 % the name of the oscar setup must contain
 % the string 'oscar'
 
-% name = 'G9';
+name = 'flydra';
 % name = '0801BlueCRZ';
 % name = 'BlueCHoengg';
 % name = 'TestData';
 % name = 'OneSideH0105';
 % name = 'OneSideH1416';
-name = 'BlueCRZ';
+% name = 'BlueCRZ';
 % name = 'ViRoom20030611';
 % name = '2410ViRoom';
 % name = 'Erlangen';
