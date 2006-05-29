@@ -11,7 +11,7 @@
 
 function selfcalib = goradf(config,par2estimate,INL_TOL)
 
-+v = version; Octave = v(1)<'5';  % Crude Octave test
+v = version; Octave = v(1)<'5';  % Crude Octave test
 
 % assignment of the parameters to estimate
 initFOV = par2estimate(1);
