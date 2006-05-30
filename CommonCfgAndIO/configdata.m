@@ -162,8 +162,7 @@ elseif strcmp(experiment,'BlueCRZ')
   % config.cal.cams2use	= [5,6,12];
   % config.cal.cams2use	= [3,4,5,6,9,10,17,18];
 elseif strcmp(experiment,'flydra')
-%  config.paths.data	= ['/home/astraw/lacie/20060515_landing/recal20060515/'];
-  config.paths.data	= ['/mnt/lacie/astraw/20060515_landing/recal20060515/'];
+  config.paths.data	= ['/home/astraw/lacie/20060515_landing/recal20060515/'];
   config.files.basename = 'basename';
   config.files.idxcams	= [1:5];	% related to the imnames
   config.imgs.subpix	= 1/2; % only used in finding points, not

@@ -1,6 +1,4 @@
-function [align] = flydra(in,cam,config)
-
-REALVIZ = 0;
+function [align] = flydra(in,config)
 
 Cst = in.Cst;
 Rot = in.Rot;

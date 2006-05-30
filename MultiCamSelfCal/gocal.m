@@ -282,6 +282,9 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   if findstr('G9',expname)
 	  [align] = g9(in,config);
   end
+  if findstr('flydra',expname)
+	  [align] = flydra(in,config);
+  end
   % planar alignement if knowledge available
   % [align,cam] = planarmove(in,cam,config);
   % try, [align,cam] = planarcams(in,cam,config,config.cal.planarcams); end 
