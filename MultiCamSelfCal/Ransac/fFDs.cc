@@ -1,5 +1,5 @@
 #include <octave/oct.h>
-#include <math.h>
+#include <cmath>
 
 #define f1 F(0)
 #define f2 F(1)
@@ -22,8 +22,6 @@ DEFUN_DLD (fFDs, args, ,
 fast FDs routine.")
 {
 
-  //octave_value octaveF = args(0);
-  //octave_value octaveu = args(1);
   ColumnVector F (args(0).vector_value());
   ColumnVector u (args(1).vector_value());
 
@@ -33,6 +31,8 @@ fast FDs routine.")
   double rx, ry, rwc, ryc, rxc, r;
   int i;
   int uinc=0;
+
+  printf("fFDs\n");
 
   for (i=0; i<len; i++)
     {
