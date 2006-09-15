@@ -110,6 +110,15 @@ cam(3).C = [380, 240, 530 ]';
 cam(4).C = [-115, 220, 800]';
 end
 
+% 2006 09 14
+
+cam(1).C = [685, 220, 775]';
+cam(2).C = [1220, 172, 912]';
+cam(3).C = [380, 240, 530 ]';
+cam(4).C = [-115, 220, 800]';
+cam(5).C = [180, 240, 740]';
+
+
 % of the similarity computation
 
 [align.simT.s, align.simT.R, align.simT.t]  = estsimt([Cst'],[cam(:).C]);
