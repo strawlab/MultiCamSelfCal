@@ -163,13 +163,13 @@ elseif strcmp(experiment,'BlueCRZ')
   % config.cal.cams2use	= [3,4,5,6,9,10,17,18];
 elseif strcmp(experiment,'flydra')
   %config.paths.data	= ['/home/astraw/Cal20061027_flies_a/'];
-  config.paths.data	= ['/home/astraw/NEWDATA/DATA20061223_173845.h5.recal/'];
+  config.paths.data	= ['/home/astraw/DATA20071108_203701.h5.recal/'];
   
   config.files.basename = 'basename';
   config.files.idxcams	= [1:5];	% related to the imnames
   config.imgs.subpix	= 1/2; % only used in finding points, not
                                % useful here
-  config.cal.USE_NTH_FRAME = 2;
+  config.cal.USE_NTH_FRAME = 1;
   config.cal.nonlinpar	= [30,0,1,0,0,0];
   config.cal.NL_UPDATE	= [1,0,1,0,0,0]; % FOV, 1st term of radial distortion
 %  config.cal.NL_UPDATE	= [1,0,1,1,0,0];
