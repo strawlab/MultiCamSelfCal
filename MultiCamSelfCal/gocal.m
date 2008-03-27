@@ -1,3 +1,5 @@
+% emacs, this is -*-Matlab-*- mode
+
 % The main script. Performes the self calibration
 % The point coordinates are expected to be known
 % see the directory FindingPoints
@@ -17,7 +19,7 @@ addpath ('./OutputFunctions')
 addpath ('./BlueCLocal')
 addpath ('./LocalAlignments')
 addpath ('../RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
-% get the configuration						
+% get the configuration
 config = configdata(expname);
 disp('Multi-Camera Self-Calibration, Tomas Svoboda et al., 07/2003')
 disp('************************************************************')
@@ -31,25 +33,25 @@ disp(sprintf('Experiment name: %s',expname))
 % Then the iterative search for outliers takes accordingly longer
 % However, typically no more than 5-7 iterations are needed
 % this number should correspond to the total number of the cameras
-NUM_CAMS_FILL  = config.cal.NUM_CAMS_FILL;	
+NUM_CAMS_FILL  = config.cal.NUM_CAMS_FILL;
 %%%
 % tolerance for inliers. The higher uncorrected radial distortion
 % the higher value. For BlueC cameras set to 2 for the ViRoom
 % plastic cams, set to 4 (see FINDINL)
-INL_TOL = config.cal.INL_TOL;			
+INL_TOL = config.cal.INL_TOL;
 %%%
 % Use Bundle Adjustment to refine the final (after removing outliers) results
 % It is often not needed at all
-DO_BA = config.cal.DO_BA;				
-						
+DO_BA = config.cal.DO_BA;
+
 UNDO_RADIAL = config.cal.UNDO_RADIAL;		% undo radial distortion, parameters are expected to be available
 SAVE_STEPHI = 1;		% save calibration parameters in Stephi's Carve/BlueC compatible form
 SAVE_PGUHA	= 1;		% save calib pars in Prithwijit's compatible form
 USED_MULTIPROC = 0;		% was the multipropcessing used?
 						% if yes then multiple IdMat.dat and points.dat have to be loaded
-						% setting to 1 it forces to read the multiprocessor data against the 
+						% setting to 1 it forces to read the multiprocessor data against the
 						% monoprocessor see the IM2POINTS, IM2PMULTIPROC.PL
-						
+
 %%%
 % Data structures
 % lin.* corrected values which obey linear model
@@ -144,8 +146,8 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	cam(i).idlin  = find(linear.IdMat(i,:)); % loaded structure
 	cam(i).idin	  = find(inliers.IdMat(i,:));	% survived initial pairwise validation
 	cam(i).xdist  = loaded.Ws(3*i-2:3*i,cam(i).idlin);  % original distorted coordinates
-	cam(i).xgt	  = linear.Ws(3*i-2:3*i,cam(i).idlin); 
-	cam(i).xgtin  = linear.Ws(3*i-2:3*i,cam(i).idin); 
+	cam(i).xgt	  = linear.Ws(3*i-2:3*i,cam(i).idlin);
+	cam(i).xgtin  = linear.Ws(3*i-2:3*i,cam(i).idin);
 	% convert the ground truth coordinates by using the known principal point
 	cam(i).xgt    = cam(i).xgt + repmat(config.cal.pp(i,:)', 1, size(cam(i).xgt,2));
 	cam(i).xgtin  = cam(i).xgtin + repmat(config.cal.pp(i,:)', 1, size(cam(i).xgtin,2));
@@ -155,7 +157,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% options for the Martinec-Pajdla filling procedure
   options.verbose = 0;
-  options.no_BA = 1; 
+  options.no_BA = 1;
   options.iter = 5;
   options.detection_accuracy = 2;
   options.consistent_number  = 9;
@@ -170,14 +172,14 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   inliers.idx = packed.idx;
   inliers.reprerr = [9e9];
   while outliers
-	disp(sprintf('%d points/frames have survived validations so far',size(inliers.idx,2))) 
+	disp(sprintf('%d points/frames have survived validations so far',size(inliers.idx,2)))
 	disp('Filling of missing points is running ...')
 	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',options);
 	%
 	Rmat = P*X;
 	Lambda = Rmat(3:3:end,:);
 	%
-	[Pe,Xe,Ce,Re] = euclidize(Rmat,Lambda,P,X,config);    
+	[Pe,Xe,Ce,Re] = euclidize(Rmat,Lambda,P,X,config);
 	disp('************************************************************')
 	%
 	% compute reprojection errors
@@ -209,7 +211,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   if (DO_BA & ~config.cal.START_BA) | (DO_BA & config.cal.START_BA & size(inliers.reprerr,2)<3)
 	disp('**************************************************************')
 	disp('Refinement by using Bundle Adjustment')
-	options.no_BA = 0; 
+	options.no_BA = 0;
 	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',options);
 	Rmat = P*X;
 	Lambda = Rmat(3:3:end,:);
@@ -227,13 +229,13 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	% plot reconstructed cameras and points
 	drawscene(Xe,Ce,Re,3,'cloud','reconstructed points/camera setup');
 	drawscene(in.Xe,in.Ce,in.Re,4,'cloud','reconstructed points/camera setup only inliers are used',config.cal.cams2use);
-	
+
 	% plot measured and reprojected 2D points
 	for i=1:CAMS
 	  in.xe		= in.Pe(((3*i)-2):(3*i),:)*in.Xe;
 	  cam(i).inxe	= in.xe./repmat(in.xe(3,:),3,1);
 	  figure(i+10)
-	  clf	
+	  clf
 	  plot(cam(i).xdist(1,:),cam(i).xdist(2,:),'go');
 	  hold on, grid on
 	  plot(cam(i).xgt(1,:),cam(i).xgt(2,:),'ro');
@@ -241,11 +243,14 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	  % plot(cam(i).xe(1,:),cam(i).xe(2,:),'r+')
 	  plot(cam(i).inxe(1,:),cam(i).inxe(2,:),'k+','MarkerSize',7)
 	  %plot(xe(1,:),xe(2,:),'r+','linewidth',3,'MarkerSize',10)
-	  title(sprintf('measured, o, vs reprojected, +,  2D points (camera: %d)',config.cal.cams2use(i)));
+	  title(sprintf('o: measured (green=distorted, blue=inlier, red=discarded). +: reprojected. (camera: %d)',config.cal.cams2use(i)));
 	  for j=1:size(cam(i).visandrec,2); % plot the reprojection errors
-		line([cam(i).xgt(1,cam(i).visandrec(j)),cam(i).inxe(1,cam(i).recandvis(j))],[cam(i).xgt(2,cam(i).visandrec(j)),cam(i).inxe(2,cam(i).recandvis(j))],'Color','g');
+		line([cam(i).xgt(1,cam(i).visandrec(j)), ...
+		      cam(i).inxe(1,cam(i).recandvis(j))], ...
+		    [cam(i).xgt(2,cam(i).visandrec(j)), ...
+		      cam(i).inxe(2,cam(i).recandvis(j))],'Color','g');
 	  end
-	  % draw the image boarder
+	  % draw the image border
 	  line([0 0 0 2*config.cal.pp(i,1) 2*config.cal.pp(i,1) 2*config.cal.pp(i,1) 2*config.cal.pp(i,1) 0],[0 2*config.cal.pp(i,2) 2*config.cal.pp(i,2) 2*config.cal.pp(i,2) 2*config.cal.pp(i,2) 0 0 0],'Color','k','LineWidth',2,'LineStyle','--')
 	  axis('equal')
 	  drawnow
@@ -261,7 +266,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   % save normal data
   if SAVE_STEPHI | SAVE_PGUHA
 	 [in.Cst,in.Rot] = savecalpar(in.Pe,config);
-  end	
+  end
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % local routines for the BlueC installations
@@ -287,7 +292,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   end
   % planar alignement if knowledge available
   % [align,cam] = planarmove(in,cam,config);
-  % try, [align,cam] = planarcams(in,cam,config,config.cal.planarcams); end 
+  % try, [align,cam] = planarcams(in,cam,config,config.cal.planarcams); end
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % Evaluate reprojection error
   %%%
@@ -316,7 +321,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   selfcal.count = selfcal.count+1;
 
-  if max([cam.mean2Derr])>config.cal.GLOBAL_ITER_THR & config.cal.DO_GLOBAL_ITER & selfcal.count < config.cal.GLOBAL_ITER_MAX 
+  if max([cam.mean2Derr])>config.cal.GLOBAL_ITER_THR & config.cal.DO_GLOBAL_ITER & selfcal.count < config.cal.GLOBAL_ITER_MAX
 	 % if the maximal reprojection error is still bigger
 	 % than acceptable estimate radial distortion and
 	 % iterate further
@@ -349,4 +354,4 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-  
+
