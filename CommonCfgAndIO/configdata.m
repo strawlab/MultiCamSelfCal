@@ -425,6 +425,14 @@ try, config.imgs.subpix; catch, config.imgs.subpix = 1/3; end;
 % data names
 try, config.files.Pmats;     catch, config.files.Pmats	    = [config.paths.data,'Pmatrices.dat'];		end;
 try, config.files.points;	 catch, config.files.points		= [config.paths.data,'points.dat'];		end;
+
+fd = fopen(config.files.points);
+if fd <0
+  error(sprintf('could not open points data file "%s"',config.files.points))
+else
+  fclose(fd)
+end
+
 try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
 try, config.files.Res;		 catch,	config.files.Res		= [config.paths.data,'Res.dat'];		end;
 try, config.files.IdMat;	 catch, config.files.IdMat		= [config.paths.data,'IdMat.dat'];			end;
