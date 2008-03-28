@@ -322,31 +322,31 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   selfcal.count = selfcal.count+1;
 
   if max([cam.mean2Derr])>config.cal.GLOBAL_ITER_THR & config.cal.DO_GLOBAL_ITER & selfcal.count < config.cal.GLOBAL_ITER_MAX
-	 % if the maximal reprojection error is still bigger
-	 % than acceptable estimate radial distortion and
-	 % iterate further
-	 cd ../CalTechCal
-	 selfcalib = goradf(config,selfcal.par2estimate,INL_TOL);
-	 cd ../MultiCamSelfCal
-	 selfcal.iterate = 1;
-	 UNDO_RADIAL = 1;
-	 if ~selfcalib.goradproblem;
-		% if all non-linear parameters estimated reliable
-		% we can reduce the tolerance threshold
-		INL_TOL = max([(2/3)*INL_TOL,config.cal.GLOBAL_ITER_THR]);
-		% add the second radial distortion parameter
-		if config.cal.NL_UPDATE(4), selfcal.par2estimate(4) = 1; end
-		% estimate also the principal point
-		if selfcal.count > 1 & config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
-		% estimate also the tangential distortion
-		if selfcal.count > 3 & all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
+    % if the maximal reprojection error is still bigger
+    % than acceptable estimate radial distortion and
+    % iterate further
+    cd ../CalTechCal
+    selfcalib = goradf(config,selfcal.par2estimate,INL_TOL);
+    cd ../MultiCamSelfCal
+    selfcal.iterate = 1;
+    UNDO_RADIAL = 1;
+    if ~selfcalib.goradproblem;
+      % if all non-linear parameters estimated reliable
+      % we can reduce the tolerance threshold
+      INL_TOL = max([(2/3)*INL_TOL,config.cal.GLOBAL_ITER_THR]);
+      % add the second radial distortion parameter
+      if config.cal.NL_UPDATE(4), selfcal.par2estimate(4) = 1; end
+      % estimate also the principal point
+      if selfcal.count > 1 & config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
+      % estimate also the tangential distortion
+      if selfcal.count > 3 & all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
     else
-		INL_TOL = min([3/2*INL_TOL,config.cal.INL_TOL]);
-	end
+      INL_TOL = min([3/2*INL_TOL,config.cal.INL_TOL]);
+    end
   else
-	% ends the iteration
-	% the last computed parameters will be taken as valid
-	selfcal.iterate = 0;
+    % ends the iteration
+    % the last computed parameters will be taken as valid
+    selfcal.iterate = 0;
   end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
