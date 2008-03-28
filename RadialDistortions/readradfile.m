@@ -1,3 +1,5 @@
+% emacs, this is -*-Matlab-*- mode
+%
 % readradfiles    reads the BlueC *.rad files
 %
 % *.rad files contain paprameters of the radial distortion
@@ -14,7 +16,7 @@ fid = fopen(name,'r');
 if fid<0
   error(sprintf('Could not open %s. Missing rad files?',name'))
 end
-  
+
 for i=1:3,
   for j=1:3,
 	buff = fgetl(fid);
@@ -32,4 +34,4 @@ fclose(fid);
 
 return;
 
-	
+
