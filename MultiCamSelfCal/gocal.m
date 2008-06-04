@@ -70,6 +70,35 @@ selfcal.par2estimate = config.cal.nonlinpar;
 selfcal.iterate = 1;
 selfcal.count	= 0;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load initial distortion parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+nl_params_all_cams = [];
+if BA_RADIAL
+  for i=1:CAMS,
+    if UNDO_RADIAL
+      [K,kc] = ...
+	  readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
+    else
+      % no radial distortion
+      K = [ 1 0 config.cal.Res(i,1)/2; ...
+	    0 1 config.cal.Res(i,2)/2;
+	0 0 1];
+      kc = [0,0,0,0];
+    end
+    cam_pvec = rad2pvec(K,kc); % convert all NL params to row vector
+    nl_params_all_cams(i) = cam_pvec; % append row vector to matrix
+  end
+end
+
+if ~isempty(nl_params_all_cams)
+  % This error is here to prevent a long run just to be confronted
+  % with it in bundle_PX_proj. Remove this test when support is
+  % implemented.
+  error('Not implemented: radial distortion in bundle adjustment');
+end
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main global cycle begins
@@ -95,25 +124,6 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   config.cal.Res= loaded.Res;
   config.cal.pp = reshape([loaded.Res./2,zeros(size(loaded.Res(:,1)))]',CAMS*3,1);
   config.cal.pp = [loaded.Res./2,zeros(size(loaded.Res(:,1)))];
-
-  nl_params_all_cams = [];
-  if BA_RADIAL
-    for i=1:CAMS,
-      if UNDO_RADIAL
-	[K,kc] = ...
-	    readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
-      else
-	% no radial distortion
-	K = [ 1 0 config.cal.Res(i,1)/2; ...
-	      0 1 config.cal.Res(i,2)/2;
-	      0 0 1];
-	kc = [0,0,0,0];
-      end
-      cam_pvec = rad2pvec(K,kc); % convert all NL params to row vector
-      nl_params_all_cams(i) = cam_pvec; % append row vector to matrix
-    end
-  end
-
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % See the README how to compute data
