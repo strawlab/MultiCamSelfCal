@@ -187,6 +187,39 @@ elseif strcmp(experiment,'flydra')
   config.cal.UNDO_RADIAL= 0;
   config.cal.NTUPLES	= 3;
   config.cal.SQUARE_PIX	= 1;
+elseif strcmp(experiment,'mamarama')
+  config.paths.data	= ['/media/disk/mamarama/landing/20080528/cal20080602a/'];
+  config.files.basename = 'basename';
+  config.files.idxcams	= [1:11];	% related to the imnames
+  config.imgs.subpix	= 1/2; % only used in finding points, not
+                               % useful here
+  config.cal.USE_NTH_FRAME = 3;
+  config.cal.nonlinpar	= [30,0,1,0,0,0]; % becomes par2estimate (
+                                          % initFOV,
+                                          % center_optim,
+                                          % est_dist(1),
+                                          % est_dist(2),
+                                          % est_dist(3),
+                                          % est_dist(4) )
+
+  config.cal.NL_UPDATE	= [0,0,0,0,0,0]; % FOV, 1st term of radial distortion
+%  config.cal.NL_UPDATE	= [1,0,1,1,0,0];
+%  config.cal.NL_UPDATE	= [1,0,1,1,1,0];
+%  config.cal.NL_UPDATE	= [1,1,1,1,1,1];
+  config.cal.DO_GLOBAL_ITER = 0;
+  config.cal.GLOBAL_ITER_MAX = 100;
+  config.cal.GLOBAL_ITER_THR = 0.5;
+%  config.cal.GLOBAL_ITER_THR = 0.5;
+  config.cal.INL_TOL	= 100; % initial RANSAC tolerance
+  config.cal.NUM_CAMS_FILL = 7; % number of cameras for a point to be useful (0=all)
+  config.cal.DO_BA		= 1;
+  config.cal.START_BA		= 0;
+  config.cal.MIN_PTS_VAL = 30;
+  config.cal.UNDO_RADIAL= 1;
+  config.cal.BA_RADIAL= 0; % bundle adjustment also finds non-linear parameters
+  config.cal.NTUPLES	= 3; % only used by estimateX in gorec
+                             % (never used by gocal)
+  config.cal.SQUARE_PIX	= 0;
 elseif strcmp(experiment,'BlueCHoengg')
   config.paths.data		= ['/local/MultiCam/Data/CalibData4Testing/20030615_Hoengg/'];
   config.files.basename = 'arctic';
@@ -447,3 +480,4 @@ try, config.files.heikkrad;	 catch, config.files.heikkrad	= [config.paths.data,c
 try, config.files.Pst;		 catch,	config.files.Pst		= [config.paths.data,'Pst.dat']; end;
 try, config.files.Cst;		 catch,	config.files.Cst		= [config.paths.data,'Cst.dat']; end;
 try, config.files.points4cal; catch,	config.files.points4cal = [config.paths.data,'cam%d.points4cal.dat']; end;
+try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
