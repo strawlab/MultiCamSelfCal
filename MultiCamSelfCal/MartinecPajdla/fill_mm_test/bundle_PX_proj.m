@@ -1,4 +1,4 @@
-% [P,X] = bundle_PX_proj(P0,X0,u,imsize [,opt])  Projective bundle adjustment.
+% [P,X] = bundle_PX_proj(P0,X0,u,imsize,nl_params_all_cams[,opt])  Projective bundle adjustment.
 %
 % P0 ... double(3*K,4), joint camera matrix
 % X0 ... double(4,N), scene points
@@ -12,14 +12,17 @@
 % opt.verbose (default 1) .. whether display info
 %    .verbose_short(default 0) .. whether short info
 
-function [P,X] = bundle_PX_proj(P0,X0,q,imsize, opt)
+function [P,X] = bundle_PX_proj(P0,X0,q,imsize, nl_params_all_cams, opt)
 
-if nargin < 5 | isempty(opt) | ~isfield(opt,'verbose')
+if nargin < 6 | isempty(opt) | ~isfield(opt,'verbose')
   opt.verbose = 1; end
 if ~isfield(opt,'verbose_short')
   opt.verbose_short = 0; end
 
-RADIAL = 0; % Commented by DM (nargin > 4); % don't estimate/estimate radial distortion 
+RADIAL = ~isempty(nl_params_all_cams);
+if RADIAL
+  error('Not implemented: radial distortion in bundle adjustment');
+end
 [K,N] = size(q); K = K/2;
 
 % precondition
@@ -48,7 +51,7 @@ for n = 1:N
   TX{n} = qX(2:end,:)';
 end
 for k = 1:K
-  [qP,dummy] = qr(reshape(P0(k2i(k),:),[12 1])); 
+  [qP,dummy] = qr(reshape(P0(k2i(k),:),[12 1]));
   TP{k} = qP(2:end,:)';
 end
 
@@ -142,7 +145,7 @@ for l = 1:length(kvis)  % loop for all VISIBLE points in all cameras
   n = nvis(l);
   xl = x(k2i(k),n);
   ul = nhom(xl);
-  
+
   % Compute derivatives (Jacobians). Notation: E.g., dudx = du(x)/dx, etc.
   dxdP = kron(X(:,n)',eye(3))*TP{k}; % dx(iP,iX)/diP
   dxdX = P(k2i(k),:)*TX{n}; % dx(iP,iX)/diX
@@ -209,7 +212,7 @@ nfail = 0;
 niter = 0;
 [Fp,J] = feval(F,p,varargin{:});
 if issparse(J)
-  eyeJ = speye(size(J,2)); 
+  eyeJ = speye(size(J,2));
 else
   eyeJ = eye(size(J,2));
 end
@@ -232,7 +235,7 @@ while (nfail < 20) & (stepy*opt.res_scale > opt.max_stepy) & (niter < opt.max_ni
     return
   end
   FpD = feval(F,p+D,varargin{:});
-  
+
   if sum((Fp).^2) > sum((FpD).^2) % success
     p = p + D;
     lam = max(lam/10,1e-15);
@@ -249,7 +252,7 @@ while (nfail < 20) & (stepy*opt.res_scale > opt.max_stepy) & (niter < opt.max_ni
   % if success, print out residuals
   if (opt.verbose | opt.verbose_short) & nfail==0
     if ~opt.verbose_short
-      fprintf(' %7.2g [lam]: %14.10g [rms] %14.10g [max] %10.5g [stepmax]\n',lam,opt.res_scale*sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy); 
+      fprintf(' %7.2g [lam]: %14.10g [rms] %14.10g [max] %10.5g [stepmax]\n',lam,opt.res_scale*sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy);
     else fprintf(' %g/%g/%g', sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy); end
   end
 end
@@ -290,14 +293,14 @@ end
 
 function x = nhom(x)
 %nhom  Projective to euclidean coordinates.
-%     x = nhom(x_) Computes euclidean coordinates by dividing 
+%     x = nhom(x_) Computes euclidean coordinates by dividing
 %     all rows but last by the last row.
 %       x_ ... Size (dim+1,N) Projective coordinates.
 %       x ... Size (dim,N). Euclidean coordinates.
 %       (N can be arbitrary.)
 if isempty(x)
-  x = []; 
-  return; 
+  x = [];
+  return;
 end
 d = size(x,1) - 1;
 x = x(1:d,:)./(ones(d,1)*x(end,:));
@@ -344,7 +347,7 @@ function i = k2i(k,step)
 %i = k2i(k [,step])
 % Computes indices of matrix rows corresponding to views k. If k is a scalar,
 % it is    i = [1:step]+step*(k-1).
-% implicit: step = 3   
+% implicit: step = 3
 % E.g., for REC.u, REC.P, REC.X use k2i(k),
 %       for REC.q use k2i(k,2).
 

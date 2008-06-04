@@ -45,6 +45,9 @@ INL_TOL = config.cal.INL_TOL;
 DO_BA = config.cal.DO_BA;
 
 UNDO_RADIAL = config.cal.UNDO_RADIAL;		% undo radial distortion, parameters are expected to be available
+BA_RADIAL = config.cal.BA_RADIAL;		% bundle adjustment
+                                                % also finds
+                                                % non-linear parameters
 SAVE_STEPHI = 1;		% save calibration parameters in Stephi's Carve/BlueC compatible form
 SAVE_PGUHA	= 1;		% save calib pars in Prithwijit's compatible form
 USED_MULTIPROC = 0;		% was the multipropcessing used?
@@ -92,6 +95,25 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   config.cal.Res= loaded.Res;
   config.cal.pp = reshape([loaded.Res./2,zeros(size(loaded.Res(:,1)))]',CAMS*3,1);
   config.cal.pp = [loaded.Res./2,zeros(size(loaded.Res(:,1)))];
+
+  nl_params_all_cams = [];
+  if BA_RADIAL
+    for i=1:CAMS,
+      if UNDO_RADIAL
+	[K,kc] = ...
+	    readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
+      else
+	% no radial distortion
+	K = [ 1 0 config.cal.Res(i,1)/2; ...
+	      0 1 config.cal.Res(i,2)/2;
+	      0 0 1];
+	kc = [0,0,0,0];
+      end
+      cam_pvec = rad2pvec(K,kc); % convert all NL params to row vector
+      nl_params_all_cams(i) = cam_pvec; % append row vector to matrix
+    end
+  end
+
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % See the README how to compute data
@@ -156,7 +178,8 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% options for the Martinec-Pajdla filling procedure
-  options.verbose = 0;
+  options.verbose = 1;
+%  options.strategy = 1; % force a particular central camera
   options.no_BA = 1;
   options.iter = 5;
   options.detection_accuracy = 2;
@@ -174,7 +197,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   while outliers
 	disp(sprintf('%d points/frames have survived validations so far',size(inliers.idx,2)))
 	disp('Filling of missing points is running ...')
-	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',options);
+	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',nl_params_all_cams,options);
 	%
 	Rmat = P*X;
 	Lambda = Rmat(3:3:end,:);
@@ -212,7 +235,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	disp('**************************************************************')
 	disp('Refinement by using Bundle Adjustment')
 	options.no_BA = 0;
-	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',options);
+	[P,X, u1,u2, info] = fill_mm_bundle(linear.Ws(:,inliers.idx),config.cal.pp(:,1:2)',nl_params_all_cams,options);
 	Rmat = P*X;
 	Lambda = Rmat(3:3:end,:);
 	[in.Pe,in.Xe,in.Ce,in.Re] = euclidize(Rmat,Lambda,P,X,config);
