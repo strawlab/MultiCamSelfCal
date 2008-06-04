@@ -59,7 +59,7 @@ end;
 if ~exist('check_cond'),
     check_cond = 1; % Set this variable to 0 in case you don't want to extract view dynamically
 end;
-																		
+
 if ~exist('center_optim'),
     center_optim = 0; %%% Set this variable to 0 if your do not want to estimate the principal point
 end;
@@ -176,7 +176,7 @@ end;
 
 if ~center_optim & (est_alpha),
     fprintf(1,'WARNING: Since there is no principal point estimation (center_optim=0), no skew estimation (est_alpha = 0)\n');
-    est_alpha = 0;  
+    est_alpha = 0;
 end;
 
 if ~est_alpha,
@@ -262,7 +262,7 @@ if ~exist('fc')& quick_init,
     fprintf(1,['Initialization of the focal length to a FOV of ' num2str(FOV_angle) ' degrees.\n']);
     fc = (nx/2)/tan(pi*FOV_angle/360) * ones(2,1);
     est_fc = [1;1];
-    alpha_smooth = 0.4; % slow 
+    alpha_smooth = 0.4; % slow
 end;
 
 
@@ -298,12 +298,12 @@ comp_ext_calib;
 
 %%% Initialization of the global parameter vector:
 
-init_param = [fc;cc;alpha_c;kc;zeros(5,1)]; 
+init_param = [fc;cc;alpha_c;kc;zeros(5,1)];
 
 for kk = 1:n_ima,
     eval(['omckk = omc_' num2str(kk) ';']);
     eval(['Tckk = Tc_' num2str(kk) ';']);
-    init_param = [init_param; omckk ; Tckk];    
+    init_param = [init_param; omckk ; Tckk];
 end;
 
 
@@ -324,88 +324,88 @@ param_list = param;
 
 
 while (change > 1e-9)&(iter < MaxIter),
-    
+
     fprintf(1,'%d...',iter+1);
-    
+
     % To speed up: pre-allocate the memory for the Jacobian JJ3.
     % For that, need to compute the total number of points.
-    
+
     %% The first step consists of updating the whole vector of knowns (intrinsic + extrinsic of active
     %% images) through a one step steepest gradient descent.
-    
-    
+
+
     f = param(1:2);
     c = param(3:4);
     alpha = param(5);
     k = param(6:10);
-    
-    
+
+
     % Compute the size of the Jacobian matrix:
     N_points_views_active = N_points_views(ind_active);
-    
+
     JJ3 = sparse(15 + 6*n_ima,15 + 6*n_ima);
     ex3 = zeros(15 + 6*n_ima,1);
-    
-    
+
+
     for kk = ind_active, %1:n_ima,
         %if active_images(kk),
-        
-        omckk = param(15+6*(kk-1) + 1:15+6*(kk-1) + 3); 
-        
-        Tckk = param(15+6*(kk-1) + 4:15+6*(kk-1) + 6); 
-        
+
+        omckk = param(15+6*(kk-1) + 1:15+6*(kk-1) + 3);
+
+        Tckk = param(15+6*(kk-1) + 4:15+6*(kk-1) + 6);
+
         if isnan(omckk(1)),
             fprintf(1,'Intrinsic parameters at frame %d do not exist\n',kk);
             return;
         end;
-        
+
         eval(['X_kk = X_' num2str(kk) ';']);
         eval(['x_kk = x_' num2str(kk) ';']);
-        
+
         Np = N_points_views(kk);
-        
+
         if ~est_aspect_ratio,
             [x,dxdom,dxdT,dxdf,dxdc,dxdk,dxdalpha] = project_points2(X_kk,omckk,Tckk,f(1),c,k,alpha);
             dxdf = repmat(dxdf,[1 2]);
         else
             [x,dxdom,dxdT,dxdf,dxdc,dxdk,dxdalpha] = project_points2(X_kk,omckk,Tckk,f,c,k,alpha);
         end;
-        
+
         exkk = x_kk - x;
-        
+
         A = [dxdf dxdc dxdalpha dxdk]';
         B = [dxdom dxdT]';
-        
+
         JJ3(1:10,1:10) = JJ3(1:10,1:10) + sparse(A*A');
         JJ3(15+6*(kk-1) + 1:15+6*(kk-1) + 6,15+6*(kk-1) + 1:15+6*(kk-1) + 6) = sparse(B*B');
-        
+
         AB = sparse(A*B');
         JJ3(1:10,15+6*(kk-1) + 1:15+6*(kk-1) + 6) = AB;
         JJ3(15+6*(kk-1) + 1:15+6*(kk-1) + 6,1:10) = (AB)';
-        
+
         ex3(1:10) = ex3(1:10) + A*exkk(:);
         ex3(15+6*(kk-1) + 1:15+6*(kk-1) + 6) = B*exkk(:);
-        
+
         % Check if this view is ill-conditioned:
         if check_cond,
             JJ_kk = B'; %[dxdom dxdT];
             if (cond(JJ_kk)> thresh_cond),
                 active_images(kk) = 0;
-                fprintf(1,'\nWarning: View #%d ill-conditioned. This image is now set inactive. (note: to disactivate this option, set check_cond=0)\n',kk)
+                fprintf(1,'\nWarning: View #%d ill-conditioned (A). This image is now set inactive. (note: to disactivate this option, set check_cond=0)\n',kk)
                 desactivated_images = [desactivated_images kk];
-                param(15+6*(kk-1) + 1:15+6*(kk-1) + 6) = NaN*ones(6,1); 
+                param(15+6*(kk-1) + 1:15+6*(kk-1) + 6) = NaN*ones(6,1);
             end;
         end;
-        
+
         %end;
-        
+
     end;
-    
-    
+
+
     % List of active images (necessary if changed):
     check_active_images;
-    
-    
+
+
     % The following vector helps to select the variables to update (for only active images):
     selected_variables = [est_fc;center_optim*ones(2,1);est_alpha;est_dist;zeros(5,1);reshape(ones(6,1)*active_images,6*n_ima,1)];
     if ~est_aspect_ratio,
@@ -414,46 +414,46 @@ while (change > 1e-9)&(iter < MaxIter),
         end;
     end;
     ind_Jac = find(selected_variables)';
-    
+
     JJ3 = JJ3(ind_Jac,ind_Jac);
     ex3 = ex3(ind_Jac);
-    
+
     JJ2_inv = inv(JJ3); % not bad for sparse matrices!!
-    
-    
+
+
     % Smoothing coefficient:
-    
+
     alpha_smooth2 = 1-(1-alpha_smooth)^(iter+1); %set to 1 to undo any smoothing!
-    
+
     param_innov = alpha_smooth2*JJ2_inv*ex3;
-    
-    
+
+
     param_up = param(ind_Jac) + param_innov;
     param(ind_Jac) = param_up;
-    
-    
+
+
     % New intrinsic parameters:
-    
+
     fc_current = param(1:2);
     cc_current = param(3:4);
     alpha_current = param(5);
     kc_current = param(6:10);
-    
-    
+
+
     if ~est_aspect_ratio & isequal(est_fc,[1;1]),
         fc_current(2) = fc_current(1);
         param(2) = param(1);
     end;
-    
+
     % Change on the intrinsic parameters:
     change = norm([fc_current;cc_current] - [f;c])/norm([fc_current;cc_current]);
-    
-    
+
+
     %% Second step: (optional) - It makes convergence faster, and the region of convergence LARGER!!!
     %% Recompute the extrinsic parameters only using compute_extrinsic.m (this may be useful sometimes)
     %% The complete gradient descent method is useful to precisely update the intrinsic parameters.
-    
-    
+
+
     if recompute_extrinsic,
         MaxIter2 = 20;
         for kk =ind_active, %1:n_ima,
@@ -467,7 +467,7 @@ while (change > 1e-9)&(iter < MaxIter),
             if check_cond,
                 if (cond(JJ_kk)> thresh_cond),
                     active_images(kk) = 0;
-                    fprintf(1,'\nWarning: View #%d ill-conditioned. This image is now set inactive. (note: to disactivate this option, set check_cond=0)\n',kk);
+                    fprintf(1,'\nWarning: View #%d ill-conditioned (B). This image is now set inactive. (note: to disactivate this option, set check_cond=0)\n',kk);
                     desactivated_images = [desactivated_images kk];
                     omckk = NaN*ones(3,1);
                     Tckk = NaN*ones(3,1);
@@ -478,10 +478,10 @@ while (change > 1e-9)&(iter < MaxIter),
             %end;
         end;
     end;
-    
+
     param_list = [param_list param];
     iter = iter + 1;
-    
+
 end;
 
 fprintf(1,'done\n');
@@ -506,25 +506,25 @@ alpha_c = solution(5);
 kc = solution(6:10);
 
 for kk = 1:n_ima,
-    
-    if active_images(kk), 
-        
-        omckk = solution(15+6*(kk-1) + 1:15+6*(kk-1) + 3);%***   
-        Tckk = solution(15+6*(kk-1) + 4:15+6*(kk-1) + 6);%*** 
+
+    if active_images(kk),
+
+        omckk = solution(15+6*(kk-1) + 1:15+6*(kk-1) + 3);%***
+        Tckk = solution(15+6*(kk-1) + 4:15+6*(kk-1) + 6);%***
         Rckk = rodrigues(omckk);
-        
+
     else
-        
-        omckk = NaN*ones(3,1);   
+
+        omckk = NaN*ones(3,1);
         Tckk = NaN*ones(3,1);
         Rckk = NaN*ones(3,3);
-        
+
     end;
-    
+
     eval(['omc_' num2str(kk) ' = omckk;']);
     eval(['Rc_' num2str(kk) ' = Rckk;']);
     eval(['Tc_' num2str(kk) ' = Tckk;']);
-    
+
 end;
 
 
@@ -539,33 +539,33 @@ N_points_views_active = N_points_views(ind_active);
 JJ3 = sparse(15 + 6*n_ima,15 + 6*n_ima);
 
 for kk = ind_active,
-    
-    omckk = param(15+6*(kk-1) + 1:15+6*(kk-1) + 3); 
-    Tckk = param(15+6*(kk-1) + 4:15+6*(kk-1) + 6); 
-    
+
+    omckk = param(15+6*(kk-1) + 1:15+6*(kk-1) + 3);
+    Tckk = param(15+6*(kk-1) + 4:15+6*(kk-1) + 6);
+
     eval(['X_kk = X_' num2str(kk) ';']);
-    
+
     Np = N_points_views(kk);
-    
+
     [x,dxdom,dxdT,dxdf,dxdc,dxdk,dxdalpha] = project_points2(X_kk,omckk,Tckk,fc,cc,kc,alpha_c);
-    
+
     if ~est_aspect_ratio,
         [x,dxdom,dxdT,dxdf,dxdc,dxdk,dxdalpha] = project_points2(X_kk,omckk,Tckk,fc(1),cc,kc,alpha_c);
         dxdf = repmat(dxdf,[1 2]);
     else
         [x,dxdom,dxdT,dxdf,dxdc,dxdk,dxdalpha] = project_points2(X_kk,omckk,Tckk,fc,cc,kc,alpha_c);
     end;
-    
+
     A = [dxdf dxdc dxdalpha dxdk]';
     B = [dxdom dxdT]';
-    
+
     JJ3(1:10,1:10) = JJ3(1:10,1:10) + sparse(A*A');
     JJ3(15+6*(kk-1) + 1:15+6*(kk-1) + 6,15+6*(kk-1) + 1:15+6*(kk-1) + 6) = sparse(B*B');
-    
+
     AB = sparse(A*B');
     JJ3(1:10,15+6*(kk-1) + 1:15+6*(kk-1) + 6) = AB;
     JJ3(15+6*(kk-1) + 1:15+6*(kk-1) + 6,1:10) = (AB)';
-    
+
 end;
 
 JJ3 = JJ3(ind_Jac,ind_Jac);
@@ -593,8 +593,8 @@ fprintf(1,'\n\nCalibration results after optimization (with uncertainties):\n\n'
 fprintf(1,'Focal Length:          fc = [ %3.5f   %3.5f ] ± [ %3.5f   %3.5f ]\n',[fc;fc_error]);
 fprintf(1,'Principal point:       cc = [ %3.5f   %3.5f ] ± [ %3.5f   %3.5f ]\n',[cc;cc_error]);
 fprintf(1,'Skew:             alpha_c = [ %3.5f ] ± [ %3.5f  ]   => angle of pixel axes = %3.5f ± %3.5f degrees\n',[alpha_c;alpha_c_error],90 - atan(alpha_c)*180/pi,atan(alpha_c_error)*180/pi);
-fprintf(1,'Distortion:            kc = [ %3.5f   %3.5f   %3.5f   %3.5f  %5.5f ] ± [ %3.5f   %3.5f   %3.5f   %3.5f  %5.5f ]\n',[kc;kc_error]);   
-fprintf(1,'Pixel error:          err = [ %3.5f   %3.5f ]\n\n',err_std); 
+fprintf(1,'Distortion:            kc = [ %3.5f   %3.5f   %3.5f   %3.5f  %5.5f ] ± [ %3.5f   %3.5f   %3.5f   %3.5f  %5.5f ]\n',[kc;kc_error]);
+fprintf(1,'Pixel error:          err = [ %3.5f   %3.5f ]\n\n',err_std);
 fprintf(1,'Note: The numerical errors are approximately three times the standard deviations (for reference).\n\n\n')
 %fprintf(1,'      For accurate (and stable) error estimates, it is recommended to run Calibration once again.\n\n\n')
 
