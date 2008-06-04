@@ -6,7 +6,7 @@
 
 function name = expname()
 
-% the name of a calibration fo BlueC must 
+% the name of a calibration fo BlueC must
 % contain the following sub-string 'BigBlue'
 
 % the name for the Hoenggeberg calibration must contain
@@ -15,7 +15,8 @@ function name = expname()
 % the name of the oscar setup must contain
 % the string 'oscar'
 
-name = 'flydra';
+%name = 'flydra';
+name = 'mamarama';
 % name = '0801BlueCRZ';
 % name = 'BlueCHoengg';
 % name = 'TestData';
@@ -32,4 +33,4 @@ name = 'flydra';
 
 return
 
-																														
+
