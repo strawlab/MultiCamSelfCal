@@ -1,0 +1,32 @@
+Index: CalTechCal/goradf.m
+===================================================================
+--- CalTechCal/goradf.m	(revision 2506)
++++ CalTechCal/goradf.m	(working copy)
+@@ -32,8 +32,27 @@
+   % handle image resolutions correctly
+   nx = config.cal.Res(count,1);
+   ny = config.cal.Res(count,2);
++  % ADS start -----
++  % Begin from prior conditions rather than blank initialization
++  fprintf(1,'ADS: nx = %d, ny = %d\n',nx,ny);
++  rad_fname = sprintf(config.files.rad,config.cal.cams2use(i))
++  [K,kc] = readradfile(rad_fname);
++  fprintf(1,'ADS: loaded rad file %s',rad_fname);
++%  recompute_extrinsic=0;
++%  est_aspect_ratio=1; % estimate aspect ratio for distortions
++%  center_optim=1; % estimate center point for distortions
++%  est_alpha=0; % don't estimate skew
++  K
++  kc
++  kc = kc';
++  cc = [K(1,3);K(2,3);]
++  est_fc = [1;1]; % estimate focal length
++  fc = [K(1,1);K(2,2);]
++%  check_cond=0; % dont check for ill-conditioned image
++  % ADS end ------
+   go_calib_optim_iter
+   if any(isnan(param)) | any(err_std > 2*INL_TOL)
++    fprintf(1,'ADS: failed caltech cal!!!!!!!!!!!!!!!!!!!!\n');
+ 	% when the iteration fails insert null distortion
+ 	% it is better than nonsense
+ 	KK = [700 0 320; 0 700 240; 0 0 1];		% void calibration matrix
