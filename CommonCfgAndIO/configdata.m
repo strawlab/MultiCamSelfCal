@@ -1,5 +1,5 @@
 % Config configuration file for self-calibration experiments
-% 
+%
 % config = configdata(experiment)
 %
 % experiment ... string with an experiment name
@@ -25,7 +25,7 @@ elseif strcmp(experiment,'G9')
   config.files.imnames	= ['img0%d','_*.'];
   % config.files.idxcams	= [1:11,13:16];	% related to the imnames
   config.files.idxcams	= [1:4];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'red'; % color of the laser pointer
   config.imgs.LEDthr	= 30;
   config.imgs.subpix	= 1/3;
@@ -34,7 +34,7 @@ elseif strcmp(experiment,'G9')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_THR = 0.5;
   config.cal.GLOBAL_ITER_MAX = 5;
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 1;
   config.cal.UNDO_RADIAL= 0; % CalTech (BlueC compatible)
@@ -48,13 +48,13 @@ elseif strcmp(experiment,'2410ViRoom')
   config.files.imnames	= 'vr%0.2d_image.*.';
   config.files.idxcams	= [0:3];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'intensity'; % color of the laser pointer
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_MAX = 10;
   config.cal.GLOBAL_ITER_THR = 1.5;
   config.cal.NL_UPDATE	= [1,0,1,0,0,0];
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.DO_BA		= 1;
   config.cal.START_BA	= 1;
   config.cal.UNDO_RADIAL= 0;
@@ -69,17 +69,17 @@ elseif strcmp(experiment,'oscar2c1p')
   config.cal.cams2use	= [1:3];
   config.files.imgext	= 'jpg';
   config.files.projdata	= [config.paths.data,'files.txt']; % contains the projector data
-  config.imgs.LEDsize	= 25; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 25; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
-  config.imgs.subpix	= 1/3;	   % scale of the required subpixel accuracy 
-  config.imgs.res		= [1392,1024];  
+  config.imgs.subpix	= 1/3;	   % scale of the required subpixel accuracy
+  config.imgs.res		= [1392,1024];
   config.imgs.projres	= [1024,768];	% projector resolution
   config.cal.DO_GLOBAL_ITER = 0;
   config.cal.GLOBAL_ITER_MAX = 10;
   config.cal.GLOBAL_ITER_THR = 0.5;
   config.cal.nonlinpar	= [30,1,1,1,1,1];
   config.cal.NL_UPDATE	= [1,1,1,1,1,1];
-  config.cal.INL_TOL	= 2; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 2; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 0;
   config.cal.UNDO_RADIAL= 0;
@@ -95,17 +95,17 @@ elseif strcmp(experiment,'oscardemo')
   config.files.idxproj	= [4:6];		% related to the projectors
   config.files.imgext	= 'jpg';
   config.files.projdata	= [config.paths.data,'calib_3p3c_p3.txt']; % contains the projector data
-  config.imgs.LEDsize	= 25; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 25; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
-  config.imgs.subpix	= 1/3;	   % scale of the required subpixel accuracy 
-  config.imgs.res		= [1392,1024];  
+  config.imgs.subpix	= 1/3;	   % scale of the required subpixel accuracy
+  config.imgs.res		= [1392,1024];
   config.imgs.projres	= [1024,768];	% projector resolution
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_MAX = 10;
   config.cal.GLOBAL_ITER_THR = 1;
   config.cal.nonlinpar	= [15,0,1,0,0,0];
   config.cal.NL_UPDATE	= [1,0,1,1,0,0];
-  config.cal.INL_TOL	= 3; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 3; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 3;
   config.cal.DO_BA		= 0;
   config.cal.START_BA	= 0; % do BA in intermediate steps
@@ -121,7 +121,7 @@ elseif strcmp(experiment,'0801BlueCRZ')
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [3:18];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.LEDthr	= 30;
   config.cal.DO_GLOBAL_ITER = 1;
@@ -129,21 +129,21 @@ elseif strcmp(experiment,'0801BlueCRZ')
   config.cal.GLOBAL_ITER_THR = 0.2;
   config.cal.nonlinpar	= [70,0,1,0,0,0];
   config.cal.NL_UPDATE	= [1,1,1,1,1,1];
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 15;
   config.cal.DO_BA		= 1;
   config.cal.UNDO_RADIAL= 0;
   config.cal.MIN_PTS_VAL = 200;
   config.cal.NTUPLES	= 3;
   config.imgs.subpix	= 1/5;
-  % config.cal.cams2use	= 4; 
+  % config.cal.cams2use	= 4;
 elseif strcmp(experiment,'BlueCRZ')
   config.paths.data		= ['/local/MultiCam/Data/CalibData4Testing/20030626_BigBlueC/'];
   config.files.basename = 'atlantic';
   config.paths.img      = [config.paths.data,config.files.basename,'%d/'];
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [3:12,14:18];	% related to the imnames
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/3;
   config.cal.nonlinpar	= [70,0,1,0,0,0];
@@ -151,7 +151,7 @@ elseif strcmp(experiment,'BlueCRZ')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_MAX = 10;
   config.cal.GLOBAL_ITER_THR = 0.3;
-  config.cal.INL_TOL	= 10; % 
+  config.cal.INL_TOL	= 10; %
   config.cal.NUM_CAMS_FILL = 15;
   config.cal.DO_BA		= 0;
   config.cal.MIN_PTS_VAL = 30;
@@ -164,7 +164,7 @@ elseif strcmp(experiment,'BlueCRZ')
 elseif strcmp(experiment,'flydra')
   %config.paths.data	= ['/home/astraw/Cal20061027_flies_a/'];
   config.paths.data	= ['/home/astraw/DATA20071108_203701.h5.recal/'];
-  
+
   config.files.basename = 'basename';
   config.files.idxcams	= [1:5];	% related to the imnames
   config.imgs.subpix	= 1/2; % only used in finding points, not
@@ -179,7 +179,7 @@ elseif strcmp(experiment,'flydra')
   config.cal.GLOBAL_ITER_MAX = 100;
 %  config.cal.GLOBAL_ITER_THR = 0.8;
   config.cal.GLOBAL_ITER_THR = 0.5;
-  config.cal.INL_TOL	= 10; % 
+  config.cal.INL_TOL	= 10; %
   config.cal.NUM_CAMS_FILL = 2;
   config.cal.DO_BA		= 1;
   config.cal.START_BA		= 1;
@@ -194,7 +194,7 @@ elseif strcmp(experiment,'BlueCHoengg')
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   % config.files.idxcams	= [1:11,13:16];	% related to the imnames
   config.files.idxcams	= [1:16];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/5;
   config.cal.nonlinpar	= [70,0,1,0,0,0];
@@ -202,7 +202,7 @@ elseif strcmp(experiment,'BlueCHoengg')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_THR = 0.5;
   config.cal.GLOBAL_ITER_MAX = 10;
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 0;
   config.cal.UNDO_RADIAL= 0; % CalTech (BlueC compatible)
@@ -215,7 +215,7 @@ elseif strcmp(experiment,'BlueCHoengg')
   config.paths.img      = [config.paths.data,config.files.basename,'%d/'];
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [1:13,15,16];
-  config.imgs.LEDsize	= 3; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 3; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/3;
   config.imgs.LEDthr	= 30;
@@ -224,7 +224,7 @@ elseif strcmp(experiment,'BlueCHoengg')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_THR = 0.2;
   config.cal.GLOBAL_ITER_MAX = 10;
-  config.cal.INL_TOL	= 5; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 5; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 1;
   config.cal.UNDO_RADIAL= 0; % CalTech (BlueC compatible)
@@ -237,7 +237,7 @@ elseif strcmp(experiment,'OneSideH0105')
   config.paths.img      = [config.paths.data,config.files.basename,'%d/'];
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [1:5];	% related to the imnames
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/5;
   config.cal.nonlinpar	= [70,0,1,0,0,0];
@@ -245,7 +245,7 @@ elseif strcmp(experiment,'OneSideH0105')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_THR = 0.2;
   config.cal.GLOBAL_ITER_MAX = 10;
-  config.cal.INL_TOL	= 5; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 5; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 0;
   config.cal.UNDO_RADIAL= 0; % CalTech (BlueC compatible)
@@ -258,7 +258,7 @@ elseif strcmp(experiment,'OneSideH1416')
   config.paths.img      = [config.paths.data,config.files.basename,'%d/'];
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [14:16];	% related to the imnames
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/5;
   config.cal.nonlinpar	= [70,0,1,0,0,0];
@@ -266,7 +266,7 @@ elseif strcmp(experiment,'OneSideH1416')
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_THR = 0.15;
   config.cal.GLOBAL_ITER_MAX = 10;
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 10;
   config.cal.DO_BA		= 0;
   config.cal.UNDO_RADIAL= 0; % CalTech (BlueC compatible)
@@ -280,7 +280,7 @@ elseif strcmp(experiment,'ViRoom20030611')
   config.files.imnames	= 'calib2_%0.2d_*';
   config.files.idxcams	= [10,11,20,21,30,40];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'red'; % color of the laser pointer
   config.imgs.LEDthr	= 100;	 % acceptance threshold for the LED
   config.cal.DO_GLOBAL_ITER = 1;
@@ -308,7 +308,7 @@ elseif strcmp(experiment,'ViRoom20030724')
   config.files.imgext	= 'jpg';
 %   config.files.maxid	= 499;	 % maximum number of allowed img indexes
 %   config.files.posid = [10:13];	 % position of the Id
-  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'red'; % color of the laser pointer
   config.imgs.LEDthr	= 70;	 % acceptance threshold for the LED
   config.cal.DO_GLOBAL_ITER = 1;
@@ -334,7 +334,7 @@ elseif strcmp(experiment,'Erlangen')
   config.files.imnames	= 'cal%0.2d_*';
   config.files.idxcams	= [70,71,72,80,81,82];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels
   config.imgs.subpix	= 1/3;
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.cal.DO_GLOBAL_ITER = 0;
@@ -358,14 +358,14 @@ elseif strcmp(experiment,'extern')
   config.files.imnames	= [config.files.basename,'%d.pvi.*.'];
   config.files.idxcams	= [1:32];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.cal.DO_GLOBAL_ITER = 1;
   config.cal.GLOBAL_ITER_MAX = 10;
   config.cal.GLOBAL_ITER_THR = 0.3;
   config.cal.nonlinpar	= [50,0,1,0,0,0];
   config.cal.NL_UPDATE	= [1,1,1,1,1,1];
-  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 10; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 15; % with 30 it gets unstable after some iteration loops
   config.cal.DO_BA		= 1;
   config.cal.UNDO_RADIAL= 0;
@@ -373,7 +373,7 @@ elseif strcmp(experiment,'extern')
   config.cal.NTUPLES	= 2;
   config.imgs.subpix	= 1/5;
   config.cal.SQUARE_PIX	= 1;
-  % config.cal.cams2use	= 4; 
+  % config.cal.cams2use	= 4;
 else
   error('Configdata: wrong identifier of the data set');
 end
