@@ -26,7 +26,7 @@ for kk = 1:n_ima,
                     active_images(kk) = 0;
                     omckk = NaN*ones(3,1);
                     Tckk = NaN*ones(3,1);
-                    fprintf(1,'\nWarning: View #%d ill-conditioned. This image is now set inactive.\n',kk)
+                    fprintf(1,'\nWarning: View #%d ill-conditioned (C). This image is now set inactive.\n',kk)
                     desactivated_images = [desactivated_images kk];
                 end;
             end;
