@@ -323,6 +323,12 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   if findstr('flydra',expname)
 	  [align] = flydra(in,config);
   end
+  if findstr('mamarama',expname)
+	  [align] = mamarama(in,config);
+  end
+  if findstr('humdra',expname)
+	  [align] = humdra(in,config);
+  end
   % planar alignement if knowledge available
   % [align,cam] = planarmove(in,cam,config);
   % try, [align,cam] = planarcams(in,cam,config,config.cal.planarcams); end

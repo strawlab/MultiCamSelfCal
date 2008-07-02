@@ -220,6 +220,39 @@ elseif strcmp(experiment,'mamarama')
   config.cal.NTUPLES	= 3; % only used by estimateX in gorec
                              % (never used by gocal)
   config.cal.SQUARE_PIX	= 0;
+elseif strcmp(experiment,'humdra')
+  config.paths.data	= ['/home/astraw/tmp/humdra/Cal20080702/'];
+  config.files.basename = 'basename';
+  config.files.idxcams	= [1:4];	% related to the imnames
+  config.imgs.subpix	= 1/2; % only used in finding points, not
+                               % useful here
+  config.cal.USE_NTH_FRAME = 5;
+  config.cal.nonlinpar	= [30,0,1,0,0,0]; % becomes par2estimate (
+                                          % initFOV,
+                                          % center_optim,
+                                          % est_dist(1),
+                                          % est_dist(2),
+                                          % est_dist(3),
+                                          % est_dist(4) )
+
+  config.cal.NL_UPDATE	= [0,0,0,0,0,0]; % FOV, 1st term of radial distortion
+%  config.cal.NL_UPDATE	= [1,0,1,1,0,0];
+%  config.cal.NL_UPDATE	= [1,0,1,1,1,0];
+%  config.cal.NL_UPDATE	= [1,1,1,1,1,1];
+  config.cal.DO_GLOBAL_ITER = 0;
+  config.cal.GLOBAL_ITER_MAX = 100;
+  config.cal.GLOBAL_ITER_THR = 2;
+%  config.cal.GLOBAL_ITER_THR = 0.5;
+  config.cal.INL_TOL	= 1; % initial RANSAC tolerance
+  config.cal.NUM_CAMS_FILL = 0; % number of cameras for a point to be useful (0=all)
+  config.cal.DO_BA		= 1;
+  config.cal.START_BA		= 0;
+  config.cal.MIN_PTS_VAL = 30;
+  config.cal.UNDO_RADIAL= 1;
+  config.cal.BA_RADIAL= 0; % bundle adjustment also finds non-linear parameters
+  config.cal.NTUPLES	= 3; % only used by estimateX in gorec
+                             % (never used by gocal)
+  config.cal.SQUARE_PIX	= 1;
 elseif strcmp(experiment,'BlueCHoengg')
   config.paths.data		= ['/local/MultiCam/Data/CalibData4Testing/20030615_Hoengg/'];
   config.files.basename = 'arctic';

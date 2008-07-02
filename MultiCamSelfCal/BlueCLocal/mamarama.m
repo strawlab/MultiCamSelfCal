@@ -1,4 +1,4 @@
-function [align] = flydra(in,config)
+function [align] = mamarama(in,config)
 
 Cst = in.Cst;
 Rot = in.Rot;
@@ -20,7 +20,7 @@ end
 
 % definition of the absolute world frame (in mm) (Doug's cube)
 
-% cam(1).C = [10, 390, 600]';		
+% cam(1).C = [10, 390, 600]';
 % cam(2).C = [460,  380, 600]';
 % cam(3).C = [430, 115, 580]';
 % cam(4).C = [0, 0, 610]';
@@ -92,7 +92,7 @@ end
 %cam(5).C = [380, 120, 670]';
 
 if 1,
-  
+
 % 2006 03 31
 
 %cam(1).C = [640, -105, 170]';
@@ -175,14 +175,14 @@ end
 % cam(5).C = [110   -355     785]';
 % cam(6).C = [-850   305     785]'; %mama07.2
 % cam(7).C = [-810   190     785]';
-% cam(8).C = [1020   305     785]'; %mama08.2 
+% cam(8).C = [1020   305     785]'; %mama08.2
 % cam(9).C = [980   190     785]';
 
 % 2008 04 17 mamarama
 cam(1).C = [645   -265    760]';    %mama01
 cam(2).C = [640   1250    760]';    %mama02
-cam(3).C = [-455  1260    780]';   %mama03 
-cam(4).C = [-450  -295    780]';   %mama04 
+cam(3).C = [-455  1260    780]';   %mama03
+cam(4).C = [-450  -295    780]';   %mama04
 cam(5).C = [100   495     805]';   %mama05
 cam(6).C = [85    1460    780]';   %mama06_0
 cam(7).C = [85    -470    780]';   %mama06_1
@@ -206,16 +206,16 @@ if ~Octave,
   set(gca,'CameraTarget',[0,0,0]);
   set(gca,'CameraPosition',[0,0,1]);
 
-  figure(61), 
+  figure(61),
   % print -depsc graphevalaligned.eps
   eval(['print -depsc ', config.paths.data, 'topview.eps'])
 
   drawscene(align.X,align.Cst',align.Rot,62,'cloud','Graphical Output Validation: Aligned data',config.cal.cams2use);
-  
+
   set(gca,'CameraTarget',[0,0,0.9]);
   set(gca,'CameraPosition',[2,0,0.9]);
-  
-  %figure(62), 
+
+  %figure(62),
   % print -depsc graphevalaligned.eps
   %eval(['print -depsc ', config.paths.data, 'sideview.eps'])
 end

@@ -16,7 +16,8 @@ function name = expname()
 % the string 'oscar'
 
 %name = 'flydra';
-name = 'mamarama';
+%name = 'mamarama';
+name = 'humdra';
 % name = '0801BlueCRZ';
 % name = 'BlueCHoengg';
 % name = 'TestData';
