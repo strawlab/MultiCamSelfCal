@@ -496,7 +496,7 @@ fd = fopen(config.files.points);
 if fd <0
   error(sprintf('could not open points data file "%s"',config.files.points))
 else
-  fclose(fd)
+  fclose(fd);
 end
 
 try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
