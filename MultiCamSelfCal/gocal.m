@@ -188,7 +188,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% options for the Martinec-Pajdla filling procedure
-  options.verbose = 1;
+  options.verbose = 0;
 %  options.strategy = 1; % force a particular central camera
   options.no_BA = 1;
   options.iter = 5;
