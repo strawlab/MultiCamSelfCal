@@ -15,9 +15,10 @@ function name = expname()
 % the name of the oscar setup must contain
 % the string 'oscar'
 
+name = 'strawlab_test';
 %name = 'flydra';
 %name = 'mamarama';
-name = 'humdra';
+%name = 'humdra';
 % name = '0801BlueCRZ';
 % name = 'BlueCHoengg';
 % name = 'TestData';

@@ -161,6 +161,33 @@ elseif strcmp(experiment,'BlueCRZ')
   % config.cal.cams2use	= [3:12,14:18];
   % config.cal.cams2use	= [5,6,12];
   % config.cal.cams2use	= [3,4,5,6,9,10,17,18];
+elseif strcmp(experiment,'strawlab_test')
+  gocal_filename = which('gocal');
+  gocal_dir = gocal_filename(1:end-7);
+  configdir = strcat(gocal_dir, '../strawlab/test-data/DATA20090709_111010/');
+  config.paths.data	= configdir;
+  config.files.basename = 'basename';
+  config.files.idxcams	= [1:3];	% related to the imnames
+  config.imgs.subpix	= 1/2; % only used in finding points, not
+                               % useful here
+  config.cal.USE_NTH_FRAME = 1;
+  config.cal.nonlinpar	= [30,0,1,0,0,0];
+  config.cal.NL_UPDATE	= [1,0,1,0,0,0]; % FOV, 1st term of radial distortion
+%  config.cal.NL_UPDATE	= [1,0,1,1,0,0];
+%  config.cal.NL_UPDATE	= [1,0,1,1,1,0];
+%  config.cal.NL_UPDATE	= [1,1,1,1,1,1];
+  config.cal.DO_GLOBAL_ITER = 0;
+  config.cal.GLOBAL_ITER_MAX = 100;
+%  config.cal.GLOBAL_ITER_THR = 0.8;
+  config.cal.GLOBAL_ITER_THR = 0.5;
+  config.cal.INL_TOL	= 10; %
+  config.cal.NUM_CAMS_FILL = 2;
+  config.cal.DO_BA		= 1;
+  config.cal.START_BA		= 1;
+  config.cal.MIN_PTS_VAL = 30;
+  config.cal.UNDO_RADIAL= 0;
+  config.cal.NTUPLES	= 3;
+  config.cal.SQUARE_PIX	= 1;
 elseif strcmp(experiment,'flydra')
   %config.paths.data	= ['/home/astraw/Cal20061027_flies_a/'];
   config.paths.data	= ['/home/astraw/DATA20071108_203701.h5.recal/'];
