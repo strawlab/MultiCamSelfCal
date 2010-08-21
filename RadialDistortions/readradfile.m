@@ -20,14 +20,22 @@ end
 for i=1:3,
   for j=1:3,
 	buff = fgetl(fid);
-	K(i,j) = str2num(buff(7:end));
+        str_end = buff(7:end);
+        if str_end(end)==';'
+          str_end = str_end(1:end-1);
+        end
+        K(i,j) = str2num(str_end);
   end
 end
 
 buff = fgetl(fid);
 for i=1:4,
   buff = fgetl(fid);
-  kc(i) = str2num(buff(7:end));
+  str_end = buff(7:end);
+  if str_end(end)==';'
+    str_end = str_end(1:end-1);
+  end
+  kc(i) = str2num(str_end);
 end
 
 fclose(fid);
