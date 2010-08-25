@@ -48,7 +48,8 @@ for each user)
 
 - collect the data stored locally on the cluster machines.
 
-* Edit configdata.m and expname.m in */BlueCCal/CommonCfgAndIO
+* Select an existing configuration from the configurations/ directory,
+  or create a new one.
 
 - Go to */BlueCCal/MultiCamSelfCal, run matlab
 
@@ -185,9 +186,8 @@ precision). The computation time is linear in terms of cameras and
 images.
 
 
-- Create a new configuration file, in the configurations directory.
-
-- Important! Set the correct experiment name into expname.m.  (TODO: NECESSARY???)
+- Select an existing configuration from the configurations/ directory,
+  or create a new one.
 
 - Run "im2pmultiproc.pl", check if it uses the right *.pm config. This
   perl script will create some temporary files in the working
@@ -202,8 +202,7 @@ images.
 
 3) Selfcalibration
 
-- Run "gocal" in Matlab. Again, be sure to have correct name of
-  the experiment in "expname.m" (TODO: necessary?)
+- Run "gocal" in Matlab.
 
 - Check the graphical output. Some inside check points are
   applied. Nevertheless, it may happen that the reprojection error is
