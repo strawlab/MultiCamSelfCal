@@ -49,6 +49,7 @@ while 1
     pieces
     key = pieces{1}{1}
     value_str = pieces{1}{2}
+    value = [];
 
     % map hyphens and spaces to underscores in 'key'
     key = strrep(strrep(key, ' ', '_'), '-', '_');
@@ -76,11 +77,12 @@ while 1
         % parse a vector of length type
         for index = [1:type]
 	  [token, value_str] = strtok(value_str);
+	  token
 	  tmp_num = str2double(token);
 	  if isnan(tmp_num)
 	    error(strcat('error parsing number for [', section, '] key=', key, ': invalid number'));
 	  end
-	  value(index) = tmp_num;
+	  value(index) = tmp_num
 	end
 	value
       else

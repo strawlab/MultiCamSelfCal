@@ -41,11 +41,30 @@ config = read_generic_configuration(get_metaconfiguration(), filename)
 
 % Do non-generic transformations.
 % (These transformations are done to minimize our impact on outside code)
-if ~isfield(config.paths, 'img')
+if ~isfield(config.paths, 'img') & isfield(config.paths, 'camera_filename')
   config.paths.img = [config.paths.data, config.paths.camera_filename];
 end
-config.files.projdata= [config.paths.data,config.paths.projdatafile]; % contains the projector data
+if ~isfield(config.paths, 'projdata') & isfield(config.paths, 'projdatafile')
+  config.files.projdata= [config.paths.data,config.paths.projdatafile]; % contains the projector data
+end
 % TODO: config.files.idxcams, config.files.idxproj, config.files.cams2use
+
+
+try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
+try, config.files.Res;		 catch,	config.files.Res		= [config.paths.data,'Res.dat'];		end;
+try, config.files.IdMat;	 catch, config.files.IdMat		= [config.paths.data,'IdMat.dat'];			end;
+try, config.files.inidx;	 catch, config.files.inidx		= [config.paths.data,'idxin.dat'];			end;
+try, config.files.avIM;		 catch, config.files.avIM		= [config.paths.data,'camera%d.average.tiff'];		end;
+try, config.files.stdIM;	 catch, config.files.stdIM		= [config.paths.data,'camera%d.std.tiff'];		end;
+try, config.files.CalPar;	 catch, config.files.CalPar		= [config.paths.data,'camera%d.cal'];			end;
+try, config.files.CalPmat;	 catch, config.files.CalPmat	= [config.paths.data,'camera%d.Pmat.cal'];			end;
+try, config.files.StCalPar;	 catch,	config.files.StCalPar	= [config.paths.data,config.files.basename,'%d.cal'];	end;
+try, config.files.rad;		 catch, config.files.rad		= [config.paths.data,config.files.basename,'%d.rad'];	end;
+try, config.files.heikkrad;	 catch, config.files.heikkrad	= [config.paths.data,config.files.basename,'%d.heikk'];	end;
+try, config.files.Pst;		 catch,	config.files.Pst		= [config.paths.data,'Pst.dat']; end;
+try, config.files.Cst;		 catch,	config.files.Cst		= [config.paths.data,'Cst.dat']; end;
+try, config.files.points4cal; catch,	config.files.points4cal = [config.paths.data,'cam%d.points4cal.dat']; end;
+try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
 
 %  --- get_metaconfiguration ---
 % 
