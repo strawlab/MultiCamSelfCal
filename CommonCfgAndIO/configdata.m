@@ -16,6 +16,8 @@ if nargin<1,
   experiment = 'basic';
 end
 
+error('use read_configuration instead');
+
 if strcmp(experiment,'basic')
 	error;
 elseif strcmp(experiment,'G9')

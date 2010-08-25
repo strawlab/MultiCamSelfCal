@@ -18,7 +18,8 @@ addpath ../OutputFunctions
 SHOWFIG	  = 0; % show images during point extraction
 STEP4STAT = 1; % step for computing average and std images, if 1 then all images taken
 
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 im.dir = config.paths.img;
 im.ext = config.files.imgext;

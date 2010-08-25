@@ -3,7 +3,7 @@
 % 
 % The computation core is taken from  im2points.m
 % computes average image and image of standard deviations
-% requires configdata.m
+% requires read_configuration.m
 % The name of the experiment has to be specified
 % it determines the location of files etc ...
 %
@@ -18,7 +18,8 @@
 % $Id: im2imstat.m,v 2.0 2003/06/19 12:07:10 svoboda Exp $
 % $State: Exp $
 
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 STEP4STAT = 5; % step for computing average and std images, if 1 then all images taken
 

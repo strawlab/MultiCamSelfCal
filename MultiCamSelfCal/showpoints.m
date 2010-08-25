@@ -17,8 +17,8 @@ COMPOSE_IMGS   = 1;		% Do you want to see composed images?
 						% no window can overlay the most active figure(1)
 						% otherwise it will not work correctly
 
-% load the confidata
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 im.dir = config.paths.img;
 im.ext = config.files.imgext;

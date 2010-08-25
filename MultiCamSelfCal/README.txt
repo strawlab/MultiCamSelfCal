@@ -126,9 +126,11 @@ Try:
 >> firewire chmod 
 This should help.
 
-Config files "configdata.m" and "expname.m" are in the sub-directory
-Cfg. The configdata contains necessary paths to the data and the
-expname determines the relevant subset of config data. 
+Configuration is specified on the command-line
+with --config=FILENAME.  Example configurations are
+given in the configurations/ directory.
+(Configuration file parsing is done by read_configuration.m,
+which in turn calls read_generic_configuration.m.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -183,10 +185,9 @@ precision). The computation time is linear in terms of cameras and
 images.
 
 
-- Edit configdata.m and put correct paths and all config constants you
-  want here.
+- Create a new configuration file, in the configurations directory.
 
-- Important! Set the correct experiment name into expname.m. 
+- Important! Set the correct experiment name into expname.m.  (TODO: NECESSARY???)
 
 - Run "im2pmultiproc.pl", check if it uses the right *.pm config. This
   perl script will create some temporary files in the working
@@ -202,7 +203,7 @@ images.
 3) Selfcalibration
 
 - Run "gocal" in Matlab. Again, be sure to have correct name of
-  the experiment in "expname.m"
+  the experiment in "expname.m" (TODO: necessary?)
 
 - Check the graphical output. Some inside check points are
   applied. Nevertheless, it may happen that the reprojection error is

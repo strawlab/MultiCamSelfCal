@@ -1,7 +1,9 @@
 % Read all images and extract point coordinates.
 %
 % All information needed are stored and retrieved 
-% from the function CONFIGDATA
+% from the function read_configuration,
+% which in turn uses the --config=FILENAME command-line
+% option.
 
 % $Author: svoboda $
 % $Revision: 2.0 $
@@ -10,7 +12,7 @@
 
 clear all;
 
-% add path to config data
+% add path to config data (TODO: obsolete?)
 addpath ../Cfg
 % add path for graphical output if needed
 addpath ../OutputFunctions
@@ -18,7 +20,8 @@ addpath ../OutputFunctions
 SHOWFIG	  = 0; % show images during point extraction
 STEP4STAT = 5; % step for computing average and std images, if 1 then all images taken
 
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
