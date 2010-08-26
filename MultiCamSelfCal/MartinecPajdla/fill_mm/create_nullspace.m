@@ -9,9 +9,7 @@ function [nullspace, result] = create_nullspace(M, depths, central, opt)
 if nargin < 4, opt.trial_coef = 1;
                opt.threshold  = .01; end
 
-I = ~isnan(M(1:3:end,:));
-[m n] = size(I);
-show_mod = 10; use_maxtuples = 0;
+I = ~isnan(M(1:3:end,:)); [m n] = size(I); show_mod = 10; use_maxtuples = 0;
 if opt.verbose, fprintf(1, 'Used 4-tuples (.=%d): ', show_mod); tic; end
 
 if central,  cols_scaled(1:n) = 0; cols_scaled(find(I(central,:) > 0)) = 1;
@@ -29,20 +27,60 @@ if opt.verbose, fprintf(1, ')'); end
 tenth = .1;  % because of the first %
 result.used = 0; result.failed = 0;
 for i = 1:num_trials
-  [ nulltemp, result_code ] = create_nullspace__run_one_trial(I, cols_scaled, ...
-                                            M, depths, central, opt);
-  if result_code == 2
-    if width+size(nulltemp,2) > size(nullspace,2) % Memory allocation:
-      if opt.verbose, fprintf(1,'(Allocating memory...)'); end
-      mean_added = width/i;
-      nullspace(size(M,1), size(nullspace,2) ...
-		+ round(mean_added * (num_trials-i))) = 0;
+  % choose a 4/max-tuple
+  cols = 1:n;
+  rows = 1:m;
+  
+  cols_chosen = []; t=1; failed = 0; 
+  if central, 
+    scaled_ensured = 0; 
+  else 
+    scaled_ensured = 1;   % trial version: no scale controling when cutting
+  end
+  for t = 1:4
+    % choose one column, cut useless parts etc.
+    [c, cols] = random_element(cols);
+    cols_chosen = [cols_chosen c];
+
+    % check just added column
+    rows = intersect(rows, find(I(:,c) > 0));
+
+    if t < 4,
+      [rows, cols, scaled_ensured] = cut_useless(I, cols_scaled, ...
+                                cols_chosen, rows, cols, 4-t, scaled_ensured);
     end
-    nullspace(:, width+1 : width+size(nulltemp,2)) = nulltemp;
-    width                                          = width +size(nulltemp,2);
-    result.used         = result.used +1;
-    if mod(result.used, show_mod)==0 & opt.verbose, fprintf(1,'.'); end
-  elseif result_code == 0
+    
+    if isempty(rows), failed = 1; break; end
+  end
+
+  if ~failed    
+    % use the 4/max-tuple
+    d = depths(rows,cols_chosen);
+    % see ``debug code'' in the comment lower
+    
+    rowsbig   = k2i(rows);
+    submatrix=[]; for j=1:length(cols_chosen) % 4, 
+      submatrix=[ submatrix ...
+                  spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
+    debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) & opt.verbose
+        fprintf(1,'-'); end;end
+    subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
+    if size(subnull,2)>0  &  ( use_maxtuples | ...
+       size(submatrix,1) == size(submatrix,2) + size(subnull,2))
+      nulltemp            = zeros(size(M,1),size(subnull,2));
+      nulltemp(rowsbig,:) = subnull; % * (length(rows)/m); % weighting
+      if width+size(nulltemp,2) > size(nullspace,2) % Memory allocation:
+        if opt.verbose, fprintf(1,'(Allocating memory...)'); end
+        mean_added = width/i;
+        nullspace(size(M,1), size(nullspace,2) ...
+                  + round(mean_added * (num_trials-i))) = 0;
+      end
+      nullspace(:, width+1 : width+size(nulltemp,2)) = nulltemp;
+      width                                          = width +size(nulltemp,2);
+      result.used         = result.used +1;
+      if mod(result.used, show_mod)==0 & opt.verbose, fprintf(1,'.'); end
+    end
+  else
     result.failed = result.failed +1;
   end
   
@@ -111,65 +149,3 @@ function [N,s] = nulleps(M,tol)
 [u,s,v] = svd(M);
 sigsvs = sum(diag(s)>tol);
 N = u(:,sigsvs+1:size(u,2));
-
-
-
-% ------------------
-% This function is perhaps suitable for C optimization
-function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
-
-  % choose a 4/max-tuple
-  
-  [m n] = size(I);
-  cols = 1:n;
-  rows = 1:m;
-  use_maxtuples = 0;   % only for debugging
-  
-  cols_chosen = []; t=1; failed = 0; 
-  if central, 
-    scaled_ensured = 0; 
-  else 
-    scaled_ensured = 1;   % trial version: no scale controling when cutting
-  end
-  for t = 1:4
-    % choose one column, cut useless parts etc.
-    [c, cols] = random_element(cols);
-    cols_chosen = [cols_chosen c];
-
-    % check just added column
-    rows = intersect(rows, find(I(:,c) > 0));
-
-    if t < 4,
-      [rows, cols, scaled_ensured] = cut_useless(I, cols_scaled, ...
-                                cols_chosen, rows, cols, 4-t, scaled_ensured);
-    end
-    
-    if isempty(rows), failed = 1; break; end
-  end
-
-  if ~failed    
-    % use the 4/max-tuple
-    d = depths(rows,cols_chosen);
-    % see ``debug code'' in the comment lower
-    
-    rowsbig   = k2i(rows);
-    submatrix=[]; for j=1:length(cols_chosen) % 4, 
-      submatrix=[ submatrix ...
-                  spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
-    debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) & opt.verbose
-        fprintf(1,'-'); end;end
-    subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
-    if size(subnull,2)>0  &  ( use_maxtuples | ...
-       size(submatrix,1) == size(submatrix,2) + size(subnull,2))
-      nulltemp            = zeros(size(M,1),size(subnull,2));
-      nulltemp(rowsbig,:) = subnull; % * (length(rows)/m); % weighting
-      result_code = 2;
-    else
-      nulltemp            = [];
-      result_code = 1;
-    end
-  else
-    nulltemp            = [];
-    result_code = 0;
-  end
-end
