@@ -43,3 +43,4 @@ disp(strcat('Undo-Radial: ', num2str(config.cal.UNDO_RADIAL)));
 disp(strcat('Min-Points-Value: ', num2str(config.cal.MIN_PTS_VAL)));
 disp(strcat('N-Tuples: ', num2str(config.cal.NTUPLES)));
 disp(strcat('Square-Pixels: ', num2str(config.cal.SQUARE_PIX)));
+disp(strcat('Use-Nth-Frame: ',num2str(config.cal.USE_NTH_FRAME)));
