@@ -14,8 +14,8 @@ addpath ./CoreFunctions
 addpath ./InputOutputFunctions
 addpath ../RansacM; % ./Ransac for mex functions (it is significantly faster for noisy data)
 
-% get the configuration						
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 UNDO_RADIAL = logical(config.cal.UNDO_RADIAL | config.cal.UNDO_HEIKK);
 

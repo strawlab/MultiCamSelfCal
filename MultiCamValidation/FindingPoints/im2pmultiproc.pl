@@ -4,8 +4,6 @@
 # it spreads the job to all specified processors/machines
 # It requires:
 # - matlab
-# - configdata.m
-# - expname
 #
 # script is useful if more machines or more processors
 # are available.

@@ -18,7 +18,8 @@
 % $Id: im2imstat.m,v 2.0 2003/06/19 12:06:51 svoboda Exp $
 % $State: Exp $
 
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 STEP4STAT = 5; % step for computing average and std images, if 1 then all images taken
 

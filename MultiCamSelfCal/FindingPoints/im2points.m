@@ -18,7 +18,8 @@ addpath ../OutputFunctions
 SHOWFIG	  = 0; % show images during point extraction
 STEP4STAT = 1; % step for computing average and std images, if 1 then all images taken
 
-config = configdata(expname);
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
@@ -29,7 +30,7 @@ NoCams = size(config.files.idxcams,2);	% number of cameras
 for i=1:NoCams,
   seq(i).camId = config.files.idxcams(i);
   if seq(i).camId > -1
-	if findstr(expname,'oscar')
+	if findstr(config.expname,'oscar')
 	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
 	else
 	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),sprintf(config.files.imnames,seq(i).camId),im.ext]);
@@ -155,7 +156,7 @@ end
 %%% End of the findings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if findstr(expname,'oscar')
+if findstr(config.expname,'oscar')
   % needs special care for handling projector data
   ProjPoints = load(config.files.projdata,'-ASCII');
   Ws = [Ws; ProjPoints(:,end-1:end)'; ones(size(ProjPoints(:,1)'))];

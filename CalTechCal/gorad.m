@@ -11,8 +11,11 @@
 
 clear all;
 
+% TODO: isn't this unnecessary now?
 addpath ../MultiCamSelfCalib/Cfg
-config = configdata(expname);
+
+% Read configuration from whatever is specified on command-line (via --config=FILENAME)
+config = read_configuration();
 
 % if problem with desactivated images -> some problems with the estimation in general
 desactivated_images = [];

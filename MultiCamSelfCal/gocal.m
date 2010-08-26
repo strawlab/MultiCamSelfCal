@@ -20,7 +20,7 @@ addpath ('./BlueCLocal')
 addpath ('./LocalAlignments')
 addpath ('../RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
 % get the configuration
-config = configdata(expname);
+config = read_configuration();
 disp('Multi-Camera Self-Calibration, Tomas Svoboda et al., 07/2003')
 disp('************************************************************')
 disp(sprintf('Experiment name: %s',expname))

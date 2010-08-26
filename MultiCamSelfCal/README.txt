@@ -48,7 +48,8 @@ for each user)
 
 - collect the data stored locally on the cluster machines.
 
-* Edit configdata.m and expname.m in */BlueCCal/CommonCfgAndIO
+* Select an existing configuration from the configurations/ directory,
+  or create a new one.
 
 - Go to */BlueCCal/MultiCamSelfCal, run matlab
 
@@ -126,9 +127,11 @@ Try:
 >> firewire chmod 
 This should help.
 
-Config files "configdata.m" and "expname.m" are in the sub-directory
-Cfg. The configdata contains necessary paths to the data and the
-expname determines the relevant subset of config data. 
+Configuration is specified on the command-line
+with --config=FILENAME.  Example configurations are
+given in the configurations/ directory.
+(Configuration file parsing is done by read_configuration.m,
+which in turn calls read_generic_configuration.m.)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -183,10 +186,8 @@ precision). The computation time is linear in terms of cameras and
 images.
 
 
-- Edit configdata.m and put correct paths and all config constants you
-  want here.
-
-- Important! Set the correct experiment name into expname.m. 
+- Select an existing configuration from the configurations/ directory,
+  or create a new one.
 
 - Run "im2pmultiproc.pl", check if it uses the right *.pm config. This
   perl script will create some temporary files in the working
@@ -201,8 +202,7 @@ images.
 
 3) Selfcalibration
 
-- Run "gocal" in Matlab. Again, be sure to have correct name of
-  the experiment in "expname.m"
+- Run "gocal" in Matlab.
 
 - Check the graphical output. Some inside check points are
   applied. Nevertheless, it may happen that the reprojection error is
@@ -234,21 +234,26 @@ images.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Explanation of the configuration variables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-../CommonCfgAndIO/configdata.m
 
-- config.paths.data = ['/scratch/WorkingCalib/']; 
+- [Paths]
+  Data: PATH
+  # matlab: config.paths.data
   
   The main working directory containg all data. Some data may be in
   subdirectories.
 
 
-- config.files.basename = 'arctic';
+- [Files]
+  Basename: arctic
+  # matlab: config.files.basename
 
   Basename for all. This basename will be the main common identifier
   in all exported files.
 
 
-- config.paths.img = [config.paths.data,config.files.basename,'%d/'];
+- [Paths]
+  Camera-Images: PATH_TEMPLATE
+  # matlab: config.paths.img
   
   Basename for image sub-directories.
 
@@ -263,26 +268,34 @@ images.
   Numbers that index the image sub-directories and names of various
   data files. These indexes must correspond to what is on the disk. 
 
-- config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+- [Images]
+  # avg diameter of a LED in pixels  
+  LED-Size: 7
+  # matlab: config.imgs.LEDsize
 
   Parameter used in the finding procedure. When unsure, better to make
   it slightly larger. Rather robust value. "7" works well for both of
   the BlueC installations.
 
 
-- config.imgs.LEDcolor	= 'green'; % color of the laser pointer
+- [Images]
+  LED-Color: green
+  # matlab: config.imgs.LEDcolor
 
   Used in the finding points. Color of the laser pointer used. 
 
-
-- config.imgs.LEDthr	= 100;
+- [Images]
+  LED-Threshold: 100
+  # matlab: config.imgs.LEDthr
 
   Optional parameter for the finding points procedure. Default value
   (hidden) is 70. Sometimes, it may help to resolve problems with
   misdetection. The higher value the brighter points accepted as valid
   projections. Useful only in really special cases.
 
-- config.imgs.subpix	= 1/5;
+- [Images]
+  Subpix: 0.2
+  # matlab: config.imgs.subpix
 
   Used in the finding points. Required subpixels accuracy. Values
   1/3-1/5 give quite nice results. Higher values like 1 or 1/2
@@ -290,7 +303,9 @@ images.
   be useful in some fast try-and-test experiments
 
 
-- config.cal.INL_TOL	= 7; 
+- [Calibration]
+  Initial-Tolerance: 7
+  # matlab: config.cal.INL_TOL
 
   Rather important value. Initial tolerance value for epipolar
   geometry verification. It influences both the pair-wise point
@@ -300,7 +315,9 @@ images.
   decreased during the optimization process. 
 
 
-- config.cal.NUM_CAMS_FILL = 10;
+- [Calibration]
+  Num-Cameras-Fill: 10
+  # matlab: config.cal.NUM_CAMS_FILL
 
   How many camera may be filled by "artificial" points. This value
   should depend to expected visibility of the calibration
@@ -312,13 +329,17 @@ images.
   value is set, automatic correction is applied. 
 
 
-- config.cal.DO_BA		= 0;
+- [Calibration]
+  Do-Bundle-Adjustment: 0
+  # matlab: config.cal.DO_BA
 
   Do the Bundle Adjustment of the projective reconstruction a the end
   of the all iterations. It is quite slow for many points and
   cameras. It may improve the overall accuracy. Often not need at all.  
 
-- config.cal.START_BA	= 1; 
+- [Calibration]
+  Start-Bundle-Adjustment: 1
+  # matlab: config.cal.START_BA
 
   Optional parameters. When set, it does the Projective Bundle
   Adjustment in each step in the final interation for removing
@@ -326,26 +347,34 @@ images.
   whole process it than accordingly slower.
 
 
-- config.cal.UNDO_RADIAL= 1; 
+- [Calibration]
+  Undo-Radial: 1
+  # matlab: config.cal.UNDO_RADIAL
 
   Undo the radial distortion by using the paramaters from the CalTech
   camera calibration toolbox?  
 
 
-- config.cal.UNDO_HEIKK	= 0; 
+- [Calibration]
+  Undo-Heikk: 0
+  # matlab: config.cal.UNDO_HEIKK
 
   Undo the radial distortion by using the parameters from the Jann
   Heikkila calibration toolbox?
 
 
-- config.cal.NTUPLES	= 3; % currently, support for [2-5] implemented
+- [Calibration]
+  N-Tuples: 3
+  # matlab: config.cal.NTUPLES
 
   How many cameras are to be used for on sample of the reconstruction?
   It turned out that "3" is optimal for most of the cases. "2" is
   faster however, sometimes less robust. "4-5" more robust but slower. 
 
 
-- config.cal.MIN_PTS_VAL = 30;
+- [Calibration]
+  Min-Points-Value: 30
+  # matlab: config.cal.MIN_PTS_VAL
 
   Used in the MultiCamera validation. How many points must be
   simultaneously visible in config.cal.NTUPLES cameras to do the
@@ -363,7 +392,8 @@ images.
   in config.files.idxcams. If not set, all cameras will be used.
 
 
-- config.cal.nonlinpar	= [70,0,1,0,0,0];
+- [Calibration]
+  Nonlinear-Parameters: 70 0 1 0 0 0
 
   Default initial settings for the estimation of the nonlinear distortion
   (1) ... camera view angle
@@ -375,7 +405,8 @@ images.
   parameters to be estimated during the global optimization 
 
 
-- config.cal.NL_UPDATE	= [1,1,1,1,1,1];
+- [Calibration]
+  Nonlinear-Update: 1 1 1 1 1 1
 
   Which nonlinear parameteres would you like to update during the
   global optimization. If you have noisy data with many outliers you
@@ -384,14 +415,18 @@ images.
   using for undoing distortions.
 
 
-- config.cal.DO_GLOBAL_ITER = 1;
+- [Calibration]
+  Do-Global-Iterations: 1
+  # matlab: config.cal.DO_GLOBAL_ITER
 
   Would you like to perform global optimization? If you already have
   good parameters of the non-linear distortion you may want to disable
   this.
 
 
-- config.cal.GLOBAL_ITER_THR = 0.3;
+- [Calibration]
+  Global-Iteration-Threshold: 0.3
+  # matlab: config.cal.GLOBAL_ITER_THR
 
   Rather important value. This is one of the stopping condition for
   the global optimization. The process ends if the maximum of the 
@@ -401,7 +436,9 @@ images.
   finding points.
  
 
-- config.cal.GLOBAL_ITER_MAX = 10;
+- [Calibration]
+  Global-Iteration-Max: 10
+  # matlab: config.cal.GLOBAL_ITER_MAX
 
   If the threshold above is set too optimistic, the optimization may
   start to oscilate without actually reaching the desired
