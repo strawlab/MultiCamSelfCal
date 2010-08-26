@@ -97,7 +97,7 @@ try, config.cal.UNDO_RADIAL;	  catch,	config.cal.UNDO_RADIAL = 0; end;
 try, config.cal.UNDO_HEIKK;		  catch,	config.cal.UNDO_HEIKK = 0; end; % only for testing, not a part of standard package
 try, config.cal.NTUPLES;		  catch,  config.cal.NTUPLES	= 3; end;	% size of the camera tuples, 2-5 implemented
 try, config.cal.MIN_PTS_VAL;	  catch,  config.cal.MIN_PTS_VAL = 30; end; % minimal number of correnspondences in the sample
-try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% most of the cameras have square pixels
+try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% use all the data we have
 
 % image extensions
 try, config.files.imgext;  catch,  config.files.imgext	= 'jpg'; end;
