@@ -25,10 +25,12 @@ if nargin == 0
   % No argument given -- look for --config= on the command-line.
   found_cfg = 0;
   for cmdline_arg = argv()
-    arg = cmdline_arg{1};
-    if strcmp(arg(1:9), '--config=')
-      found_cfg = 1;
-      filename = arg(10:size(arg,2));
+    arg = cmdline_arg{1}
+    if size(arg)(2) >= 10
+      if strcmp(arg(1:9), '--config=')
+        found_cfg = 1;
+        filename = arg(10:size(arg,2));
+      end
     end
   end
   if ~found_cfg
@@ -38,6 +40,18 @@ end
 
 % Do generic parsing based on metaconfiguration
 config = read_generic_configuration(get_metaconfiguration(), filename);
+
+if isdir(filename)
+  config_dirname = filename;
+else
+  config_dirname = fileparts(filename);
+end
+
+if (config_dirname(end) ~= '/')
+   config_dirname = strcat(config_dirname,'/');
+end
+
+try, config.paths.data; catch, config.paths.data = config_dirname; end
 
 % Do non-generic transformations.
 % (These transformations are done to minimize our impact on outside code)
@@ -83,7 +97,7 @@ try, config.cal.UNDO_RADIAL;	  catch,	config.cal.UNDO_RADIAL = 0; end;
 try, config.cal.UNDO_HEIKK;		  catch,	config.cal.UNDO_HEIKK = 0; end; % only for testing, not a part of standard package
 try, config.cal.NTUPLES;		  catch,  config.cal.NTUPLES	= 3; end;	% size of the camera tuples, 2-5 implemented
 try, config.cal.MIN_PTS_VAL;	  catch,  config.cal.MIN_PTS_VAL = 30; end; % minimal number of correnspondences in the sample
-try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% most of the cameras have square pixels
+try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% use all the data we have
 
 % image extensions
 try, config.files.imgext;  catch,  config.files.imgext	= 'jpg'; end;
@@ -127,7 +141,7 @@ try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
 
 %  --- get_metaconfiguration ---
 % 
-% Returns an structure describing each named fields that must be producted by parsing the file.
+% Returns an structure describing each named fields that must be produced by parsing the file.
 function metacfg = get_metaconfiguration()
 
 metacfg.Experiment.Name = ...
@@ -302,5 +316,11 @@ metacfg.Calibration.Square_Pixels = ...
   { 1, ...
     'Square Pixels', ...
     { 'cal', 'SQUARE_PIX' }, ...
+    { } ...
+  };
+metacfg.Calibration.Use_Nth_Frame = ...
+  { 1, ...
+    'Use Nth Frame', ...
+    { 'cal', 'USE_NTH_FRAME' }, ...
     { } ...
   };
