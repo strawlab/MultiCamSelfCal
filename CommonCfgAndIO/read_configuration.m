@@ -141,7 +141,7 @@ try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
 
 %  --- get_metaconfiguration ---
 % 
-% Returns an structure describing each named fields that must be producted by parsing the file.
+% Returns an structure describing each named fields that must be produced by parsing the file.
 function metacfg = get_metaconfiguration()
 
 metacfg.Experiment.Name = ...
