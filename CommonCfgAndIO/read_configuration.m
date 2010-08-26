@@ -47,6 +47,10 @@ else
   config_dirname = fileparts(filename);
 end
 
+if (config_dirname(end) ~= '/')
+   config_dirname = strcat(config_dirname,'/');
+end
+
 try, config.paths.data; catch, config.paths.data = config_dirname; end
 
 % Do non-generic transformations.

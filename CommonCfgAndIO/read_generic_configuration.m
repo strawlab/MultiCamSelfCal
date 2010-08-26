@@ -22,6 +22,10 @@ else
 end
 config_dir = fileparts(config_fullpath);
 
+if (config_dir(end) ~= '/')
+   config_dir = strcat(config_dir,'/')
+end
+
 fp = fopen(cfg_filename, 'r');
 line_no = 0;
 section = 'No Section';
