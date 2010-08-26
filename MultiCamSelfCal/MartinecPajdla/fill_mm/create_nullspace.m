@@ -29,7 +29,7 @@ if opt.verbose, fprintf(1, ')'); end
 tenth = .1;  % because of the first %
 result.used = 0; result.failed = 0;
 for i = 1:num_trials
-  [ nulltemp, result_code ] = run_one_trial(I, cols_scaled, ...
+  [ nulltemp, result_code ] = create_nullspace__run_one_trial(I, cols_scaled, ...
                                             M, depths, central, opt);
   if result_code == 2
     if width+size(nulltemp,2) > size(nullspace,2) % Memory allocation:
@@ -116,7 +116,7 @@ N = u(:,sigsvs+1:size(u,2));
 
 % ------------------
 % This function is perhaps suitable for C optimization
-function [nulltemp, result_code] = run_one_trial(I, cols_scaled, M, depths, central, opt)
+function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
 
   % choose a 4/max-tuple
   
