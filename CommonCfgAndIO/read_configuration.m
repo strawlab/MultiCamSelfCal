@@ -25,10 +25,12 @@ if nargin == 0
   % No argument given -- look for --config= on the command-line.
   found_cfg = 0;
   for cmdline_arg = argv()
-    arg = cmdline_arg{1};
-    if strcmp(arg(1:9), '--config=')
-      found_cfg = 1;
-      filename = arg(10:size(arg,2));
+    arg = cmdline_arg{1}
+    if size(arg)(2) >= 10
+      if strcmp(arg(1:9), '--config=')
+        found_cfg = 1;
+        filename = arg(10:size(arg,2));
+      end
     end
   end
   if ~found_cfg
