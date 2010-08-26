@@ -41,6 +41,14 @@ end
 % Do generic parsing based on metaconfiguration
 config = read_generic_configuration(get_metaconfiguration(), filename);
 
+if isdir(filename)
+  config_dirname = filename;
+else
+  config_dirname = fileparts(filename);
+end
+
+try, config.paths.data; catch, config.paths.data = config_dirname; end
+
 % Do non-generic transformations.
 % (These transformations are done to minimize our impact on outside code)
 if ~isfield(config.paths, 'img') && isfield(config.paths, 'camera_filename')
