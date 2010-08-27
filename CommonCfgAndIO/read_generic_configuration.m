@@ -10,12 +10,21 @@
 %          { }
 %        };
 function config = read_generic_configuration(metacfg, cfg_filename);
+
+if isdir(cfg_filename)
+  cfg_filename = fullfile(cfg_filename, 'multicamselfcal.cfg'); % default config name in directory
+end
+
 if cfg_filename(1) == '/'
   config_fullpath = cfg_filename;
 else
   config_fullpath = construct_absolute_path(pwd(), cfg_filename);
 end
 config_dir = fileparts(config_fullpath);
+
+if (config_dir(end) ~= '/')
+   config_dir = strcat(config_dir,'/')
+end
 
 fp = fopen(cfg_filename, 'r');
 line_no = 0;
