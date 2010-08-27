@@ -33,11 +33,20 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
 
 
   ///cols = 1:n;
+  unsigned n_cols_remaining = n;
+  unsigned *cols_remaining;
+  OCTAVE_LOCAL_BUFFER (unsigned, cols_remaining, n);
+  for (i = 0; i < n; i++)
+    cols_remaining[i] = i;
+
   ///rows = 1:m;
   ///use_maxtuples = 0;   % only for debugging
   ///
   ///cols_chosen = []; t=1; failed = 0; 
-  ....
+  unsigned n_cols_chosen = 0;
+  unsigned *cols_chosen;
+  OCTAVE_LOCAL_BUFFER (unsigned, cols_chosen, n);
+  bool failed = false;
 
   ///if (central != 0)
   ///  scaled_ensured = 0; 
@@ -47,13 +56,21 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
   bool scaled_ensured = (central == 0);
 
   unsigned t;
+  unsigned n_cols_scaled_chosen = 0;		// maintained as invariant instead of computed on demand
   for (t = 1; t <= 4; t++)
     {
       ///  % choose one column, cut useless parts etc.
       ///  [c, cols] = random_element(cols);
-      ...
+      unsigned rand_index = rand() % n_cols_remaining;		/// XXX: use better RNG
+      unsigned c = cols_remaining[rand_index];
+      cols_remaining[rand_index] = cols_remaining[n_cols_remaining - 1];
+      n_cols_remaining--;
+
       ///  cols_chosen = [cols_chosen c];
-      ...
+      cols_chosen[n_cols_chosen++] = c;
+
+      if (cols_scaled[c] > 0.0)
+        n_cols_scaled_chosen++;
 
       ///  % check just added column
       ///  rows = intersect(rows, find(I(:,c) > 0));
@@ -79,10 +96,6 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
 		  demanded_scaled = 3;
 		  demanded_rows = 2; 
 		}
-	      unsigned n_cols_scaled_chosen = 0;
-	      for (i = 0; i < n_cols_chosen; i++)
-		if (cols_scaled[i] > 0)
-		  n_cols_scaled_chosen++;
       
 	      // if no unscaled are allowed, they must be all cut
 	      if (demanded == demanded_scaled - n_cols_scaled_chosen)
