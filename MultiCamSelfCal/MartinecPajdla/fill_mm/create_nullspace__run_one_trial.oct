@@ -1,3 +1,14 @@
+// Implement part of create_nullspace(), called create_nullspace__run_one_trial()
+// to optimize the slowest routine in the code.
+//
+// By Dave Benson, 2010.
+
+// Implements:
+//   function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
+// See: create_nullspace__run_one_trial() in create_nullspace.m.
+
+// STATUS: INCOMPLETE
+
 #include <octave/oct.h>
 
 /// function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
@@ -115,7 +126,33 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
       ///  rowsbig   = k2i(rows);
       ///  submatrix=[];
       ///  for j=1:length(cols_chosen) % 4
-      ///    submatrix = [ submatrix ... spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]
+      for (j = 1; j <= n_cols_chosen; j++)
+        {
+	  ///spread = spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j))
+          //////% Mdepthcol is column of JIM with depths which is spread by this
+          //////% function to a submatrix with some zeros
+          //////function submatrix = spread_depths_col(Mdepthcol,depthsIcol)
+          //////
+          //////m = size(depthsIcol,1);
+          //////n = 1;
+          //////
+          //////known_depths      = find(depthsIcol ~= 0);
+          //////
+          //////if ~isempty(known_depths)
+          //////  rows              = k2i(known_depths);
+          //////  submatrix(rows,n) = Mdepthcol(rows); n=n+1;
+          //////end
+          //////
+          //////for i=setdiff(1:m, known_depths)
+          //////  rows              = k2i(i);
+          //////  submatrix(rows,n) = Mdepthcol(rows); n=n+1;
+          //////end
+	  ...
+
+          ///submatrix = [ submatrix , spread ]
+	  ...
+	}
+
       ///  end
       ///  subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
       ///  if size(subnull,2)>0  &&  (size(submatrix,1) == size(submatrix,2) + size(subnull,2))
