@@ -1,5 +1,9 @@
 [Paths]
+<<<<<<< HEAD:configurations/strawlab_test
 Data: ./../strawlab/test-data/DATA20090709_111010/
+=======
+Data: ../strawlab/test-data/DATA20090709_111010/
+>>>>>>> 3b7ebf3a2796e148b00ce12888bfd4ecf4a7984b:configurations/strawlab_test
 
 [Files]
 Basename: basename
@@ -9,6 +13,11 @@ Image-Extension: jpg
 Subpix: 0.5
 
 [Calibration]
+<<<<<<< HEAD:configurations/strawlab_test
+=======
+Num-Cameras: 3
+Num-Projectors: 0
+>>>>>>> 3b7ebf3a2796e148b00ce12888bfd4ecf4a7984b:configurations/strawlab_test
 Nonlinear-Parameters: 30    0    1    0    0    0
 Nonlinear-Update: 1   0   1   0   0   0
 Initial-Tolerance: 10

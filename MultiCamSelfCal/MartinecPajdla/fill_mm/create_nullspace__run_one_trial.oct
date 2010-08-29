@@ -1,0 +1,75 @@
+#include <octave/oct.h>
+
+DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
+          "Run a single trial of the create_nullspace route")
+{
+  int nargin = args.length();
+  if (nargin != 6)
+    {
+      error("create_nullspace__run_one_trial required 6 parameters");
+    }
+  NDArray I = args(0).array_value();
+  NDArray cols_scaled = args(1).array_value();
+  NDArray M = args(2).array_value();
+  NDArray depths = args(3).array_value();
+  NDArray central = args(4).array_value();
+  Octave_map opt = args(5).map_value();
+  
+
+  // function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
+
+  //% choose a 4/max-tuple
+  //
+  //[m n] = size(I);
+  //cols = 1:n;
+  //rows = 1:m;
+  //use_maxtuples = 0;   % only for debugging
+  //
+  //cols_chosen = []; t=1; failed = 0; 
+  //if central, 
+  //  scaled_ensured = 0; 
+  //else 
+  //  scaled_ensured = 1;   % trial version: no scale controling when cutting
+  //end
+  //for t = 1:4
+  //  % choose one column, cut useless parts etc.
+  //  [c, cols] = random_element(cols);
+  //  cols_chosen = [cols_chosen c];
+
+  //  % check just added column
+  //  rows = intersect(rows, find(I(:,c) > 0));
+
+  //  if t < 4,
+  //    [rows, cols, scaled_ensured] = cut_useless(I, cols_scaled, ...
+  //                              cols_chosen, rows, cols, 4-t, scaled_ensured);
+  //  end
+  //  
+  //  if isempty(rows), failed = 1; break; end
+  //end
+
+  //if ~failed    
+  //  % use the 4/max-tuple
+  //  d = depths(rows,cols_chosen);
+  //  % see ``debug code'' in the comment lower
+  //  
+  //  rowsbig   = k2i(rows);
+  //  submatrix=[]; for j=1:length(cols_chosen) % 4, 
+  //    submatrix=[ submatrix ...
+  //                spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
+  //  debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) & opt.verbose
+  //      fprintf(1,'-'); end;end
+  //  subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
+  //  if size(subnull,2)>0  &  ( use_maxtuples | ...
+  //     size(submatrix,1) == size(submatrix,2) + size(subnull,2))
+  //    nulltemp            = zeros(size(M,1),size(subnull,2));
+  //    nulltemp(rowsbig,:) = subnull; % * (length(rows)/m); % weighting
+  //    result_code = 2;
+  //  else
+  //    nulltemp            = [];
+  //    result_code = 1;
+  //  end
+  //else
+  //  nulltemp            = [];
+  //  result_code = 0;
+  //end
+}

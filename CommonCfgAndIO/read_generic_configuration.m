@@ -10,7 +10,22 @@
 %          { }
 %        };
 function config = read_generic_configuration(metacfg, cfg_filename);
-disp(strcat('reading ', cfg_filename));
+
+if isdir(cfg_filename)
+  cfg_filename = fullfile(cfg_filename, 'multicamselfcal.cfg'); % default config name in directory
+end
+
+if cfg_filename(1) == '/'
+  config_fullpath = cfg_filename;
+else
+  config_fullpath = construct_absolute_path(pwd(), cfg_filename);
+end
+config_dir = fileparts(config_fullpath);
+
+if (config_dir(end) ~= '/')
+   config_dir = strcat(config_dir,'/')
+end
+
 fp = fopen(cfg_filename, 'r');
 line_no = 0;
 section = 'No Section';
@@ -19,36 +34,32 @@ config.paths.dummy = 1;
 while 1
   str = fgetl(fp);
   line_no = line_no + 1;
-  disp(str);
   if ~ischar(str)
     break
   end
 
-  disp(str);
   str = strtrim(str);
   if size(str, 1) == 0
     continue
   end
-  if str(1) == '#' | str(1) == '%'
+
+  if str(1) == '#' || str(1) == '%'
     continue
   end
 
-  disp(str);
   if str(1) == '['
     pieces = regexp(str, '\[(.*)\]', 'tokens');
     if size(pieces,1) == 0,
       error(strcat('error parsing config file line ', int2str(line_no), ', file ', cfg_filename));
     end
-    section = pieces{1}{1}
-    disp(strcat('got section ' , section));
+    section = pieces{1}{1};
   else
     pieces = regexp(str, '([^:]+):\s+(.*)', 'tokens');
     if size(pieces,1) == 0,
       error(strcat('error parsing config file line ', int2str(line_no), ', file ', cfg_filename));
     end
-    pieces
-    key = pieces{1}{1}
-    value_str = pieces{1}{2}
+    key = pieces{1}{1};
+    value_str = pieces{1}{2};
     value = [];
 
     % map hyphens and spaces to underscores in 'key'
@@ -62,11 +73,14 @@ while 1
       type = info{1};
 
       % Switch on 'type'
-      if isstr(type)
+      if ischar(type)
         if strcmp(type, 'string')
 	  value = value_str;
+          if cell_contains(info{4}, 'config_file_relative')
+            value = construct_absolute_path(config_dir, value);
+          end
 	elseif strcmp(type, 'boolean')
-	  value = str2double(value_str)
+	  value = str2double(value_str);
 	  if isnan(value)
 	    error(strcat('error parsing boolean for [', section, '] key=', key));
 	  end
@@ -77,19 +91,17 @@ while 1
         % parse a vector of length type
         for index = [1:type]
 	  [token, value_str] = strtok(value_str);
-	  token
 	  tmp_num = str2double(token);
 	  if isnan(tmp_num)
 	    error(strcat('error parsing number for [', section, '] key=', key, ': invalid number'));
 	  end
-	  value(index) = tmp_num
+	  value(index) = tmp_num;
 	end
-	value
       else
         error(strcat('error in metaconfiguration for ', section, ' / ', key, ': type is not a string or scalar'));
       end
-    catch exception_object
-      error(strcat('error parsing config file line ', int2str(line_no), ', file ', cfg_filename, ': ', exception_object.message));
+    %catch exception
+    %  error(strcat('error parsing config file line ', int2str(line_no), ', file ', cfg_filename, ': ', exception.message));
     end
     output_names = info{3};
     n_output_names = size(output_names, 2);
@@ -136,3 +148,21 @@ end
 %    error('invalid output-names in metadata');
 %  end
 %end
+
+function path = construct_absolute_path(dir, filename)
+  if filename(1) == '/'
+    path = filename;
+  else
+    path = strcat(dir, '/', filename);
+  end
+end
+
+function count = cell_contains(cel, str)
+  count = 0;
+  for cell_content_i = [1:size(cel, 2)]
+    cell_content = cel{1, cell_content_i};
+    if strcmp(cell_content, str)
+      count = count + 1;
+    end
+  end
+end

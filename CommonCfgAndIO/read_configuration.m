@@ -25,10 +25,12 @@ if nargin == 0
   % No argument given -- look for --config= on the command-line.
   found_cfg = 0;
   for cmdline_arg = argv()
-    arg = cmdline_arg{1};
-    if strcmp(arg(1:9), '--config=')
-      found_cfg = 1;
-      filename = arg(10:size(arg,2));
+    arg = cmdline_arg{1}
+    if size(arg)(2) >= 10
+      if strcmp(arg(1:9), '--config=')
+        found_cfg = 1;
+        filename = arg(10:size(arg,2));
+      end
     end
   end
   if ~found_cfg
@@ -37,17 +39,87 @@ if nargin == 0
 end
 
 % Do generic parsing based on metaconfiguration
-config = read_generic_configuration(get_metaconfiguration(), filename)
+config = read_generic_configuration(get_metaconfiguration(), filename);
+
+if isdir(filename)
+  config_dirname = filename;
+else
+  config_dirname = fileparts(filename);
+end
+
+if (config_dirname(end) ~= '/')
+   config_dirname = strcat(config_dirname,'/');
+end
+
+try, config.paths.data; catch, config.paths.data = config_dirname; end
 
 % Do non-generic transformations.
 % (These transformations are done to minimize our impact on outside code)
-if ~isfield(config.paths, 'img') & isfield(config.paths, 'camera_filename')
+if ~isfield(config.paths, 'img') && isfield(config.paths, 'camera_filename')
   config.paths.img = [config.paths.data, config.paths.camera_filename];
 end
-if ~isfield(config.paths, 'projdata') & isfield(config.paths, 'projdatafile')
+if ~isfield(config.paths, 'projdata') && isfield(config.paths, 'projdatafile')
   config.files.projdata= [config.paths.data,config.paths.projdatafile]; % contains the projector data
 end
-% TODO: config.files.idxcams, config.files.idxproj, config.files.cams2use
+
+% TODO: handle missing cameras
+% TODO: config.files.cams2use
+config.files.idxcams = [1:config.cal.num_cameras];
+config.files.idxproj = [config.cal.num_cameras+1 : config.cal.num_cameras+config.cal.num_projectors];
+% camera indexes handling
+try, config.cal.cams2use; catch, config.cal.cams2use = config.files.idxcams; end
+
+% Default initial settings for the estiamtion of the nonlinear distortion
+% (1) ... camera view angle
+% (2) ... estimate principal point?
+% (3:4) ... parameters of the radial distortion
+% (5:6) ... parameters of the tangential distortion
+try, config.cal.nonlinpar; catch, config.cal.nonlinpar = [50,0,1,0,0,0]; end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% adding more and more non-linear paramaters might be tricky
+% in case of bad data. You may fall in the trap of overfitting
+% You may want to disable this
+% update all possible parameters by default
+try, config.cal.NL_UPDATE; catch, config.cal.NL_UPDATE = [1,1,1,1,1,1]; end
+
+
+
+% configuration of the for the calibration process
+try, config.cal.SQUARE_PIX;	      catch,  config.cal.SQUARE_PIX = 1;end	% most of the cameras have square pixels
+try, config.cal.START_BA;		  catch,	config.cal.START_BA = 0; end
+try, config.cal.DO_GLOBAL_ITER;	  catch,  config.cal.DO_GLOBAL_ITER = 1; end
+try, config.cal.GLOBAL_ITER_THR;  catch,	config.cal.GLOBAL_ITER_THR = 1; end
+try, config.cal.GLOBAL_ITER_MAX;  catch,	config.cal.GLOBAL_ITER_MAX = 10; end
+try, config.cal.INL_TOL;		  catch,  config.cal.INL_TOL = 5; end;
+try, config.cal.NUM_CAMS_FILL;	  catch,	config.cal.NUM_CAMS_FILL = 12; end;
+try, config.cal.DO_BA;			  catch,	config.cal.DO_BA = 0; end;
+try, config.cal.UNDO_RADIAL;	  catch,	config.cal.UNDO_RADIAL = 0; end;
+try, config.cal.UNDO_HEIKK;		  catch,	config.cal.UNDO_HEIKK = 0; end; % only for testing, not a part of standard package
+try, config.cal.NTUPLES;		  catch,  config.cal.NTUPLES	= 3; end;	% size of the camera tuples, 2-5 implemented
+try, config.cal.MIN_PTS_VAL;	  catch,  config.cal.MIN_PTS_VAL = 30; end; % minimal number of correnspondences in the sample
+try, config.cal.USE_NTH_FRAME;	      catch,  config.cal.USE_NTH_FRAME = 1;end	% use all the data we have
+
+% image extensions
+try, config.files.imgext;  catch,  config.files.imgext	= 'jpg'; end;
+
+% image resolution
+try, config.imgs.res; catch, config.imgs.res		  = [640,480];	end;
+
+% scale for the subpixel accuracy
+% 1/3 is a good compromise between speed and accuracy
+% for high-resolution images or bigger LEDs you may try, 1/1 or 1/2
+try, config.imgs.subpix; catch, config.imgs.subpix = 1/3; end;
+
+% data names
+try, config.files.Pmats;     catch, config.files.Pmats	    = [config.paths.data,'Pmatrices.dat'];		end;
+try, config.files.points;	 catch, config.files.points		= [config.paths.data,'points.dat'];		end;
+
+fd = fopen(config.files.points);
+if fd <0
+  error(sprintf('could not open points data file "%s"',config.files.points))
+else
+  fclose(fd);
+end
 
 
 try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
@@ -66,9 +138,10 @@ try, config.files.Cst;		 catch,	config.files.Cst		= [config.paths.data,'Cst.dat'
 try, config.files.points4cal; catch,	config.files.points4cal = [config.paths.data,'cam%d.points4cal.dat']; end;
 try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
 
+
 %  --- get_metaconfiguration ---
 % 
-% Returns an structure describing each named fields that must be producted by parsing the file.
+% Returns an structure describing each named fields that must be produced by parsing the file.
 function metacfg = get_metaconfiguration()
 
 metacfg.Experiment.Name = ...
@@ -81,7 +154,7 @@ metacfg.Paths.Data = ...
   { 'string', ...
     'Base directory for all data files', ...
     { 'paths', 'data' }, ...
-    { 'slash_terminated', 'gocal_relative' } ...
+    { 'slash_terminated', 'config_file_relative' } ...
   };
 metacfg.Paths.Camera_Images = ...
   { 'string', ...
@@ -117,6 +190,18 @@ metacfg.Files.Projector_Data_Filename = ...
   { 'string', ...
     'File of projector data (within data dir)', ...
     { 'files', 'projdatafile' }, ...
+    { } ...
+  };
+metacfg.Calibration.Num_Cameras = ...
+  { 1, ...
+    'number of cameras', ...
+    { 'cal', 'num_cameras' }, ...
+    { } ...
+  };
+metacfg.Calibration.Num_Projectors = ...
+  { 1, ...
+    'number of projectors', ...
+    { 'cal', 'num_projectors' }, ...
     { } ...
   };
 metacfg.Images.LED_Size = ...
@@ -203,10 +288,22 @@ metacfg.Calibration.Do_Bundle_Adjustment = ...
     { 'cal', 'DO_BA' }, ...
     { } ...
   };
+metacfg.Calibration.Start_Bundle_Adjustment = ...
+  { 1, ...
+    'Start Bundle Adjustment (slow)', ...
+    { 'cal', 'START_BA' }, ...
+    { } ...
+  };
 metacfg.Calibration.Undo_Radial = ...
   { 'boolean', ...
     'undo radial distortion', ...
     { 'cal', 'UNDO_RADIAL' }, ...
+    { } ...
+  };
+metacfg.Calibration.Undo_Heikk = ...
+  { 'boolean', ...
+    'undo radial distortion by using the parameters from the Jann Heikkila calibration toolbox?', ...
+    { 'cal', 'UNDO_HEIKK' }, ...
     { } ...
   };
 metacfg.Calibration.Min_Points_Value = ...
@@ -225,5 +322,11 @@ metacfg.Calibration.Square_Pixels = ...
   { 1, ...
     'Square Pixels', ...
     { 'cal', 'SQUARE_PIX' }, ...
+    { } ...
+  };
+metacfg.Calibration.Use_Nth_Frame = ...
+  { 1, ...
+    'Use Nth Frame', ...
+    { 'cal', 'USE_NTH_FRAME' }, ...
     { } ...
   };
