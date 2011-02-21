@@ -1,25 +1,34 @@
 Multi Camera Self Calibration toolbox
--------------------------------------
+=====================================
 
-To run a quick test with Octave 3.2::
+The is an updated version of the Multi Camera Self Calibration toolbox
+by Svoboda et al. This version of the code lives at
+https://github.com/strawlab/MultiCamSelfCal . The original website is
+online at http://cmp.felk.cvut.cz/~svoboda/SelfCal/ . This version of
+the code is being made publicly available with the permission of Tomas
+Svoboda.
 
-  cd MultiCamSelfCal
-  octave gocal.m
+Changes from the original version
+---------------------------------
 
-The output on the console should be something like::
+At a high level, the changes are all in the usage, and not in the
+algorithmic domain. Those I remember are:
 
-  Filling of missing points is running ...
-  Repr. error in proj. space (no fact./fact.) is ...  0.162177 0.159349
-  ************************************************************
-  Number of detected outliers:   0
-  About cameras (Id, 2D reprojection error, #inliers):
-  CamId    std       mean  #inliers
-    1      0.15      0.15    890
-    2      0.16      0.15    890
-    3      0.18      0.18    889
-  ***************************************************************
-  **************************************************************
-  Refinement by using Bundle Adjustment
-  Repr. error in proj. space (no fact./fact./BA) is ...  0.159534 0.159349 0.145579
-  2D reprojection error
-  All points: mean  0.15 pixels, std is 0.14
+* Various small changes to get to work using Octave
+
+* Disable plotting when running using Octave
+
+* Implementation of new configuration file format that lives alongside
+  the calibration data rather than in the source code files
+
+* Inclusion of some sample data and tests
+
+The version history should make all of the changes clear.
+
+The original readme file is in MultiCamSelfCal/README.txt
+
+If you use this library, please cite::
+
+  Svoboda T, Martinec D, Pajdla T. (2005) A convenient multi-camera
+  self-calibration for virtual environments. PRESENCE: Teleoperators
+  and Virtual Environments. 14(4):407-422.
