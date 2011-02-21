@@ -8,6 +8,13 @@ online at http://cmp.felk.cvut.cz/~svoboda/SelfCal/ . This version of
 the code is being made publicly available with the permission of Tomas
 Svoboda.
 
+If you use this library, please cite:
+
+Svoboda T, Martinec D, Pajdla T. (2005) A convenient multi-camera
+self-calibration for virtual environments. *PRESENCE: Teleoperators and
+Virtual Environments*. 14(4):407-422.
+[`link <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.1.2564>`_]
+
 Changes from the original version
 ---------------------------------
 
@@ -26,12 +33,6 @@ algorithmic domain. Those I remember are:
 The version history should make all of the changes clear.
 
 The original readme file is in MultiCamSelfCal/README.txt
-
-If you use this library, please cite::
-
-  Svoboda T, Martinec D, Pajdla T. (2005) A convenient multi-camera
-  self-calibration for virtual environments. PRESENCE: Teleoperators
-  and Virtual Environments. 14(4):407-422.
 
 Quick test
 ----------
