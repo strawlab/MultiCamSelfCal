@@ -154,7 +154,6 @@ function path = construct_absolute_path(dir, filename)
   else
     path = strcat(dir, '/', filename);
   end
-end
 
 function count = cell_contains(cel, str)
   count = 0;
@@ -164,4 +163,3 @@ function count = cell_contains(cel, str)
       count = count + 1;
     end
   end
-end
