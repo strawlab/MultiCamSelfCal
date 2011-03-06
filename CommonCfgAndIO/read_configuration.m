@@ -26,7 +26,8 @@ if nargin == 0
   found_cfg = 0;
   for cmdline_arg = argv()
     arg = cmdline_arg{1}
-    if size(arg)(2) >= 10
+    szarg = size(arg);
+    if szarg(2) >= 10
       if strcmp(arg(1:9), '--config=')
         found_cfg = 1;
         filename = arg(10:size(arg,2));
