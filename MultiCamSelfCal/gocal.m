@@ -11,6 +11,8 @@
 
 clear all
 
+v = version; Octave = v(1)<'5';  % Crude Octave test
+
 % add necessary paths
 addpath ('../CommonCfgAndIO')
 addpath ('../RadialDistortions')
@@ -256,8 +258,6 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   end
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  v = version; Octave = v(1)<'5';  % Crude Octave test
-
   if ~Octave,
 	% plot reconstructed cameras and points
 	drawscene(Xe,Ce,Re,3,'cloud','reconstructed points/camera setup');
@@ -294,7 +294,11 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   %%%
   % SAVE camera matrices
   P = in.Pe;
-  save(config.files.Pmats,'P','-ASCII');
+  if Octave
+    save(config.files.Pmats,'P'); % all Octave data in ASCII format
+  else
+    save(config.files.Pmats,'P','-ASCII');
+  end
 
   % save normal data
   if SAVE_STEPHI | SAVE_PGUHA
@@ -345,7 +349,12 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	try, Xe = align.X(1:4,cam(i).recandvis); catch, Xe = in.Xe(1:4,cam(i).recandvis); end;
 	% Xe = in.Xe(1:4,cam(i).recandvis);
 	corresp = [Xe',xe'];
-	save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
+	if Octave
+	  % all Octave data in ASCII format
+          save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp');
+	else
+          save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
+	end
   end
 
 %%%

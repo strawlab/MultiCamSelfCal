@@ -16,6 +16,8 @@
 
 function [Cst,Rot] = savecalpar(P,config)
 
+v = version; Octave = v(1)<'5';  % Crude Octave test
+
 idxused = config.cal.cams2use;
 
 CAMS = size(P,1)/3;
@@ -27,7 +29,11 @@ for i=1:CAMS,
   % do not save P matrices in separate files
   if 1
 	Pmat = P(i*3-2:i*3,:);
-	save(sprintf(config.files.CalPmat,idxused(i)),'Pmat','-ASCII');
+        if Octave
+          save(sprintf(config.files.CalPmat,idxused(i)),'Pmat');
+        else
+          save(sprintf(config.files.CalPmat,idxused(i)),'Pmat','-ASCII');
+        end
   end
   sc = norm(P(i*3,1:3));
   % first normalize the Projection matrices to get normalized pixel points
@@ -97,5 +103,10 @@ for i=1:CAMS,
 end
 
 % save Stehpi params
-save(config.files.Pst,'Pst','-ASCII');
-save(config.files.Cst,'Cst','-ASCII');
+if Octave
+  save(config.files.Pst,'Pst');
+  save(config.files.Cst,'Cst');
+else
+  save(config.files.Pst,'Pst','-ASCII');
+  save(config.files.Cst,'Cst','-ASCII');
+end

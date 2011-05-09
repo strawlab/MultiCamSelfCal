@@ -101,16 +101,5 @@ pixels)::
   **************************************************************
   Refinement by using Bundle Adjustment
   Repr. error in proj. space (no fact./fact./BA) is ...  0.714557 0.686345 0.620358
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
   2D reprojection error
   All points: mean  0.62 pixels, std is 0.61
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
-  warning: save: no such variable `-ASCII'
