@@ -2,11 +2,19 @@ Multi Camera Self Calibration toolbox
 =====================================
 
 The is an updated version of the Multi Camera Self Calibration toolbox
-by Svoboda et al. This version of the code lives at
-https://github.com/strawlab/MultiCamSelfCal . The original website is
-online at http://cmp.felk.cvut.cz/~svoboda/SelfCal/ . This version of
-the code is being made publicly available with the permission of Tomas
-Svoboda.
+by Svoboda et al.
+
+**Links:**
+
+* This version of the code lives on `github
+  <https://github.com/strawlab/MultiCamSelfCal>`_.
+
+* The `original website <http://cmp.felk.cvut.cz/~svoboda/SelfCal/>`_
+  remains a good source of information. (This version of the code is
+  being made publicly available with the permission of Tomas Svoboda.)
+
+* We have an `online discussion group
+  <http://groups.google.com/group/multicamselfcal>`_.
 
 If you use this library, please cite:
 
