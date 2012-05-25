@@ -293,10 +293,20 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   %%%
   % SAVE camera matrices
   P = in.Pe;
+  X = in.Xe;
+  R = in.Re;
+  C = in.Ce;
   if Octave
-    save(config.files.Pmats,'P'); % all Octave data in ASCII format
+    % all Octave data in ASCII format
+    save(config.files.Pmats,'P');
+    save(config.files.Xe,'X'); 
+    save(config.files.Re,'R');
+    save(config.files.Ce,'C');
   else
     save(config.files.Pmats,'P','-ASCII');
+    save(config.files.Xe,'X','-ASCII');
+    save(config.files.Re,'R','-ASCII');
+    save(config.files.Ce,'C','-ASCII');
   end
 
   % save normal data

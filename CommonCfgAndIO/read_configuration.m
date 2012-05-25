@@ -122,7 +122,9 @@ else
   fclose(fd);
 end
 
-
+try, config.files.Re;		 catch,	config.files.Re		= [config.paths.data,'Re.dat'];		end;
+try, config.files.Xe;		 catch,	config.files.Xe		= [config.paths.data,'Xe.dat'];		end;
+try, config.files.Ce;		 catch,	config.files.Ce		= [config.paths.data,'Ce.dat'];		end;
 try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
 try, config.files.Res;		 catch,	config.files.Res		= [config.paths.data,'Res.dat'];		end;
 try, config.files.IdMat;	 catch, config.files.IdMat		= [config.paths.data,'IdMat.dat'];			end;
