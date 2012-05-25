@@ -9,7 +9,7 @@
 % $Id: gocal.m,v 2.7 2005/05/24 09:15:11 svoboda Exp $
 % $State: Exp $
 
-clear all
+clear variables globals
 
 v = version; Octave = v(1)<'5';  % Crude Octave test
 
@@ -262,7 +262,6 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	% plot reconstructed cameras and points
 	drawscene(Xe,Ce,Re,3,'cloud','reconstructed points/camera setup');
 	drawscene(in.Xe,in.Ce,in.Re,4,'cloud','reconstructed points/camera setup only inliers are used',config.cal.cams2use);
-
 	% plot measured and reprojected 2D points
 	for i=1:CAMS
 	  in.xe		= in.Pe(((3*i)-2):(3*i),:)*in.Xe;
