@@ -38,6 +38,8 @@ algorithmic domain. Those I remember are:
 
 * Inclusion of some sample data and tests
 
+* Inclusion of a python interface to run the MultiCamSelfCal application
+
 The version history should make all of the changes clear.
 
 The original readme file is in MultiCamSelfCal/README.txt
