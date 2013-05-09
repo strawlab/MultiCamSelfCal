@@ -288,9 +288,9 @@ class MultiCamSelfCal(_Calibrator):
         if cam_calibrations != None:
             assert len(cam_ids) == len(cam_calibrations)
 
-        LOG.debug('points.shape %r' % points.shape)
-        LOG.debug('IdMat.shape %r' % IdMat.shape)
-        LOG.debug('Res %r' % Res)
+        LOG.debug("points.shape %r" % (points.shape,))
+        LOG.debug('IdMat.shape %r' % (IdMat.shape,))
+        LOG.debug('Res %r' % (Res,))
 
         self._write_cam_ids(cam_ids)
 
