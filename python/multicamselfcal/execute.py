@@ -365,16 +365,19 @@ class MultiCamSelfCal(_Calibrator):
         create_pcd_file_from_points(fname,points)
 
 if __name__ == "__main__":
+    import sys
+
     logging.basicConfig(level=logging.DEBUG)
 
-    data = os.path.abspath(
-                os.path.join(os.path.dirname(__file__),
-                '..','..','strawlab','test-data','DATA20100906_134124'))
+    try:
+        data = os.path.abspath(os.path.expanduser(sys.argv[1]))
+    except IndexError:
+        data = os.path.abspath(
+                    os.path.join(os.path.dirname(__file__),
+                    '..','..','strawlab','test-data','DATA20100906_134124'))
 
     mcsc = MultiCamSelfCal(data)
-    caldir = mcsc.execute()
+    caldir = mcsc.execute(silent=False)
 
-    MultiCamSelfCal.read_calibration_names(caldir)
-    MultiCamSelfCal.save_to_pcd(caldir, caldir+"/inliers.pcd")
-
+    print "result:",caldir
 
