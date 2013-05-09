@@ -328,6 +328,18 @@ class MultiCamSelfCal(_Calibrator):
 
         self._write_cfg(cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers)
 
+    def get_camera_names_map(self, filetype="rad"):
+        if filetype == "rad":
+            tmpl = self.basename+"%d.rad"
+        else:
+            raise ValueError("Only rad files supported")
+
+        result = {}
+        for i,name in enumerate(MultiCamSelfCal.read_calibration_names(self.out_dirname)):
+            result[name] = tmpl % (i+1)
+
+        return result
+
     @staticmethod
     def reshape_calibrated_points(xe):
         return xe[0:3,:].T.tolist()
@@ -345,19 +357,6 @@ class MultiCamSelfCal(_Calibrator):
             cam_ids = fd.read().split('\n')
             if cam_ids[-1] == '': del cam_ids[-1] # remove blank line
             return cam_ids
-
-    @staticmethod
-    def get_camera_names_map(dirname, filetype="rad"):
-        if filetype == "rad":
-            tmpl = "basename%d.rad"
-        else:
-            raise ValueError("Only rad files supported")
-
-        result = {}
-        for i,name in enumerate(MultiCamSelfCal.read_calibration_names(dirname)):
-            result[name] = tmpl % (i+1)
-
-        return result
 
     @staticmethod
     def save_to_pcd(dirname, fname):
