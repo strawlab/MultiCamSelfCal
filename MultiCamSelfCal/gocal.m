@@ -342,6 +342,11 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   if findstr('humdra',expname)
 	  [align] = humdra(in,config);
   end
+
+  if config.cal.ALIGN_EXISTING
+      align_existing_camera_centers(in,config);
+  end
+
   % planar alignement if knowledge available
   % [align,cam] = planarmove(in,cam,config);
   % try, [align,cam] = planarcams(in,cam,config,config.cal.planarcams); end

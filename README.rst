@@ -40,6 +40,10 @@ algorithmic domain. Those I remember are:
 
 * Inclusion of a python interface to run the MultiCamSelfCal application
 
+* Improved the interface for maximally aligning a new calibration to existing
+  camera centers. See Align-Existing config option, and
+  the original_cam_centers.dat input file.
+
 The version history should make all of the changes clear.
 
 The original readme file is in MultiCamSelfCal/README.txt
