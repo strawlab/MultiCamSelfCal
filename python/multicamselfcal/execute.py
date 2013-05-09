@@ -71,6 +71,7 @@ Min-Points-Value: 30
 N-Tuples: 3
 Square-Pixels: {square_pixels}
 Use-Nth-Frame: {use_nth_frame}
+Align-Existing: {align_existing}
 """
 
 def load_ascii_matrix(filename):
@@ -122,13 +123,14 @@ class _Calibrator:
 
 class MultiCamSelfCal(_Calibrator):
 
-    INPUT = ("camera_order.txt","IdMat.dat","points.dat","Res.dat","multicamselfcal.cfg")
+    INPUT = ("camera_order.txt","IdMat.dat","points.dat","Res.dat","multicamselfcal.cfg", "original_cam_centers.dat")
 
-    def __init__(self, out_dirname, basename='cam', use_nth_frame=1, mcscdir='/opt/multicamselfcal/MultiCamSelfCal/', **kwargs):
+    def __init__(self, out_dirname, basename='basename', use_nth_frame=1, mcscdir='/opt/multicamselfcal/MultiCamSelfCal/', **kwargs):
         _Calibrator.__init__(self, out_dirname, **kwargs)
         self.mcscdir = mcscdir
         self.basename = basename
         self.use_nth_frame = use_nth_frame
+        self.align_existing = False
         
         if not os.path.exists(os.path.join(self.mcscdir,'gocal.m')):
             LOG.warn("could not find MultiCamSelfCal gocal.m in %s" % self.mcscdir)
@@ -140,7 +142,7 @@ class MultiCamSelfCal(_Calibrator):
                     camid=camid[1:]
                 f.write("%s\n"%camid)
 
-    def _write_cfg(self, cam_ids, radial_distortion, square_pixels, num_cameras_fill):
+    def _write_cfg(self, cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers):
         if num_cameras_fill < 0 or num_cameras_fill > len(cam_ids):
             num_cameras_fill = len(cam_ids)
 
@@ -150,7 +152,8 @@ class MultiCamSelfCal(_Calibrator):
             num_cameras_fill = int(num_cameras_fill),
             undo_radial = int(radial_distortion),
             square_pixels = int(square_pixels),
-            use_nth_frame = self.use_nth_frame
+            use_nth_frame = self.use_nth_frame,
+            align_existing = 1 if len(cam_centers) else 0,
             )
 
         with open(os.path.join(self.out_dirname, 'multicamselfcal.cfg'), mode='w') as f:
@@ -199,7 +202,12 @@ class MultiCamSelfCal(_Calibrator):
                 shutil.copy(src, dest)
             else:
                 if not os.path.isfile(src):
-                    raise ValueError("Could not find %s" % src)
+                    LOG.warn("Could not find %s" % src)
+
+        if copy_files:
+            for k,v in self.get_camera_names_map().items():
+                src = os.path.join(self.out_dirname,v)
+                shutil.copy(src, dest)
 
         cfg = os.path.abspath(os.path.join(dest, "multicamselfcal.cfg"))
 
@@ -280,13 +288,14 @@ class MultiCamSelfCal(_Calibrator):
         self._write_cfg(cam_ids,
                         undo_radial,
                         True,
-                        num_cameras_fill)
+                        num_cameras_fill,
+                        [])
         LOG.debug("dropped cams: %s" % ','.join(cams_to_remove))
 
-    def create_calibration_directory(self, cam_ids, IdMat, points, Res, cam_calibrations={}, radial_distortion=0, square_pixels=1, num_cameras_fill=-1):
+    def create_calibration_directory(self, cam_ids, IdMat, points, Res, cam_calibrations=[], cam_centers=[], radial_distortion=0, square_pixels=1, num_cameras_fill=-1):
         assert len(Res) == len(cam_ids)
-        if cam_calibrations != None:
-            assert len(cam_ids) == len(cam_calibrations)
+        if len(cam_calibrations): assert len(cam_ids) == len(cam_calibrations)
+        if len(cam_centers): assert len(cam_ids) == len(cam_centers)
 
         LOG.debug("points.shape %r" % (points.shape,))
         LOG.debug('IdMat.shape %r' % (IdMat.shape,))
@@ -294,14 +303,30 @@ class MultiCamSelfCal(_Calibrator):
 
         self._write_cam_ids(cam_ids)
 
-        if cam_calibrations:
-            LOG.debug('write cam calib to rad file %r' % cam_calibrations)
+        if len(cam_calibrations):
+            for i,url in enumerate(cam_calibrations):
+                assert os.path.isfile(url)
+                #i+1 because mcsc expects matlab numbering...
+                dest = "%s/%s%d.rad" % (self.out_dirname, self.basename, i+1)
+                if url.endswith('.yaml'):
+                    camera_calibration_yaml_to_radfile(
+                        url,
+                        dest)
+                elif url.endswith('.rad'):
+                    shutil.copy(url,dest)
+                else:
+                    raise Exception("Calibration format %s not supported" % url)
+
+                LOG.debug('wrote cam calibration file %s' % dest)
+
+        if len(cam_centers):
+            save_ascii_matrix(cam_centers,os.path.join(self.out_dirname,'original_cam_centers.dat'))
 
         save_ascii_matrix(Res, os.path.join(self.out_dirname,'Res.dat'), isint=True)
         save_ascii_matrix(IdMat, os.path.join(self.out_dirname,'IdMat.dat'), isint=True)
         save_ascii_matrix(points, os.path.join(self.out_dirname,'points.dat'))
 
-        self._write_cfg(cam_ids, radial_distortion, square_pixels, num_cameras_fill)
+        self._write_cfg(cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers)
 
     @staticmethod
     def reshape_calibrated_points(xe):
