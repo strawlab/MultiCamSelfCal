@@ -369,14 +369,23 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.DEBUG)
 
+    mydir = os.path.split(__file__)[0]
+    SRC_PATH = os.path.abspath(os.path.join(mydir,'..','..'))
+
     try:
         data = os.path.abspath(os.path.expanduser(sys.argv[1]))
     except IndexError:
         data = os.path.abspath(
-                    os.path.join(os.path.dirname(__file__),
-                    '..','..','strawlab','test-data','DATA20100906_134124'))
+                    os.path.join(SRC_PATH,
+                    'strawlab','test-data','DATA20100906_134124'))
 
-    mcsc = MultiCamSelfCal(data)
+    mcscdir = os.path.join(SRC_PATH,'MultiCamSelfCal')
+    kwargs = {}
+    if os.path.exists(mcscdir):
+        # assume running from source
+        kwargs['mcscdir']=mcscdir
+
+    mcsc = MultiCamSelfCal(data, **kwargs)
     caldir = mcsc.execute(silent=False)
 
     print "result:",caldir
