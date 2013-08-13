@@ -117,3 +117,12 @@ pixels)::
   Repr. error in proj. space (no fact./fact./BA) is ...  0.714557 0.686345 0.620358
   2D reprojection error
   All points: mean  0.62 pixels, std is 0.61
+
+Python wrapper
+--------------
+
+John Stowers wrote an API to let this code be directly called from Python. To install:
+
+    cd python
+    python setup.py install
+
