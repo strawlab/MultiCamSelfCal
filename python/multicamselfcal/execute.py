@@ -131,7 +131,7 @@ class MultiCamSelfCal(_Calibrator):
         self.basename = basename
         self.use_nth_frame = use_nth_frame
         self.align_existing = False
-        
+
         if not os.path.exists(os.path.join(self.mcscdir,'gocal.m')):
             LOG.warn("could not find MultiCamSelfCal gocal.m in %s" % self.mcscdir)
 
@@ -158,7 +158,7 @@ class MultiCamSelfCal(_Calibrator):
 
         with open(os.path.join(self.out_dirname, 'multicamselfcal.cfg'), mode='w') as f:
             f.write(_cfg_file.format(**var))
-            
+
         LOG.debug("calibrate cams: %s" % ','.join(cam_ids))
         LOG.debug("undo radial: ", radial_distortion)
         LOG.debug("num_cameras_fill: ", num_cameras_fill)
@@ -178,7 +178,7 @@ class MultiCamSelfCal(_Calibrator):
     def execute(self, blocking=True, cb=None, dest=None, silent=True, copy_files=True):
         """
         if dest is specified then all files are copied there unless copy is false. If dest is not
-        specified then it is in a subdir of out_dirname called result        
+        specified then it is in a subdir of out_dirname called result
 
         @returns: dest (or nothing if blocking is false). In that case cb is called when complete
         and is passed the dest argument
@@ -220,7 +220,7 @@ class MultiCamSelfCal(_Calibrator):
         if blocking:
             cmd.join()
             return dest
-            
+
     def create_from_cams(self, cam_ids=[], cam_resolutions={}, cam_points={}, cam_calibrations={}, num_cameras_fill=-1, **kwargs):
         #num_cameras_fill = -1 means use all cameras (= len(cam_ids))
 
