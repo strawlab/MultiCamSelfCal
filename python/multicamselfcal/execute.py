@@ -219,6 +219,8 @@ class MultiCamSelfCal(_Calibrator):
 
         if blocking:
             cmd.join()
+            if cmd.returncode != 0:
+                raise RuntimeError('MCSC failed')
             return dest
 
     def create_from_cams(self, cam_ids=[], cam_resolutions={}, cam_points={}, cam_calibrations={}, num_cameras_fill=-1, **kwargs):
