@@ -15,10 +15,10 @@ def _get_data_path():
 
 SRC_PATH = _get_src_path()
 DATA_PATH = _get_data_path()
+cal_dirnames = ['caldata20130726_122220', 'DATA20100906_134124' ]
 
 def test_mcsc():
-    paths = ['caldata20130726_122220', 'DATA20100906_134124' ]
-    for path in paths:
+    for path in cal_dirnames:
         yield check_mcsc, path
 
 def check_mcsc(path):
