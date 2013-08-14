@@ -20,6 +20,7 @@ addpath ('./CoreFunctions')
 addpath ('./OutputFunctions')
 addpath ('./BlueCLocal')
 addpath ('./LocalAlignments')
+addpath ('../CalTechCal')
 addpath ('../RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
 % get the configuration
 config = read_configuration();
