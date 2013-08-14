@@ -199,7 +199,10 @@ class MultiCamSelfCal(_Calibrator):
         for f in self.INPUT:
             src = os.path.join(self.out_dirname,f)
             if copy_files:
-                shutil.copy(src, dest)
+                if os.path.isfile(src):
+                    shutil.copy(src, dest)
+                else:
+                    LOG.warn("Could not find %s" % src)
             else:
                 if not os.path.isfile(src):
                     LOG.warn("Could not find %s" % src)
@@ -207,7 +210,10 @@ class MultiCamSelfCal(_Calibrator):
         if copy_files:
             for k,v in self.get_camera_names_map().items():
                 src = os.path.join(self.out_dirname,v)
-                shutil.copy(src, dest)
+                if os.path.isfile(src):
+                    shutil.copy(src, dest)
+                else:
+                    LOG.warn("Could not find %s" % src)
 
         cfg = os.path.abspath(os.path.join(dest, "multicamselfcal.cfg"))
 
