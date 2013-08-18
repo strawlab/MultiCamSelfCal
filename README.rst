@@ -126,3 +126,7 @@ John Stowers wrote an API to let this code be directly called from Python. To in
     cd python
     python setup.py install
 
+To test:
+
+    cd python/tests
+    nosetests
