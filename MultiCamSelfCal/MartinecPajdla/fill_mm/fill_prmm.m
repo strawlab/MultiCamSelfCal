@@ -25,7 +25,7 @@ if opt.verbose
 
 [m,n] = size(M); m = m/3;
 
-if size(NULLSPACE) == [0 0]
+if size(NULLSPACE)(2) == 0
   P = []; X = []; u1 = 1:m; u2 = 1:n; lambda=[];
 else
   r = 4;
@@ -66,7 +66,9 @@ else
   sortdSS             = max(sortdSS,zeros(1,l)); sortdSS=sqrt(sortdSS);
   for i=1:l, S(i,i) = sortdSS(i); end
 end
-L = U(:,end+1-r:end);
+
+lenU = length(U);
+L = U(:,lenU+1-r:lenU);
 if opt.verbose, disp(['(' num2str(toc) ' sec)']); end
 
 function r = comb(n,k)
