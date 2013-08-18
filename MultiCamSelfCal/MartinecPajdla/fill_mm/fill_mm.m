@@ -174,6 +174,7 @@ while recoverable > 0 ... % not all parts of JIM are restored
   end
   
   if ~added  &  sum(~I(:)) > 0 % impossible to recover anything
+    error('impossible to recover anything in fill_mm');
     P=[];X=[]; u1=1:m; u2=1:nbeg; info.opt = opt; return; end
 end
 
