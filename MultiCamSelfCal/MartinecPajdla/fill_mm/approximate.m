@@ -36,14 +36,14 @@ else
     Mapp2 = Mapp_tr'; Xnoncols = Xnoncols_tr';
     if length(u2) < length(noncols), X(:,setdiff(noncols,u2)) = Xnoncols; end
     X = X(:, union(cols, setdiff(noncols, u2)));
-    if sum(~sum(X)), keyboard; end
+    if sum(~sum(X)), error('nullspace problem 1'); end
   end
 % These extensions are necessary because the nullspace might not allow us to
 % compute every row of the approximating rank r linear space, and then this
 % linear space might not allow us to fill in some columns, if they are
 % missing too much data.
 end
-if sum(~sum(X)), keyboard; end
+if sum(~sum(X)), error('nullspace problem 2'); end
 
 
 %approx_matrix Immerse columns of MM into the basis.
