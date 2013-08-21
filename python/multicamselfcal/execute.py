@@ -29,15 +29,17 @@ class ThreadedCommand(threading.Thread):
         self._cbargs = tuple()
 
     def run(self):
-        logging.getLogger('mcsc.cmd').debug("running cmd %r" % self._cmds)
-
-        self._cmd = subprocess.Popen(self._cmds,
-                                    stdin=self._stdin,
+        kwargs = dict(              stdin=self._stdin,
                                     stdout=self._stdout,
                                     stderr=self._stderr,
                                     shell=self._shell,
                                     executable=self._executable,
                                     cwd=self._cwd)
+
+        logging.getLogger('mcsc.cmd').debug("running cmd %r kwargs: %r" % (
+            self._cmds,kwargs))
+
+        self._cmd = subprocess.Popen(self._cmds, **kwargs)
 
         self.pid = self._cmd.pid
         self.results = self._cmd.communicate(self._stdin)
@@ -161,8 +163,8 @@ class MultiCamSelfCal(_Calibrator):
             f.write(_cfg_file.format(**var))
 
         LOG.debug("calibrate cams: %s" % ','.join(cam_ids))
-        LOG.debug("undo radial: ", radial_distortion)
-        LOG.debug("num_cameras_fill: ", num_cameras_fill)
+        LOG.debug("undo radial: %s" % radial_distortion)
+        LOG.debug("num_cameras_fill: %s" % num_cameras_fill)
         LOG.debug("wrote camera calibration directory: %s" % self.out_dirname)
 
     def get_cmd_and_cwd(self, cfg):
