@@ -1,4 +1,5 @@
 import subprocess
+import shlex
 import threading
 import os.path
 import logging
@@ -15,6 +16,8 @@ LOG = logging.getLogger('mcsc')
 class ThreadedCommand(threading.Thread):
     def __init__(self, cmds,cwd,stdout,stderr,stdin=None,shell=False,executable=None):
         threading.Thread.__init__(self)
+        if not shell:
+            cmds = shlex.split(cmds)
         self._cmds = cmds
         self._cwd = cwd
         self._stdin = stdin
