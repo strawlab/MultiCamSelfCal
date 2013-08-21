@@ -4,7 +4,6 @@ import os.path
 import logging
 import tempfile
 import shutil
-import warnings
 
 import numpy as np
 
@@ -226,7 +225,7 @@ class MultiCamSelfCal(_Calibrator):
             shell=False
             executable=None
             if not silent:
-                warnings.warn('you requested not silent, but bash is required to support that.')
+                LOG.warn('you requested not silent, but bash is required to support that.')
             stdout = open(stdout_fname,'w')
             stderr = open(stderr_fname,'w')
 
