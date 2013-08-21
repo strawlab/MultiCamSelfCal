@@ -1,6 +1,5 @@
 import subprocess
 import threading
-import shlex
 import os.path
 import logging
 import tempfile
