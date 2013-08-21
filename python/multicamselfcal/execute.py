@@ -5,6 +5,7 @@ import os.path
 import logging
 import tempfile
 import shutil
+import warnings
 
 import numpy as np
 
@@ -14,16 +15,15 @@ from visualization import create_pcd_file_from_points
 LOG = logging.getLogger('mcsc')
 
 class ThreadedCommand(threading.Thread):
-    def __init__(self, cmds,cwd,stdout,stderr,stdin=None):
+    def __init__(self, cmds,cwd,stdout,stderr,stdin=None,shell=False,executable=None):
         threading.Thread.__init__(self)
-        if type(cmds) is str:
-            self._cmds = shlex.split(cmds)
-        else:
-            self._cmds = cmds
+        self._cmds = cmds
         self._cwd = cwd
         self._stdin = stdin
         self._stdout = stdout
         self._stderr = stderr
+        self._shell=shell
+        self._executable=executable
         self._cb = None
         self._cbargs = tuple()
 
@@ -34,8 +34,8 @@ class ThreadedCommand(threading.Thread):
                                     stdin=self._stdin,
                                     stdout=self._stdout,
                                     stderr=self._stderr,
-                                    shell=False,
-                                    executable=None,
+                                    shell=self._shell,
+                                    executable=self._executable,
                                     cwd=self._cwd)
 
         self.pid = self._cmd.pid
@@ -188,11 +188,8 @@ class MultiCamSelfCal(_Calibrator):
             if not os.path.isdir(dest):
                 os.makedirs(dest)
 
-        if silent:
-            stdout = open(os.path.join(dest,'STDOUT'),'w')
-            stderr = open(os.path.join(dest,'STDERR'),'w')
-        else:
-            stdout = stderr = None
+        stdout_fname = os.path.join(dest,'STDOUT')
+        stderr_fname = os.path.join(dest,'STDERR')
 
         LOG.info("running mcsc (result dir: %s)" % dest)
 
@@ -219,7 +216,23 @@ class MultiCamSelfCal(_Calibrator):
 
         cmds,cwd = self.get_cmd_and_cwd(cfg)
 
-        cmd = ThreadedCommand(cmds,cwd=cwd,stdout=stdout,stderr=stderr)
+        bash_path = '/bin/bash'
+        if os.path.exists(bash_path) and not silent:
+            shell=True
+            # http://stackoverflow.com/questions/692000
+            cmds = cmds + ' > >(tee %s) 2> >(tee %s >&2)'%(stdout_fname,stderr_fname)
+            executable = bash_path
+            stdout = stderr = None
+        else:
+            shell=False
+            executable=None
+            if not silent:
+                warnings.warn('you requested not silent, but bash is required to support that.')
+            stdout = open(stdout_fname,'w')
+            stderr = open(stderr_fname,'w')
+
+        cmd = ThreadedCommand(cmds,cwd=cwd,stdout=stdout,stderr=stderr,
+                              shell=shell,executable=executable)
         cmd.set_finished_cb(cb,dest)
         cmd.start()
 
