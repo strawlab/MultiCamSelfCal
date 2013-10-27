@@ -9,8 +9,8 @@ import shutil
 
 import numpy as np
 
-from formats import camera_calibration_yaml_to_radfile
-from visualization import create_pcd_file_from_points
+from .formats import camera_calibration_yaml_to_radfile
+from .visualization import create_pcd_file_from_points
 
 LOG = logging.getLogger('mcsc')
 
