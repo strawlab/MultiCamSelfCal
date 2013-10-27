@@ -1,3 +1,4 @@
+from __future__ import print_function
 from multicamselfcal.align import estsimt, align_points, align_pmat
 import numpy as np
 
@@ -34,13 +35,13 @@ def test_align():
         [x1, y2, z1],
         ]).T
 
-    print orig_points.T
-    print new_points.T
+    print(orig_points.T)
+    print(new_points.T)
 
     s,R,t = estsimt(orig_points,new_points)
-    print 's=%s'%repr(s)
-    print 'R=%s'%repr(R.tolist())
-    print 't=%s'%repr(t.tolist())
+    print('s=%s'%repr(s))
+    print('R=%s'%repr(R.tolist()))
+    print('t=%s'%repr(t.tolist()))
     Xnew = align_points( s,R,t, orig_points )
 
     # measure distance between elements
@@ -50,16 +51,16 @@ def test_align():
     pmat_orig = np.array([[1,2,3,4],
                           [5,6,7,8],
                           [9,10,11,12]],dtype=np.float)
-    print 'Xnew.T'
-    print Xnew.T
+    print('Xnew.T')
+    print(Xnew.T)
 
     pmat_new = align_pmat( s,R,t, pmat_orig )
-    print 'pmat_new'
-    print pmat_new
+    print('pmat_new')
+    print(pmat_new)
 
-    ## print 's',s
-    ## print 'R'
-    ## print R
-    ## print 'T'
-    ## print T
+    ## print('s',s)
+    ## print('R')
+    ## print(R)
+    ## print('T')
+    ## print(T)
 

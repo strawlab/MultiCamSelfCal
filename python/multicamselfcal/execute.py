@@ -1,3 +1,4 @@
+from __future__ import print_function
 import subprocess
 import shlex
 import threading
@@ -412,5 +413,4 @@ if __name__ == "__main__":
     mcsc = MultiCamSelfCal(data, **kwargs)
     caldir = mcsc.execute(silent=False)
 
-    print "result:",caldir
-
+    print("result:",caldir)
