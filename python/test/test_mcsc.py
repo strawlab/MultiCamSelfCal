@@ -1,6 +1,7 @@
 import os, shutil
 import multicamselfcal.execute
 from multicamselfcal.execute import MultiCamSelfCal
+import tempfile
 
 def _get_src_path():
     """this is a hack to get path to data"""
@@ -25,7 +26,6 @@ def check_mcsc(path):
     calib_dir = os.path.join(DATA_PATH, path )
     mcscdir = os.path.join(SRC_PATH,'MultiCamSelfCal')
     mcsc = MultiCamSelfCal(calib_dir, mcscdir=mcscdir )
-    target_dir = os.path.join(calib_dir,'result')
-    shutil.rmtree(target_dir)
+    target_dir = tempfile.mkdtemp(prefix='result-',dir=calib_dir)
     caldir = mcsc.execute(silent=True)
     assert os.path.exists(caldir)
