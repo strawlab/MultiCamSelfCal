@@ -24,7 +24,7 @@ idxcams = config.cal.cams2use;
 selfcalib.goradproblem = 0;
 					   
 for i = idxcams,  
-  [X_1,x_1] = preparedata(sprintf(config.files.points4cal,i));
+  [X_1,x_1] = preparedata(sprintf_winsafe(config.files.points4cal,i));
   go_calib_optim_iter
   if any(isnan(param))
 	  % when the iteration fails insert null distortion
@@ -37,7 +37,7 @@ for i = idxcams,
   
   disp(sprintf('***** camera %d **********************************',i))
   %
-  outputfile = sprintf(config.files.rad,i);
+  outputfile = sprintf_winsafe(config.files.rad,i);
 
      fprintf(1,'\nExport of intrinsic calibration data to blue-c configuration file\n');
      % outputfile = input('File basename: ', 's');

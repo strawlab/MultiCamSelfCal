@@ -33,12 +33,12 @@ for i=1:NoCams,
   seq(i).camId = config.files.idxcams(i);
   if seq(i).camId > -1
 	if findstr(expname,'oscar')
-	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
+	  seq(i).data = dir([sprintf_winsafe(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
 	else
-	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),sprintf(config.files.imnames,seq(i).camId),im.ext]);
+	  seq(i).data = dir([sprintf_winsafe(im.dir,seq(i).camId),sprintf_winsafe(config.files.imnames,seq(i).camId),im.ext]);
 	end
   else
-	seq(i).data = dir([im.dir,sprintf(config.files.imnames),im.ext]);
+	seq(i).data = dir([im.dir,sprintf_winsafe(config.files.imnames),im.ext]);
   end
   seq(i).size = size(seq(i).data,1);
   if seq(i).size<4
@@ -59,15 +59,15 @@ pointsIdx = [1:STEP4STAT:NoPoints];
 
 t = cputime;
 for i=1:NoCams,
-  if ~exist(sprintf(config.files.avIM,seq(i).camId)),
+  if ~exist(sprintf_winsafe(config.files.avIM,seq(i).camId)),
 	disp(sprintf('The average image of the camera %d is being computed',seq(i).camId));
-	avIM = zeros(size(imread([sprintf(im.dir,seq(i).camId),seq(i).data(1).name])));
+	avIM = zeros(size(imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(1).name])));
 	for j=pointsIdx,
-	  IM = imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
+	  IM = imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  avIM = avIM + double(IM);
 	end
 	avIM = uint8(round(avIM./size(pointsIdx,2)));
-	imwrite(avIM,sprintf(config.files.avIM,seq(i).camId));
+	imwrite(avIM,sprintf_winsafe(config.files.avIM,seq(i).camId));
   else	disp('Average files already exist');
   end
 end
@@ -76,16 +76,16 @@ disp(sprintf('Elapsed time for average images: %d [sec]',cputime-t))
 % if not already computed
 t = cputime;
 for i=1:NoCams,
-  if ~exist(sprintf(config.files.stdIM,seq(i).camId)),
-	avIM = double(imread(sprintf(config.files.avIM,seq(i).camId)));
+  if ~exist(sprintf_winsafe(config.files.stdIM,seq(i).camId)),
+	avIM = double(imread(sprintf_winsafe(config.files.avIM,seq(i).camId)));
 	disp(sprintf('The image of standard deviations of the camera %d is being computed',seq(i).camId));
-	stdIM = zeros(size(imread([sprintf(im.dir,seq(i).camId),seq(i).data(1).name])));
+	stdIM = zeros(size(imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(1).name])));
 	for j=pointsIdx,
-	  IM = imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
+	  IM = imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  stdIM = stdIM + (double(IM)-avIM).^2;
 	end
 	stdIM = uint8(round(sqrt(stdIM./(size(pointsIdx,2)-1))));
-	imwrite(stdIM,sprintf(config.files.stdIM,seq(i).camId));
+	imwrite(stdIM,sprintf_winsafe(config.files.stdIM,seq(i).camId));
   else
 	disp('Image of standard deviations already exist')
   end
@@ -112,10 +112,10 @@ for i=1:NoCams,
   t1 = cputime;
   disp(sprintf('Finding points in camera No: %0.2d',config.files.idxcams(i)))
   Points = [];
-  avIM  = imread(sprintf(config.files.avIM,seq(i).camId));
-  stdIM	= imread(sprintf(config.files.stdIM,seq(i).camId));
+  avIM  = imread(sprintf_winsafe(config.files.avIM,seq(i).camId));
+  stdIM	= imread(sprintf_winsafe(config.files.stdIM,seq(i).camId));
   for j=1:NoPoints,
-	[pos,err] = getpoint([sprintf(im.dir,seq(i).camId),seq(i).data(j).name], SHOWFIG, config.imgs, avIM, stdIM);
+	[pos,err] = getpoint([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(j).name], SHOWFIG, config.imgs, avIM, stdIM);
 	if err	  
 	  IdMat(i,j) = 0;
 	  Points = [Points, [NaN; NaN; NaN]];

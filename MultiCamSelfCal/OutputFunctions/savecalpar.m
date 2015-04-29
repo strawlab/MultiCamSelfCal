@@ -30,9 +30,9 @@ for i=1:CAMS,
   if 1
 	Pmat = P(i*3-2:i*3,:);
         if Octave
-          save(sprintf(config.files.CalPmat,idxused(i)),'Pmat');
+          save(sprintf_winsafe(config.files.CalPmat,idxused(i)),'Pmat');
         else
-          save(sprintf(config.files.CalPmat,idxused(i)),'Pmat','-ASCII');
+          save(sprintf_winsafe(config.files.CalPmat,idxused(i)),'Pmat','-ASCII');
         end
   end
   sc = norm(P(i*3,1:3));
@@ -47,7 +47,7 @@ for i=1:CAMS,
   Pst(i*3-2:i*3,:) = Pstephi;
   Cst(i,:)		   = C';		
   % Stephi requires to save the pars in more "wordy" form
-  fid = fopen(sprintf(config.files.StCalPar,idxused(i)),'wt');
+  fid = fopen(sprintf_winsafe(config.files.StCalPar,idxused(i)),'wt');
   if ~fid
 	error('SaveCalPar: The camera cal file cannot be opened');
   else
@@ -69,7 +69,7 @@ for i=1:CAMS,
   Rot	 = [Rot;R];
   % Prithwijit requires to save the pars in more "wordy" form
   if 0 % do not save in the Prithwijit format
-	fid = fopen(sprintf(config.files.CalPar,idxused(i)),'wt');
+	fid = fopen(sprintf_winsafe(config.files.CalPar,idxused(i)),'wt');
 	if ~fid
 	  error('SaveCalPar: The camera cal file cannot be opened');
 	else

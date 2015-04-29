@@ -85,7 +85,9 @@ end
 %%% read the P matrices
 count = 1;
 for i=config.cal.cams2use,
-  try,P = load(sprintf(config.files.CalPmat,i),'-ASCII'); catch, warning(sprintf('The calibration file config.files.CalPmat does not exist',i)); end;
+  try,P = load(sprintf_winsafe(config.files.CalPmat,i),'-ASCII'); catch, ...
+          warning(sprintf_winsafe(['The calibration file ', ...
+                          config.files.CalPmat, ' does not exist'],i)); end;
   try,Pmat{count} = P; catch, warning('No P mat available'); end;
   count = count+1;
 end

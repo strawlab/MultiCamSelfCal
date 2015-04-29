@@ -14,14 +14,15 @@ clear variables globals
 v = version; Octave = v(1)<'5';  % Crude Octave test
 
 % add necessary paths
-addpath ('..',filesep,'CommonCfgAndIO')
-addpath ('..',filesep,'RadialDistortions')
-addpath ('.',filesep,'CoreFunctions')
-addpath ('.',filesep,'OutputFunctions')
-addpath ('.',filesep,'BlueCLocal')
-addpath ('.',filesep,'LocalAlignments')
-addpath ('..',filesep,'CalTechCal')
-addpath ('..',filesep,'RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
+addpath ('..')
+addpath (['..',filesep,'CommonCfgAndIO'])
+addpath (['..',filesep,'RadialDistortions'])
+addpath (['.',filesep,'CoreFunctions'])
+addpath (['.',filesep,'OutputFunctions'])
+addpath (['.',filesep,'BlueCLocal'])
+addpath (['.',filesep,'LocalAlignments'])
+addpath (['..',filesep,'CalTechCal'])
+addpath (['..',filesep,'RansacM']); % ./Ransac for mex functions (it is significantly faster for noisy data)
 % get the configuration
 config = read_configuration(Octave);
 disp('Multi-Camera Self-Calibration, Tomas Svoboda et al., 07/2003')
@@ -82,7 +83,7 @@ if BA_RADIAL
   for i=1:CAMS,
     if UNDO_RADIAL
       [K,kc] = ...
-	  readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
+	  readradfile(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
     else
       % no radial distortion
       K = [ 1 0 config.cal.Res(i,1)/2; ...
@@ -133,14 +134,14 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   % for undoing of the radial distortion
   if UNDO_RADIAL
 	for i=1:CAMS,
-	  [K,kc] = readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
+	  [K,kc] = readradfile(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
 	  xn	 = undoradial(loaded.Ws(i*3-2:i*3,:),K,[kc,0]);
 	  linear.Ws(i*3-2:i*3,:) = xn;
 	end
 	linear.Ws = linear.Ws - repmat(reshape(config.cal.pp',CAMS*3,1), 1, FRAMES);
   elseif config.cal.UNDO_HEIKK,
 	for i=1:CAMS,
-	  heikkpar = load(sprintf(config.files.heikkrad,config.cal.cams2use(i)),'-ASCII');
+	  heikkpar = load(sprintf_winsafe(config.files.heikkrad,config.cal.cams2use(i)),'-ASCII');
 	  xn = undoheikk(heikkpar(1:4),heikkpar(5:end),loaded.Ws(i*3-2:i*3-1,:)');
 	  linear.Ws(i*3-2:i*3-1,:) = xn';
 	end
@@ -159,7 +160,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   inliers.IdMat = findinl(linear.Ws,linear.IdMat,INL_TOL);
 
-  addpath ('.',filesep,'MartinecPajdla');
+  addpath (['.',filesep,'MartinecPajdla']);
   setpaths;		% set paths for M&P algorithms
 
   % remove zero-columns or just 1 point columns
@@ -366,9 +367,9 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	corresp = [Xe',xe'];
 	if Octave
 	  % all Octave data in ASCII format
-          save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp');
+          save(sprintf_winsafe(config.files.points4cal,config.cal.cams2use(i)),'corresp');
 	else
-          save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
+          save(sprintf_winsafe(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
 	end
   end
 

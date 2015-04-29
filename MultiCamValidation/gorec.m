@@ -36,13 +36,13 @@ FRAMES = size(loaded.IdMat,2);
 % for undoing of the radial distortion
 if config.cal.UNDO_RADIAL
   for i=1:CAMS,
-	[K,kc] = readradfile(sprintf(config.files.rad,config.cal.cams2use(i)));
+	[K,kc] = readradfile(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
 	xn	   = undoradial(loaded.Ws(i*3-2:i*3,:),K,[kc,0]);
 	linear.Ws(i*3-2:i*3,:) = xn;
   end
 elseif config.cal.UNDO_HEIKK,
   for i=1:CAMS,
-	heikkpar = load(sprintf(config.files.heikkrad,config.cal.cams2use(i)),'-ASCII');
+	heikkpar = load(sprintf_winsafe(config.files.heikkrad,config.cal.cams2use(i)),'-ASCII');
 	xn = undoheikk(heikkpar(1:4),heikkpar(5:end),loaded.Ws(i*3-2:i*3-1,:)');
 	linear.Ws(i*3-2:i*3-1,:) = xn';
   end
@@ -168,6 +168,6 @@ for i=1:CAMS,
   xe = loaded.Ws(i*3-2:i*3, reconstructed.ptsIdx(logical(loaded.IdMat(i,reconstructed.ptsIdx))));
   Xe = reconstructed.X(:, logical(loaded.IdMat(i,reconstructed.ptsIdx)));
   corresp = [Xe',xe'];
-  save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
+  save(sprintf_winsafe(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
 end
 																				

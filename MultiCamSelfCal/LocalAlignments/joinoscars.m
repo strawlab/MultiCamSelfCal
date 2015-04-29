@@ -27,18 +27,18 @@ idxproj	= [5];
 % the three cameras are the same for all the particular datasets
 Ws = []; IdMat = []; Res = [];
 for i=1:size(setups,2),
-	pts = load([sprintf(datapath,setups(i)),'points.dat']);
+	pts = load([sprintf_winsafe(datapath,setups(i)),'points.dat']);
 	proj(1:3*size(setups,2),1:size(pts,2)) = NaN;
 	proj(i*3-2:i*3,:) = pts(idxproj*3-2:idxproj*3,:);
 	proj(i*3-2:i*3-1,:) = proj(i*3-2:i*3-1,:)/scalefactor.projectors;
 	pts(1:3:3*size(idxcams,2),:) = pts(1:3:3*size(idxcams,2),:)/scalefactor.cameras;
 	pts(2:3:3*size(idxcams,2),:) = pts(2:3:3*size(idxcams,2),:)/scalefactor.cameras;
 	Ws = [Ws, [pts(1:3*size(idxcams,2),:); proj]];
-	id = load([sprintf(datapath,setups(i)),'IdMat.dat']);
+	id = load([sprintf_winsafe(datapath,setups(i)),'IdMat.dat']);
 	projid(1:size(setups,2),1:size(pts,2)) = 0;
 	projid(i,:)=id(idxproj,:);
 	IdMat = [IdMat,[id(idxcams,:); projid]];
-	Res = [Res; load([sprintf(datapath,setups(i)),'Res.dat'])];
+	Res = [Res; load([sprintf_winsafe(datapath,setups(i)),'Res.dat'])];
 	proj =[]; projid=[];
 end
 % The Res matrix needs a special care when putting
