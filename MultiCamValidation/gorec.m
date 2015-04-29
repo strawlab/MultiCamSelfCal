@@ -9,10 +9,10 @@
 clear all;
 
 % add necessary paths
-addpath ../CommonCfgAndIO
-addpath ./CoreFunctions
-addpath ./InputOutputFunctions
-addpath ../RansacM; % ./Ransac for mex functions (it is significantly faster for noisy data)
+addpath(['..',filesep,'CommonCfgAndIO']);
+addpath(['.',filesep,'CoreFunctions']);
+addpath(['.',filesep,'InputOutputFunctions']);
+addpath(['..',filesep,'RansacM']); % ./Ransac for mex functions (it is significantly faster for noisy data)
 
 % Read configuration from whatever is specified on command-line (via --config=FILENAME)
 config = read_configuration();
@@ -21,7 +21,7 @@ UNDO_RADIAL = logical(config.cal.UNDO_RADIAL | config.cal.UNDO_HEIKK);
 
 if UNDO_RADIAL
 	% add functions dealing with radial distortion
-	addpath ../RadialDistortions
+	addpath(['..',filesep,'RadialDistortions']);
 end
 
 % read the input data

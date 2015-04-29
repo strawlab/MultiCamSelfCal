@@ -4,7 +4,7 @@
 
 function [ head, tail ] = str_cut(s, delim)
 
-if nargin < 2, delim = '/'; end
+if nargin < 2, delim = filesep; end
 
 idcs = findstr(s,delim);
 if isempty(idcs),

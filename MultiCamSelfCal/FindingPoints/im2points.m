@@ -11,9 +11,9 @@
 clear all;
 
 % add path to config data
-addpath ../../CommonCfgAndIO
+addpath(['..',filesep,'..',filesep,'CommonCfgAndIO']);
 % add path for graphical output if needed
-addpath ../OutputFunctions
+addpath(['..',filesep,'OutputFunctions']);
 
 SHOWFIG	  = 0; % show images during point extraction
 STEP4STAT = 1; % step for computing average and std images, if 1 then all images taken

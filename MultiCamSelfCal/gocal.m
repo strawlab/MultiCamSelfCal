@@ -14,16 +14,16 @@ clear variables globals
 v = version; Octave = v(1)<'5';  % Crude Octave test
 
 % add necessary paths
-addpath ('../CommonCfgAndIO')
-addpath ('../RadialDistortions')
-addpath ('./CoreFunctions')
-addpath ('./OutputFunctions')
-addpath ('./BlueCLocal')
-addpath ('./LocalAlignments')
-addpath ('../CalTechCal')
-addpath ('../RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
+addpath ('..',filesep,'CommonCfgAndIO')
+addpath ('..',filesep,'RadialDistortions')
+addpath ('.',filesep,'CoreFunctions')
+addpath ('.',filesep,'OutputFunctions')
+addpath ('.',filesep,'BlueCLocal')
+addpath ('.',filesep,'LocalAlignments')
+addpath ('..',filesep,'CalTechCal')
+addpath ('..',filesep,'RansacM'); % ./Ransac for mex functions (it is significantly faster for noisy data)
 % get the configuration
-config = read_configuration();
+config = read_configuration(Octave);
 disp('Multi-Camera Self-Calibration, Tomas Svoboda et al., 07/2003')
 disp('************************************************************')
 disp(sprintf('Experiment name: %s',expname))
@@ -159,7 +159,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   inliers.IdMat = findinl(linear.Ws,linear.IdMat,INL_TOL);
 
-  addpath ('./MartinecPajdla');
+  addpath ('.',filesep,'MartinecPajdla');
   setpaths;		% set paths for M&P algorithms
 
   % remove zero-columns or just 1 point columns
@@ -388,9 +388,9 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
     % if the maximal reprojection error is still bigger
     % than acceptable estimate radial distortion and
     % iterate further
-    cd ../CalTechCal
+    cd(['..',filesep,'CalTechCal']);
     selfcalib = goradf(config,selfcal.par2estimate,INL_TOL);
-    cd ../MultiCamSelfCal
+    cd(['..',filesep,'MultiCamSelfCal']);
     selfcal.iterate = 1;
     UNDO_RADIAL = 1;
     if ~selfcalib.goradproblem;

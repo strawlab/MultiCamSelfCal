@@ -19,24 +19,36 @@
 %    Projector_Resolution: 1024 768
 
 
-function [config] = read_configuration(filename)
+function [config] = read_configuration(isOctave, varargin)
 
-if nargin == 0
-  % No argument given -- look for --config= on the command-line.
-  found_cfg = 0;
-  for cmdline_arg = argv()
-    arg = cmdline_arg{1}
-    szarg = size(arg);
-    if szarg(2) >= 10
-      if strcmp(arg(1:9), '--config=')
-        found_cfg = 1;
-        filename = arg(10:size(arg,2));
-      end
+if isOctave == 1
+    if nargin == 1
+        % No argument given -- look for --config= on the command-line.
+        found_cfg = 0;
+        for cmdline_arg = argv()
+            arg = cmdline_arg{1}
+            szarg = size(arg);
+            if szarg(2) >= 10
+                if strcmp(arg(1:9), '--config=')
+                    found_cfg = 1;
+                    filename = arg(10:size(arg,2));
+                end
+            end
+        end
+        if ~found_cfg
+            error('missing --config=FILENAME command-line argument');
+        end
     end
-  end
-  if ~found_cfg
-    error('missing --config=FILENAME command-line argument');
-  end
+else % isMatlab
+    if nargin > 1
+        filename = varargin{1};
+    else
+        [fname,pname,~]=uigetfile('*.cfg','Select a configuration file');
+        filename = [pname fname];
+    end
+    if ~isstr(filename)
+        error(['Invalid configuration file selected']);
+    end
 end
 
 % Do generic parsing based on metaconfiguration
@@ -48,8 +60,8 @@ else
   config_dirname = fileparts(filename);
 end
 
-if (config_dirname(end) ~= '/')
-   config_dirname = strcat(config_dirname,'/');
+if (config_dirname(end) ~= filesep)
+   config_dirname = strcat(config_dirname, filesep);
 end
 
 try, config.paths.data; catch, config.paths.data = config_dirname; end

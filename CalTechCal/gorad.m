@@ -12,7 +12,7 @@
 clear all;
 
 % TODO: isn't this unnecessary now?
-addpath ../MultiCamSelfCalib/Cfg
+addpath(['..' filesep 'MultiCamSelfCalib' filesep 'Cfg']);
 
 % Read configuration from whatever is specified on command-line (via --config=FILENAME)
 config = read_configuration();

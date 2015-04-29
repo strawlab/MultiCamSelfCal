@@ -9,7 +9,7 @@
 % $State: Exp $
 
 clear all;
-addpath ../CommonCfgAndIO
+addpath(['..',filesep,'CommonCfgAndIO'])
 
 SAVE_IMG	   = 1;		% Do you want to save images?
 COMPOSE_IMGS   = 1;		% Do you want to see composed images?

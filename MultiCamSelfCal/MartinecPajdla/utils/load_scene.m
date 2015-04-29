@@ -26,65 +26,66 @@ if scene.ID == 1 % artificial cubes
   M(k2idx(find(~I))) = NaN; return
 end
 
-if 1, dir = [ Matlab_data 'cmp/' ];   % data in my directory
-else  dir = '/data/3DR/Projrec/'; end
+if 1, dir = [ Matlab_data 'cmp' filesep];   % data in my directory
+else  dir = [filesep 'data' filesep '3DR' filesep 'Projrec' filesep]; end
 
 scene.data_type = 'cmp';                                % data from Cmp
 scene.detection = 'manual';
 switch scene.ID
  case 2,    scene.name =                              'House';
-  file='Domek/domek.cor'; %'OK.cor';
+  file=['Domek',filesep,'domek.cor']; %'OK.cor';
                                     picDir='Domek'; %'tif';
  case 3,    scene.name =                              'Corridor';
-  file='Coridor-Cake/coridorC.cor'; picDir='Coridor-Cake'; 
+  file=['Coridor-Cake',filesep,'coridorC.cor']; picDir='Coridor-Cake'; 
  case 4,    scene.name =                              'Church';
-  file='Plec/Plec.cor';             picDir='Plec';
+  file=['Plec',filesep,'Plec.cor'];             picDir='Plec';
  case 5,    scene.name =                              'Kampa';
-  file='Kampa/Kampa.cor';           picDir='Kampa';
+  file=['Kampa',filesep,'Kampa.cor'];           picDir='Kampa';
  case 6,    scene.name =                              'Cubes';
-  file='Kostky/Kostky.cor';         picDir='Kostky';
+  file=['Kostky',filesep,'Kostky.cor'];         picDir='Kostky';
  case 7,    scene.name =                              'puzzle';
-  file='adam/hlavolam.cor';         picDir='adam';
+  file=['adam',filesep,'hlavolam.cor'];         picDir='adam';
   
  otherwise                                              % data from Oxford:
   scene.data_type = 'oxford';
   scene.detection = 'Harris'' operator';
-  dir = [ Matlab_data 'oxford/' ];
+  dir = [ Matlab_data 'oxford' filesep];
   decimals=3;
   switch scene.ID
    case 101,      scene.name =                        'House (Oxford)';
-    file='house'; last_index=9;  picDir='house/';
+    file='house'; last_index=9;  picDir=['house' filesep];
    case 102,  scene.name =                            'Corridor (Oxford)';
-    file='bt';    last_index=10; picDir='corridor/';
+    file='bt';    last_index=10; picDir=['corridor' filesep];
    
    otherwise                                              % data from Oxford:
     scene.data_type = 'oxford_';
     switch scene.ID
      case 170,  scene.name =                            'Dinosaur (Oxford)';
-      file='viff';  last_index=36; picDir='dinosaur/';
+      file='viff';  last_index=36; picDir=['dinosaur' filesep];
     
      otherwise
       scene.data_type = 'leuven';
       scene.detection = 'Harris'' operator';
-      dir = [ Matlab_data 'leuven/' ];
+      dir = [ Matlab_data 'leuven' filesep];
       decimals=3; first_index = 0; ext='';
       switch scene.ID
        case 201,      scene.name =                        'Castle (Leuven)';
-        file='viff'; last_index=21;  picDir='Castle/';
+        file='viff'; last_index=21;  picDir=['Castle' filesep];
        case 202,      scene.name =                        'Temple (Leuven)';
         file='temple'; first_index=2; last_index=6;
-        decimals=2; ext='.pgm'; picDir='Temple/';
+        decimals=2; ext='.pgm'; picDir=['Temple' filesep];
        otherwise
         scene.data_type = 'boujou';
         scene.detection = 'boujou';
-        dir = [ Matlab_data 'boujou/' ];
+        dir = [ Matlab_data 'boujou' filesep];
         switch scene.ID
          case 301,      scene.name =                        'Road in Forest';
-          file='road'; last_index=1; picDir='Road_in_Forest/';
+          file='road'; last_index=1; picDir=['Road_in_Forest' filesep];
          case 302,      scene.name =                        'Corridor (CMP)';
-          file='corridorvideo'; last_index=1; picDir='Corridor_CMP/';
+          file='corridorvideo'; last_index=1; picDir=['Corridor_CMP' filesep];
          case 303,      scene.name =                        'Fish eye round';
-          file='fish_ray4in_im'; last_index=1; picDir='Fish_eye_round/fish_ray_4_in/';
+          file='fish_ray4in_im'; last_index=1; picDir=['Fish_eye_round' ...
+                              filesep 'fish_ray_4_in' filesep];
           decimals=4;
          otherwise
           disp(sprintf('Error: undefined scene with ID %d.', scene.ID));
