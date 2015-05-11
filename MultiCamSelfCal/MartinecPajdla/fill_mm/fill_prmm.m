@@ -25,7 +25,7 @@ if opt.verbose
 
 [m,n] = size(M); m = m/3;
 
-if size(NULLSPACE)(2) == 0
+if size(NULLSPACE,2) == 0
   P = []; X = []; u1 = 1:m; u2 = 1:n; lambda=[];
 else
   r = 4;
