@@ -83,12 +83,12 @@ if BA_RADIAL
   for i=1:CAMS,
     if UNDO_RADIAL
       [K,kc] = ...
-	  readradfile(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
+	  readradfile_mb(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
     else
       % no radial distortion
       K = [ 1 0 config.cal.Res(i,1)/2; ...
-	    0 1 config.cal.Res(i,2)/2;
-	0 0 1];
+            0 1 config.cal.Res(i,2)/2;
+            0 0 1];
       kc = [0,0,0,0];
     end
     cam_pvec = rad2pvec(K,kc); % convert all NL params to row vector
@@ -134,8 +134,8 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   % for undoing of the radial distortion
   if UNDO_RADIAL
 	for i=1:CAMS,
-	  [K,kc] = readradfile(sprintf_winsafe(config.files.rad,config.cal.cams2use(i)));
-	  xn	 = undoradial(loaded.Ws(i*3-2:i*3,:),K,[kc,0]);
+	  [K,kc] = readradfile_mb([config.files.rad,num2str(config.cal.cams2use(i))]);
+	  xn	 = undoradial(loaded.Ws(i*3-2:i*3,:),K,kc);
 	  linear.Ws(i*3-2:i*3,:) = xn;
 	end
 	linear.Ws = linear.Ws - repmat(reshape(config.cal.pp',CAMS*3,1), 1, FRAMES);
