@@ -28,7 +28,7 @@ count = 0;
 
 for i = idxcams,
   count = count+1;
-  [X_1,x_1] = preparedata(sprintf(config.files.points4cal,i));
+  [X_1,x_1] = preparedata(sprintf_winsafe(config.files.points4cal,i));
   % handle image resolutions correctly
   nx = config.cal.Res(count,1);
   ny = config.cal.Res(count,2);
@@ -50,7 +50,7 @@ for i = idxcams,
   %
   disp(sprintf('***** camera %d **********************************',i))
   %
-  outputfile = sprintf(config.files.rad,i);
+  outputfile = sprintf_winsafe(config.files.rad,i);
   fprintf(1,'\nExport of intrinsic calibration data to blue-c configuration file\n');
   % outputfile = input('File basename: ', 's');
   configfile = outputfile;

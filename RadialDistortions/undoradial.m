@@ -13,20 +13,19 @@
 % function taken from the CalTech camera calibration toolbox
 
 function [xl] = undoradial(x_kk,K,kc)
-
 cc(1) = K(1,3);
 cc(2) = K(2,3);
 fc(1) = K(1,1);
 fc(2) = K(2,2);
 
-% First: Subtract principal point, and divide by the focal length:
+%First: Subtract principal point, and divide by the focal length:
 x_distort = [(x_kk(1,:) - cc(1))/fc(1);(x_kk(2,:) - cc(2))/fc(2)];
 
 if norm(kc) ~= 0,
 	% Third: Compensate for lens distortion:
 	xn = comp_distortion_oulu(x_distort,kc);
 else
-   xn = x_distort;
+    xn = x_distort;
 end;
 
 % back to the linear pixel coordinates

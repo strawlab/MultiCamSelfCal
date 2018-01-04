@@ -19,24 +19,36 @@
 %    Projector_Resolution: 1024 768
 
 
-function [config] = read_configuration(filename)
+function [config] = read_configuration(isOctave, varargin)
 
-if nargin == 0
-  % No argument given -- look for --config= on the command-line.
-  found_cfg = 0;
-  for cmdline_arg = argv()
-    arg = cmdline_arg{1}
-    szarg = size(arg);
-    if szarg(2) >= 10
-      if strcmp(arg(1:9), '--config=')
-        found_cfg = 1;
-        filename = arg(10:size(arg,2));
-      end
+if isOctave == 1
+    if nargin == 1
+        % No argument given -- look for --config= on the command-line.
+        found_cfg = 0;
+        for cmdline_arg = argv()
+            arg = cmdline_arg{1}
+            szarg = size(arg);
+            if szarg(2) >= 10
+                if strcmp(arg(1:9), '--config=')
+                    found_cfg = 1;
+                    filename = arg(10:size(arg,2));
+                end
+            end
+        end
+        if ~found_cfg
+            error('missing --config=FILENAME command-line argument');
+        end
     end
-  end
-  if ~found_cfg
-    error('missing --config=FILENAME command-line argument');
-  end
+else % isMatlab
+    if nargin > 1
+        filename = varargin{1};
+    else
+        [fname,pname,~]=uigetfile('*.cfg','Select a configuration file');
+        filename = [pname fname];
+    end
+    if ~isstr(filename)
+        error(['Invalid configuration file selected']);
+    end
 end
 
 % Do generic parsing based on metaconfiguration
@@ -48,8 +60,8 @@ else
   config_dirname = fileparts(filename);
 end
 
-if (config_dirname(end) ~= '/')
-   config_dirname = strcat(config_dirname,'/');
+if (config_dirname(end) ~= filesep)
+   config_dirname = strcat(config_dirname, filesep);
 end
 
 try, config.paths.data; catch, config.paths.data = config_dirname; end
@@ -113,34 +125,34 @@ try, config.imgs.res; catch, config.imgs.res		  = [640,480];	end;
 try, config.imgs.subpix; catch, config.imgs.subpix = 1/3; end;
 
 % data names
-try, config.files.Pmats;     catch, config.files.Pmats	    = [config.paths.data,'Pmatrices.dat'];		end;
-try, config.files.points;	 catch, config.files.points		= [config.paths.data,'points.dat'];		end;
+try config.files.Pmats;     catch, config.files.Pmats	    = [config.paths.data,'Pmatrices.dat'];		end;
+try config.files.points;	 catch, config.files.points		= [config.paths.data,'points.dat'];		end;
 
 fd = fopen(config.files.points);
 if fd <0
-  error(sprintf('could not open points data file "%s"',config.files.points))
+  error('could not open points data file "%s"',config.files.points)
 else
   fclose(fd);
 end
 
-try, config.files.Re;		 catch,	config.files.Re		= [config.paths.data,'Re.dat'];		end;
-try, config.files.Xe;		 catch,	config.files.Xe		= [config.paths.data,'Xe.dat'];		end;
-try, config.files.Ce;		 catch,	config.files.Ce		= [config.paths.data,'Ce.dat'];		end;
-try, config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
-try, config.files.Res;		 catch,	config.files.Res		= [config.paths.data,'Res.dat'];		end;
-try, config.files.IdMat;	 catch, config.files.IdMat		= [config.paths.data,'IdMat.dat'];			end;
-try, config.files.inidx;	 catch, config.files.inidx		= [config.paths.data,'idxin.dat'];			end;
-try, config.files.avIM;		 catch, config.files.avIM		= [config.paths.data,'camera%d.average.tiff'];		end;
-try, config.files.stdIM;	 catch, config.files.stdIM		= [config.paths.data,'camera%d.std.tiff'];		end;
-try, config.files.CalPar;	 catch, config.files.CalPar		= [config.paths.data,'camera%d.cal'];			end;
-try, config.files.CalPmat;	 catch, config.files.CalPmat	= [config.paths.data,'camera%d.Pmat.cal'];			end;
-try, config.files.StCalPar;	 catch,	config.files.StCalPar	= [config.paths.data,config.files.basename,'%d.cal'];	end;
-try, config.files.rad;		 catch, config.files.rad		= [config.paths.data,config.files.basename,'%d.rad'];	end;
-try, config.files.heikkrad;	 catch, config.files.heikkrad	= [config.paths.data,config.files.basename,'%d.heikk'];	end;
-try, config.files.Pst;		 catch,	config.files.Pst		= [config.paths.data,'Pst.dat']; end;
-try, config.files.Cst;		 catch,	config.files.Cst		= [config.paths.data,'Cst.dat']; end;
-try, config.files.points4cal; catch,	config.files.points4cal = [config.paths.data,'cam%d.points4cal.dat']; end;
-try, config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
+try config.files.Re;		 catch,	config.files.Re		= [config.paths.data,'Re.dat'];		end;
+try config.files.Xe;		 catch,	config.files.Xe		= [config.paths.data,'Xe.dat'];		end;
+try config.files.Ce;		 catch,	config.files.Ce		= [config.paths.data,'Ce.dat'];		end;
+try config.files.IdPoints;	 catch,	config.files.IdPoints	= [config.paths.data,'IdPoints.dat'];		end;
+try config.files.Res;		 catch,	config.files.Res		= [config.paths.data,'Res.dat'];		end;
+try config.files.IdMat;	 catch, config.files.IdMat		= [config.paths.data,'IdMat.dat'];			end;
+try config.files.inidx;	 catch, config.files.inidx		= [config.paths.data,'idxin.dat'];			end;
+try config.files.avIM;		 catch, config.files.avIM		= [config.paths.data,'camera%d.average.tiff'];		end;
+try config.files.stdIM;	 catch, config.files.stdIM		= [config.paths.data,'camera%d.std.tiff'];		end;
+try config.files.CalPar;	 catch, config.files.CalPar		= [config.paths.data,'camera%d.cal'];			end;
+try config.files.CalPmat;	 catch, config.files.CalPmat	= [config.paths.data,'camera%d.Pmat.cal'];			end;
+try config.files.StCalPar;	 catch,	config.files.StCalPar	= [config.paths.data,config.files.basename,'%d.cal'];	end;
+try config.files.rad;		 catch, config.files.rad		= [config.paths.data,'int_toolbox_cam'];	end;
+try config.files.heikkrad;	 catch, config.files.heikkrad	= [config.paths.data,config.files.basename,'%d.heikk'];	end;
+try config.files.Pst;		 catch,	config.files.Pst		= [config.paths.data,'Pst.dat']; end;
+try config.files.Cst;		 catch,	config.files.Cst		= [config.paths.data,'Cst.dat']; end;
+try config.files.points4cal; catch,	config.files.points4cal = [config.paths.data,'cam%d.points4cal.dat']; end;
+try config.cal.BA_RADIAL;       catch, config.cal.BA_RADIAL = 0; end;
 
 
 %  --- get_metaconfiguration ---

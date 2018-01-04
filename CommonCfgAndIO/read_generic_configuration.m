@@ -15,15 +15,15 @@ if isdir(cfg_filename)
   cfg_filename = fullfile(cfg_filename, 'multicamselfcal.cfg'); % default config name in directory
 end
 
-if cfg_filename(1) == '/'
+if cfg_filename(1) == filesep
   config_fullpath = cfg_filename;
 else
   config_fullpath = construct_absolute_path(pwd(), cfg_filename);
 end
 config_dir = fileparts(config_fullpath);
 
-if (config_dir(end) ~= '/')
-   config_dir = strcat(config_dir,'/')
+if (config_dir(end) ~= filesep)
+   config_dir = strcat(config_dir,filesep)
 end
 
 fp = fopen(cfg_filename, 'r');
@@ -149,10 +149,10 @@ end
 %end
 
 function path = construct_absolute_path(dir, filename)
-  if filename(1) == '/'
+  if filename(1) == filesep
     path = filename;
   else
-    path = strcat(dir, '/', filename);
+    path = strcat(dir, filesep, filename);
   end
 
 function count = cell_contains(cel, str)

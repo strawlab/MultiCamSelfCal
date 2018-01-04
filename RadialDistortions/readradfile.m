@@ -10,7 +10,7 @@
 % kc ... 4x1 vector of distortion parameters
 %
 % $Id: readradfile.m,v 2.0 2003/06/19 12:07:16 svoboda Exp $
-function [K,kc] = readradfiles(name);
+function [K,kc] = readradfile(name)
 
 fid = fopen(name,'r');
 if fid<0

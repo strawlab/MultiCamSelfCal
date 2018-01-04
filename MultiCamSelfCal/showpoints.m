@@ -9,7 +9,7 @@
 % $State: Exp $
 
 clear all;
-addpath ../CommonCfgAndIO
+addpath(['..',filesep,'CommonCfgAndIO'])
 
 SAVE_IMG	   = 1;		% Do you want to save images?
 COMPOSE_IMGS   = 1;		% Do you want to see composed images?
@@ -30,12 +30,12 @@ for i=1:NoCams,
   seq(i).camId = config.files.idxcams(i);
   if seq(i).camId > -1
 	if findstr(expname,'oscar')
-	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
+	  seq(i).data = dir([sprintf_winsafe(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
 	else
-	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),sprintf(config.files.imnames,seq(i).camId),im.ext]);
+	  seq(i).data = dir([sprintf_winsafe(im.dir,seq(i).camId),sprintf_winsafe(config.files.imnames,seq(i).camId),im.ext]);
 	end
   else
-	seq(i).data = dir([im.dir,sprintf(config.files.imnames),im.ext]);
+	seq(i).data = dir([im.dir,sprintf_winsafe(config.files.imnames),im.ext]);
   end
   seq(i).size = size(seq(i).data,1);
   if seq(i).size<4
@@ -46,9 +46,9 @@ end
 % for i=1:NoCams,
 %   seq(i).camId = config.files.idxcams(i);
 %   if seq(i).camId > -1
-% 	seq(i).data = dir([sprintf(im.dir,seq(i).camId),sprintf(config.files.imnames,seq(i).camId),im.ext]);
+% 	seq(i).data = dir([sprintf_winsafe(im.dir,seq(i).camId),sprintf_winsafe(config.files.imnames,seq(i).camId),im.ext]);
 %   else
-% 	seq(i).data = dir([im.dir,sprintf(config.files.imnames),im.ext]);
+% 	seq(i).data = dir([im.dir,sprintf_winsafe(config.files.imnames),im.ext]);
 %   end
 %   seq(i).size = size(seq(i).data,1);
 %   if seq(i).size<4
@@ -63,7 +63,7 @@ if ~COMPOSE_IMGS
 % load images and show the results
   for i=1:NoCams,
 	for j=1:size(loaded.IdMat,2),
-	  IM= imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
+	  IM= imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  figure(1), clf, axes('Position',[0 0 1 1]), axis off
 	  imshow(IM), hold on, 
 	  text(15,20,sprintf('Camera: %0.2d Frame: %0.3d',config.files.idxcams(i),j),'Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
@@ -86,7 +86,7 @@ if COMPOSE_IMGS
   for j=1:size(loaded.IdMat,2),
 	% IMcomposed = uint8(zeros(size(IM,1),size(IM,2),3,NoCams));
 	for i=1:NoCams,
-	  IM= imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
+	  IM= imread([sprintf_winsafe(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  fig1 = figure(1); clf, axes('Position',[0 0 1 1]), axis off
 	  imshow(IM), hold on, 
 	  text(15,20,sprintf('Camera: %0.2d Frame: %0.3d',config.files.idxcams(i),j),'Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
