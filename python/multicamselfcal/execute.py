@@ -4,6 +4,7 @@ import shlex
 import threading
 import os.path
 import logging
+logging.basicConfig()
 import tempfile
 import shutil
 
