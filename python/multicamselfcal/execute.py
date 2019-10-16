@@ -3,7 +3,8 @@ import subprocess
 import shlex
 import threading
 import os.path
-import logging # inserted below this line "logging.basicConfig()" to help with mscs logger error. seems to help with more info
+import logging
+logging.basicConfig()
 import tempfile
 import shutil
 
