@@ -65,7 +65,7 @@ Num-Cameras: {num_cameras}
 Num-Projectors: 0
 Nonlinear-Parameters: 50    0    1    0    0    0
 Nonlinear-Update: 1   0   1   0   0   0
-Initial-Tolerance: 10
+Initial-Tolerance: {initial_tolerance}
 Do-Global-Iterations: 0
 Global-Iteration-Threshold: 0.5
 Global-Iteration-Max: 5
@@ -147,7 +147,7 @@ class MultiCamSelfCal(_Calibrator):
                     camid=camid[1:]
                 f.write("%s\n"%camid)
 
-    def _write_cfg(self, cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers):
+    def _write_cfg(self, cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers, initial_tolerance):
         if num_cameras_fill < 0 or num_cameras_fill > len(cam_ids):
             num_cameras_fill = len(cam_ids)
 
@@ -157,6 +157,7 @@ class MultiCamSelfCal(_Calibrator):
             num_cameras_fill = int(num_cameras_fill),
             undo_radial = int(radial_distortion),
             square_pixels = int(square_pixels),
+            initial_tolerance = float(initial_tolerance),
             use_nth_frame = self.use_nth_frame,
             align_existing = 1 if len(cam_centers) else 0,
             )
@@ -318,7 +319,7 @@ class MultiCamSelfCal(_Calibrator):
                         [])
         LOG.debug("dropped cams: %s" % ','.join(cams_to_remove))
 
-    def create_calibration_directory(self, cam_ids, IdMat, points, Res, cam_calibrations=[], cam_centers=[], radial_distortion=0, square_pixels=1, num_cameras_fill=-1):
+    def create_calibration_directory(self, cam_ids, IdMat, points, Res, cam_calibrations=[], cam_centers=[], radial_distortion=0, square_pixels=1, num_cameras_fill=-1, initial_tolerance=10.0):
         assert len(Res) == len(cam_ids)
         if len(cam_calibrations): assert len(cam_ids) == len(cam_calibrations)
         if len(cam_centers): assert len(cam_ids) == len(cam_centers)
@@ -352,7 +353,7 @@ class MultiCamSelfCal(_Calibrator):
         save_ascii_matrix(IdMat, os.path.join(self.out_dirname,'IdMat.dat'), isint=True)
         save_ascii_matrix(points, os.path.join(self.out_dirname,'points.dat'))
 
-        self._write_cfg(cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers)
+        self._write_cfg(cam_ids, radial_distortion, square_pixels, num_cameras_fill, cam_centers, initial_tolerance)
 
     def get_camera_names_map(self, filetype="rad"):
         if filetype == "rad":
