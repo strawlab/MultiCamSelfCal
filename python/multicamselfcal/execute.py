@@ -98,7 +98,7 @@ def save_ascii_matrix(arr,fd,isint=False):
 
     close_file = False
     if type(fd) == str:
-        fd = open(fd,mode='wb')
+        fd = open(fd,mode='w')
         close_file = True
 
     for row in arr:
