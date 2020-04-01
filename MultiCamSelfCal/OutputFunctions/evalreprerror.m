@@ -7,7 +7,7 @@
 
 function cam = evalreprerror(cam,config)
 
-v = version; Octave = v(1)<'5';  % Crude Octave test
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
 disp('2D reprojection error')
 disp(sprintf('All points: mean  %2.2f pixels, std is %2.2f',mean([cam.err2d]), std([cam.err2d])'));

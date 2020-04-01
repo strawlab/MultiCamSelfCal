@@ -47,7 +47,7 @@ if ~isfield(opt, 'verbose'),
 if ~isfield(opt.create_nullspace, 'verbose')
   opt.create_nullspace.verbose  = opt.verbose; end
 
-v = version; Octave = v(1)<'5';  % Crude Octave test 
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
   
 if ~opt.verbose, 
   fprintf('Repr. error in proj. space (no fact.');

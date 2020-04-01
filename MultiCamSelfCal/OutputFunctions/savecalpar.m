@@ -16,7 +16,7 @@
 
 function [Cst,Rot] = savecalpar(P,config)
 
-v = version; Octave = v(1)<'5';  % Crude Octave test
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
 idxused = config.cal.cams2use;
 

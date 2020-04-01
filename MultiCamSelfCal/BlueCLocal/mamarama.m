@@ -3,7 +3,7 @@ function [align] = mamarama(in,config)
 Cst = in.Cst;
 Rot = in.Rot;
 
-v = version; Octave = v(1)<'5';  % Crude Octave test
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 if ~Octave,
   drawscene(in.Xe,Cst',Rot,41,'cloud','Graphical Output Validation: View from top or bottom (no sRt)',config.cal.cams2use);
 end

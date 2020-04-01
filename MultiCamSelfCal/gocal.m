@@ -11,7 +11,7 @@
 
 clear variables globals
 
-v = version; Octave = v(1)<'5';  % Crude Octave test
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
 if Octave
   warning('off', 'Octave:possible-matlab-short-circuit-operator');

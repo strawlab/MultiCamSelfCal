@@ -5,7 +5,7 @@
 
 function [X,x] = preparedata(filename);
 
-v = version; Octave = v(1)<'5';  % Crude Octave test
+Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
 if Octave,
   datamat = load(filename);
