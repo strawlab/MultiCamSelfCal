@@ -13,10 +13,6 @@ clear variables globals
 
 Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 
-if Octave
-  warning('off', 'Octave:possible-matlab-short-circuit-operator');
-end
-
 % add necessary paths
 addpath ('../CommonCfgAndIO')
 addpath ('../RadialDistortions')
