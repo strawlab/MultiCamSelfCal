@@ -65,7 +65,7 @@ for i = 1:num_trials
     debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) && opt.verbose
         fprintf(1,'-'); end;end
     subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
-    if size(subnull,2)>0  &  ( use_maxtuples | ...
+    if size(subnull,2)>0  &&  ( use_maxtuples || ...
        size(submatrix,1) == size(submatrix,2) + size(subnull,2))
       nulltemp            = zeros(size(M,1),size(subnull,2));
       nulltemp(rowsbig,:) = subnull; % * (length(rows)/m); % weighting
