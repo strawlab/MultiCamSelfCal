@@ -74,7 +74,7 @@ for i = 1:n
   Temp = [Temp; u(1)*v(1) u(1)*v(2)+u(2)*v(1) u(3)*v(1)+u(1)*v(3) u(1)*v(4)+u(4)*v(1) u(2)*v(2) u(2)*v(3)+u(3)*v(2) u(2)*v(4)+u(4)*v(2) u(3)*v(3) u(4)*v(3)+u(3)*v(4) u(4)*v(4)];
 end
 % one additional equation only if needed
-if n<4 & ~config.cal.SQUARE_PIX
+if n<4 && ~config.cal.SQUARE_PIX
 	u = P(3,:);
 	Temp = [Temp; u(1)^2 2*u(1)*u(2) 2*u(1)*u(3) 2*u(1)*u(4) u(2)^2 2*u(2)*u(3) 2*u(2)*u(4) u(3)^2 2*u(3)*u(4) u(4)^2];
 	b = [zeros(size(Temp(1:end-1,1)));1];

@@ -62,7 +62,7 @@ for i = 1:num_trials
     submatrix=[]; for j=1:length(cols_chosen) % 4, 
       submatrix=[ submatrix ...
                   spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
-    debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) & opt.verbose
+    debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) && opt.verbose
         fprintf(1,'-'); end;end
     subnull = nulleps(submatrix,opt.threshold); %svd(submatrix)
     if size(subnull,2)>0  &  ( use_maxtuples | ...
@@ -78,7 +78,7 @@ for i = 1:num_trials
       nullspace(:, width+1 : width+size(nulltemp,2)) = nulltemp;
       width                                          = width +size(nulltemp,2);
       result.used         = result.used +1;
-      if mod(result.used, show_mod)==0 & opt.verbose, fprintf(1,'.'); end
+      if mod(result.used, show_mod)==0 && opt.verbose, fprintf(1,'.'); end
     end
   else
     result.failed = result.failed +1;

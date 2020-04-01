@@ -31,7 +31,7 @@ if ~isfield(opt, 'verbose'),
 
 info.R_lin = P*X;
 
-if ~opt.no_BA & length(u1) < size(M,1)/3 & length(u2) < size(M,2)
+if ~opt.no_BA && length(u1) < size(M,1)/3 && length(u2) < size(M,2)
   if opt.verbose, fprintf(1, 'Bundle adjustment...\n'); tic; end
 
   [m,n] = size(M); m = m/3; r1 = setdiff(1:m,u1); r2 = setdiff(1:n,u2);

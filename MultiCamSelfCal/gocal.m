@@ -110,7 +110,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Main global cycle begins
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
+while selfcal.iterate && selfcal.count < config.cal.GLOBAL_ITER_MAX,
   % read the input data
   loaded = loaddata(config);
   linear = loaded;		% initalize the linear structure
@@ -118,7 +118,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   CAMS = size(config.cal.cams2use,2);
   FRAMES = size(loaded.IdMat,2);
 
-  if CAMS < 3 | FRAMES < 20
+  if CAMS < 3 || FRAMES < 20
 	error('gocal: Not enough cameras or images -> Problem in loading data?')
   end
 
@@ -237,7 +237,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 	% do BA after removing very bad outliers or if the process starts to diverge
 	% and only if required config.cal.START_BA
 	inliers.reprerr = [inliers.reprerr, mean([cam(:).mean2Derr])];
-	if inliers.reprerr(end)<5*INL_TOL | inliers.reprerr(end-1)<inliers.reprerr(end),
+	if inliers.reprerr(end)<5*INL_TOL || inliers.reprerr(end-1)<inliers.reprerr(end),
 	   try, options.no_BA = ~config.cal.START_BA; catch, options.no_BA = 1; end % 1 0
 	end
   end
@@ -248,7 +248,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% Do the final refinement through the BA if required and if not
   %%% performed during the iteration steps
-  if (DO_BA & ~config.cal.START_BA) | (DO_BA & config.cal.START_BA & size(inliers.reprerr,2)<3)
+  if (DO_BA && ~config.cal.START_BA) || (DO_BA && config.cal.START_BA && size(inliers.reprerr,2)<3)
 	disp('**************************************************************')
 	disp('Refinement by using Bundle Adjustment')
 	options.no_BA = 0;
@@ -315,7 +315,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
   end
 
   % save normal data
-  if SAVE_STEPHI | SAVE_PGUHA
+  if SAVE_STEPHI || SAVE_PGUHA
 	 [in.Cst,in.Rot] = savecalpar(in.Pe,config);
   end
 
@@ -388,7 +388,7 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
 
   selfcal.count = selfcal.count+1;
 
-  if max([cam.mean2Derr])>config.cal.GLOBAL_ITER_THR & config.cal.DO_GLOBAL_ITER & selfcal.count < config.cal.GLOBAL_ITER_MAX
+  if max([cam.mean2Derr])>config.cal.GLOBAL_ITER_THR && config.cal.DO_GLOBAL_ITER && selfcal.count < config.cal.GLOBAL_ITER_MAX
     % if the maximal reprojection error is still bigger
     % than acceptable estimate radial distortion and
     % iterate further
@@ -404,9 +404,9 @@ while selfcal.iterate & selfcal.count < config.cal.GLOBAL_ITER_MAX,
       % add the second radial distortion parameter
       if config.cal.NL_UPDATE(4), selfcal.par2estimate(4) = 1; end
       % estimate also the principal point
-      if selfcal.count > 1 & config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
+      if selfcal.count > 1 && config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
       % estimate also the tangential distortion
-      if selfcal.count > 3 & all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
+      if selfcal.count > 3 && all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
     else
       INL_TOL = min([3/2*INL_TOL,config.cal.INL_TOL]);
     end

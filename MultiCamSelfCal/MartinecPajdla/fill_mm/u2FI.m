@@ -14,7 +14,7 @@ if length(sampcols) < 8
   F = 0; return
 end
 
-if (nargin > 2) & ~strcmp(str, 'nonorm') & ~strcmp(str, 'usenorm')
+if (nargin > 2) && ~strcmp(str, 'nonorm') && ~strcmp(str, 'usenorm')
    donorm = 1;
 else
    donorm = 0;

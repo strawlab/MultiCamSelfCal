@@ -35,8 +35,8 @@ end
 
 if central, rows = union(rows, central);
 else rows = [1 rows]; end
-  
-if ~isempty(nonrows) & ~central  % find the longest continuous subsequence
+
+if ~isempty(nonrows) && ~central  % find the longest continuous subsequence
   I_(rows,1) = 1;
   [b, len] = subseq_longest(I_);
   rows = b:b+len-1;

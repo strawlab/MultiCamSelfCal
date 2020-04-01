@@ -100,7 +100,7 @@ end
 
 added = 1; I = ~isnan(M(1:3:end,:)); info = []; iter = 0;
 while recoverable > 0 ... % not all parts of JIM are restored
-      &  added            % something was added during the last trial
+      &&  added            % something was added during the last trial
   if opt.verbose,
     disp(sprintf('%d (from %d) recovered columns...', length(cols), n)); end
   
@@ -109,14 +109,14 @@ while recoverable > 0 ... % not all parts of JIM are restored
   [S, F, strengths] = compute_predictions(Omega, I); % for all stragegies
 
   % try the best strategy(s)
-  while (~added  &  max(F) > 0)  |  ...
+  while (~added  &&  max(F) > 0)  ||  ...
         sum(F==0) == length(F)  % when no data missing, only rescaling needed
 
     % choose the actually best strategy (sg)
     Omega_F = find(F==max(F)); if length(Omega_F) == 1, sg = Omega_F; else
       if opt.verbose, disp(sprintf('Omega_F:%s.', sprintf(' %d',Omega_F))); end
       ns = S(Omega_F);
-      Omega_S = Omega_F(find(ns==max(ns))); if length(Omega_S) >1 & opt.verbose
+      Omega_S = Omega_F(find(ns==max(ns))); if length(Omega_S) >1 && opt.verbose
         disp(sprintf('Omega_S:%s.', sprintf(' %d', Omega_S)));
         disp(['!!! Maybe some other criteria is needed to choose' ...
               ' the better candidate (now the 1st is taken)! !!!']); end
@@ -131,12 +131,12 @@ while recoverable > 0 ... % not all parts of JIM are restored
     [Pn,X, lambda, u1,u2, info] = fill_mm_sub(Mn(k2i(rows),:), ...
                                               Mn(k2i(rows),cols), ...
                                              find(central==rows),opt,info);
-    if length(u1)==length(rows) & length(u2)==length(cols)
+    if length(u1)==length(rows) && length(u2)==length(cols)
       if opt.verbose, disp('Nothing recovered.'); end
     else
       if opt.verbose
         if ~isempty(u1), disp(sprintf('u1 = %s', num2str(u1))); end
-        if ~isempty(u2) & ~isempty(Pn),disp(sprintf('u2 = %s',num2str(u2)));end
+        if ~isempty(u2) && ~isempty(Pn),disp(sprintf('u2 = %s',num2str(u2)));end
       end
       
       % say (un)recovered in indices of whole M not only M(k2i(rows),cols)
@@ -149,7 +149,7 @@ while recoverable > 0 ... % not all parts of JIM are restored
       if isempty(r1) | isempty(r2), fill = []; else,
       fill = find(isnan(M(3*r1, r2)) ... % some depths (lambda) could not
                                      ... % have been computed L2depths
-                  | (~isnan(M(3*r1,r2)) & isnan(lambda))); end
+                  | (~isnan(M(3*r1,r2)) && isnan(lambda))); end
       M_ = M(k2i(r1),r2); M_(k2i(fill)) = R(k2i(fill)); M(k2i(r1),r2) = M_;
 
       added = length(fill); I = ~isnan(M(1:3:end,:));
@@ -172,8 +172,8 @@ while recoverable > 0 ... % not all parts of JIM are restored
  
     end
   end
-  
-  if ~added  &  sum(~I(:)) > 0 % impossible to recover anything
+
+  if ~added  &&  sum(~I(:)) > 0 % impossible to recover anything
     error('impossible to recover anything in fill_mm');
     P=[];X=[]; u1=1:m; u2=1:nbeg; info.opt = opt; return; end
 end
@@ -258,7 +258,7 @@ good_rows = [];
 	%display(central);
 % fundamental matrices
  for i = setdiff(1:m, central)
-   common = find(I(i,:) & I(central,:));
+   common = find(I(i,:) && I(central,:));
    if length(common) >= 8   % 7 for 7-points algorithm
      good_rows = [good_rows i];
 

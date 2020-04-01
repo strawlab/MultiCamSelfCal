@@ -136,7 +136,7 @@ if opt.verbose | opt.verbose_short
             opt.res_scale*sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp))); end
 end
 
-while (nfail < 20) & (stepy*opt.res_scale > opt.max_stepy) & (niter < opt.max_niter)
+while (nfail < 20) && (stepy*opt.res_scale > opt.max_stepy) && (niter < opt.max_niter)
 
   D = -(J'*J + lam*eyeJ) \ (J'*Fp);
   if any( isnan(D) | abs(D)==inf )
@@ -159,14 +159,14 @@ while (nfail < 20) & (stepy*opt.res_scale > opt.max_stepy) & (niter < opt.max_ni
   end
 
   % if success, print out residuals
-  if (opt.verbose | opt.verbose_short) & nfail==0
+  if (opt.verbose || opt.verbose_short) && nfail==0
     if ~opt.verbose_short
       fprintf(' %7.2g [lam]: %14.10g [rms] %14.10g [max] %10.5g [stepmax]\n',lam,opt.res_scale*sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy);
     else fprintf(' %g/%g/%g', sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy); end
   end
 end
 
-if ~exist('max_stepy_undef') & stepy*opt.res_scale <= opt.max_stepy
+if ~exist('max_stepy_undef') && stepy*opt.res_scale <= opt.max_stepy
   fprintf('\n!!! finished because of high opt.max_stepy(=%f)', opt.max_stepy); end
 
 %warning(OLDWARN);    % commented by DM (perhaps Matlab version conflict)

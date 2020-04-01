@@ -10,12 +10,12 @@
 
 function [e_norm, distances] = eucl_dist_only(M0, M, I, step)
 
-if nargin < 3, I = ~isnan(M0(1:2:end,:)) & ~isnan(M(1:2:end,:)); end
+if nargin < 3, I = ~isnan(M0(1:2:end,:)) && ~isnan(M(1:2:end,:)); end
 if nargin < 4, step = 2; end
-  
+
 if nargin >= 3
   m = size(M,1)/step;
-  if size(I,1) ~= m  &  ~isempty(M)
+  if size(I,1) ~= m  &&  ~isempty(M)
     disp(sprintf(['!!! Warning: eucl_dist_only:' ' the height of I is' ...
                   ' bad, it should be equal to %d'], m)); keyboard;end
 end
