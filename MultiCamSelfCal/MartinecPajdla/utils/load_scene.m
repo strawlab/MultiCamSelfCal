@@ -36,7 +36,7 @@ switch scene.ID
   file='Domek/domek.cor'; %'OK.cor';
                                     picDir='Domek'; %'tif';
  case 3,    scene.name =                              'Corridor';
-  file='Coridor-Cake/coridorC.cor'; picDir='Coridor-Cake'; 
+  file='Coridor-Cake/coridorC.cor'; picDir='Coridor-Cake';
  case 4,    scene.name =                              'Church';
   file='Plec/Plec.cor';             picDir='Plec';
  case 5,    scene.name =                              'Kampa';
@@ -45,7 +45,7 @@ switch scene.ID
   file='Kostky/Kostky.cor';         picDir='Kostky';
  case 7,    scene.name =                              'puzzle';
   file='adam/hlavolam.cor';         picDir='adam';
-  
+
  otherwise                                              % data from Oxford:
   scene.data_type = 'oxford';
   scene.detection = 'Harris'' operator';
@@ -56,13 +56,13 @@ switch scene.ID
     file='house'; last_index=9;  picDir='house/';
    case 102,  scene.name =                            'Corridor (Oxford)';
     file='bt';    last_index=10; picDir='corridor/';
-   
+
    otherwise                                              % data from Oxford:
     scene.data_type = 'oxford_';
     switch scene.ID
      case 170,  scene.name =                            'Dinosaur (Oxford)';
       file='viff';  last_index=36; picDir='dinosaur/';
-    
+
      otherwise
       scene.data_type = 'leuven';
       scene.detection = 'Harris'' operator';
@@ -138,7 +138,7 @@ switch scene.data_type
   end
   M          = e2p(M);  % add ones as homogenous coordinates
   [m n]      = size(I);
- 
+
  case 'boujou'
   [M,I]      = boujou2mm([dir picDir file '.txt']);
   fprintf(1,'Converting from Eucledian to projective coordinates...'); tic;
@@ -151,16 +151,16 @@ end
 % take out some points and pictures
   % take out some pictures
   if scene.ID==3, % take out the first picture
-    I=I([2:8],:); M=M([2*3-2:3*8],:); m=m-1; 
+    I=I([2:8],:); M=M([2*3-2:3*8],:); m=m-1;
   end
-    
+
   % take out points which are just in two images or less
-  if 1 %scene.ID==3, 
+  if 1 %scene.ID==3,
     out  = find(sum(I)<=1); %<=2
     stay = setdiff(1:n,out);  M     = M(:,stay);
-    I    = I(:,stay);         [m n] = size(I); 
+    I    = I(:,stay);         [m n] = size(I);
   end
-  
+
   % take out points which are not in the first image
   %if scene.ID==2, stay=find(I(1,:) == 1); M=M(:,stay); I=I(:,stay); end
 
@@ -181,10 +181,10 @@ for k=1:to_load
     InputFile = strcat(CORR.d.picturesDir,filesep,CORR.d.filePrefix,...
                        nos,'.', CORR.d.fileExt);
    case 'oxford'
-    InputFile = [[dir picDir file] '.' num2str(k-1,format) '.png' ]; % '.pgm' 
+    InputFile = [[dir picDir file] '.' num2str(k-1,format) '.png' ]; % '.pgm'
                                                  % doesn't work in Matlab
    case 'oxford_'
-    InputFile = [[dir picDir file] '.' num2str(k-1,format) '.png' ]; % '.ppm' 
+    InputFile = [[dir picDir file] '.' num2str(k-1,format) '.png' ]; % '.ppm'
                                                  % doesn't work in Matlab
    case 'leuven'
     InputFile = [[dir picDir file] '.' num2str(k-1+first_index,format) ...
@@ -201,14 +201,14 @@ for k=1:to_load
     disp(sprintf('Loading %s...', InputFile));
     scene.img{k}.file = InputFile;
     scene.img{k}.data = imread(InputFile);
-    
+
     scene.image_size = size(scene.img{1}.data);
     if scene.ID == 2 % Domek
       % pictures are too big therefore some smaller ones are taken
       scene.image_size_show = scene.image_size;
       scene.image_size(1:2) = [ 2003 2952 ];
     end
-    
+
     changed=1;
   end
 end

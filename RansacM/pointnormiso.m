@@ -3,7 +3,7 @@ function [u2,T] = pointnormiso(u);
 %
 % [u2,T] = pointnormiso(u);
 % u ... 3xN input data homogenous
-% 
+%
 % u2 ... 3xN normalized data homogenous
 % T ...  3x3 transformation matrix the does the tranformation
 %

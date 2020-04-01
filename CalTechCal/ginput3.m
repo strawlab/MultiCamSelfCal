@@ -1,16 +1,16 @@
 function [out1,out2,out3] = ginput2(arg1)
 %GINPUT Graphical input from mouse.
-%   [X,Y] = GINPUT(N) gets N points from the current axes and returns 
+%   [X,Y] = GINPUT(N) gets N points from the current axes and returns
 %   the X- and Y-coordinates in length N vectors X and Y.  The cursor
-%   can be positioned using a mouse (or by using the Arrow Keys on some 
+%   can be positioned using a mouse (or by using the Arrow Keys on some
 %   systems).  Data points are entered by pressing a mouse button
 %   or any key on the keyboard except carriage return, which terminates
 %   the input before N points are entered.
 %
 %   [X,Y] = GINPUT gathers an unlimited number of points until the
 %   return key is pressed.
-% 
-%   [X,Y,BUTTON] = GINPUT(N) returns a third result, BUTTON, that 
+%
+%   [X,Y,BUTTON] = GINPUT(N) returns a third result, BUTTON, that
 %   contains a vector of integers specifying which mouse button was
 %   used (1,2,3 from left) or ASCII numbers if a key on the keyboard
 %   was used.
@@ -109,7 +109,7 @@ set(gcf,'Pointer','custom','PointerShapeCData',P,'PointerShapeHotSpot',[8,8]);
         error('Interrupted by figure deletion');
       end
         end
-      
+
         ptr_fig = get(0,'CurrentFigure');
         if(ptr_fig == fig)
             if keydown
@@ -142,7 +142,7 @@ set(gcf,'Pointer','custom','PointerShapeCData',P,'PointerShapeHotSpot',[8,8]);
                 % if the return key was pressed, char will == 13,
                 % and that's our signal to break out of here whether
                 % or not we have collected all the requested data
-                % points.  
+                % points.
                 % If this was an early breakout, don't include
                 % the <Return> key info in the return arrays.
                 % We will no longer count it if it's the last input.

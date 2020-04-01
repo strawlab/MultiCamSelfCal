@@ -52,7 +52,7 @@ DEFUN_DLD (rroots, args, ,
         aDstP[0] = mxCreateDoubleMatrix( 1, 1, mxREAL );
         r = mxGetPr(aDstP[0]);
         *r = pow(q,1.0/3) - bt;
-      } 
+      }
       else */
       {
 
@@ -67,7 +67,7 @@ DEFUN_DLD (rroots, args, ,
          if (cosphi < -1) cosphi = -1;
        phit = acos(cosphi) /3;
        pit = 3.14159265358979/3;
-  
+
        r[0] = -_2R * cos(phit) -bt;
        r[1] =  _2R * cos(pit - phit) -bt;
        r[2] =  _2R * cos(pit + phit) -bt;

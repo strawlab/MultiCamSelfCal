@@ -5,7 +5,7 @@ function [lambda, Ilamb] = depth_estimation(M,F,ep,rows,central)
 [m n] = size(M); m = m/3;
 
 if central
-  j  = central; 
+  j  = central;
   ps = 1:n;
   Ilamb(j,:) = ~isnan(M(3*j,:));
 else
@@ -27,7 +27,7 @@ for i = setdiff(1:m, j)
   epip = reshape(ep(rows(i),rows(j),1:3),3,1);
   for p = ps
     Ilamb(i,p) = Ilamb(j,p) & ~isnan(M(3*i,p));
-    
+
     if Ilamb(i,p)
       u           = cross(epip,M(3*i-2:3*i,p));    	%q(i,p)
       v           = G*M(3*j-2:3*j,p);			%q(j,p)

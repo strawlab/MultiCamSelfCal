@@ -131,13 +131,13 @@ if 1
 	  Pe(i*3-2:i*3,:) = -Pe(i*3-2:i*3,:);
 	end
 
-	% decompose the matrix by using rq decomposition  
+	% decompose the matrix by using rq decomposition
 	[K,R] = rq(Pe(i*3-2:i*3,1:3));
 	Cc	= -R'*inv(K)*Pe(i*3-2:i*3,4);% camera center
 	% Stephi calib params
 	Pst(i*3-2:i*3,:) = R'*inv(K);
 	Cst(i,:)		   = Cc';
-	% modify the Kalibaration matrix to get consistent 
+	% modify the Kalibaration matrix to get consistent
 	% euclidean motion Pe
 	K(1,3) = K(1,3)-config.cal.pp(i,1);
 	K(2,3) = K(2,3)-config.cal.pp(i,2);

@@ -52,7 +52,7 @@ centroid = mean(X(1:3,:)');
 % plot viewing axes
 for i=1:CAMS
   axis_dir = -R(3*i,:); % 3rd row of i-th rotation matrix
-  axis_len = 0.6*norm(C(1:3,i)-centroid');  
+  axis_len = 0.6*norm(C(1:3,i)-centroid');
   endpoint = C(1:3,i)+axis_len*axis_dir';
   line([C(1,i),endpoint(1)],[C(2,i),endpoint(2)],[C(3,i),endpoint(3)]);
   text(C(1,i),C(2,i),C(3,i),sprintf('%4d',camsId(i)),'Color','k');

@@ -75,64 +75,64 @@ r = S(3,3)/S(2,2);
 
 
 if (r < 1e-3)|(Np < 5), %1e-3, %1e-4, %norm(X_kk(3,:)) < eps, % Test of planarity
-   
+
    %fprintf(1,'Planar structure detected: r=%f\n',r);
 
    % Transform the plane to bring it in the Z=0 plane:
-   
+
    R_transform = V';
-   
+
    %norm(R_transform(1:2,3))
-   
+
    if norm(R_transform(1:2,3)) < 1e-6,
       R_transform = eye(3);
    end;
-   
+
    if det(R_transform) < 0, R_transform = -R_transform; end;
-   
+
 	T_transform = -(R_transform)*X_mean;
 
 	X_new = R_transform*X_kk + T_transform*ones(1,Np);
-   
-   
+
+
    % Compute the planar homography:
-   
+
    H = compute_homography(xn,X_new(1:2,:));
-   
+
    % De-embed the motion parameters from the homography:
-   
+
    sc = mean([norm(H(:,1));norm(H(:,2))]);
-   
+
    H = H/sc;
-   
+
    % Extra normalization for some reasons...
    %H(:,1) = H(:,1)/norm(H(:,1));
    %H(:,2) = H(:,2)/norm(H(:,2));
-   
+
    if 0, %%% Some tests for myself... the opposite sign solution leads to negative depth!!!
-       
+
        % Case#1: no opposite sign:
-       
+
        omckk1 = rodrigues([H(:,1:2) cross(H(:,1),H(:,2))]);
        Rckk1 = rodrigues(omckk1);
        Tckk1 = H(:,3);
-       
+
        Hs1 = [Rckk1(:,1:2) Tckk1];
        xn1 = Hs1*[X_new(1:2,:);ones(1,Np)];
        xn1 = [xn1(1,:)./xn1(3,:) ; xn1(2,:)./xn1(3,:)];
        e1 = xn1 - xn;
-       
+
        % Case#2: opposite sign:
-       
+
        omckk2 = rodrigues([-H(:,1:2) cross(H(:,1),H(:,2))]);
        Rckk2 = rodrigues(omckk2);
        Tckk2 = -H(:,3);
-       
+
        Hs2 = [Rckk2(:,1:2) Tckk2];
        xn2 = Hs2*[X_new(1:2,:);ones(1,Np)];
        xn2 = [xn2(1,:)./xn2(3,:) ; xn2(2,:)./xn2(3,:)];
        e2 = xn2 - xn;
-       
+
        if 1, %norm(e1) < norm(e2),
            omckk = omckk1;
            Tckk = Tckk1;
@@ -142,9 +142,9 @@ if (r < 1e-3)|(Np < 5), %1e-3, %1e-4, %norm(X_kk(3,:)) < eps, % Test of planarit
            Tckk = Tckk2;
            Rckk = Rckk2;
        end;
-       
+
    else
-       
+
        u1 = H(:,1);
        u1 = u1 / norm(u1);
        u2 = H(:,2) - dot(u1,H(:,2)) * u1;
@@ -156,32 +156,32 @@ if (r < 1e-3)|(Np < 5), %1e-3, %1e-4, %norm(X_kk(3,:)) < eps, % Test of planarit
        %omckk = rodrigues([H(:,1:2) cross(H(:,1),H(:,2))]);
        Rckk = rodrigues(omckk);
        Tckk = H(:,3);
-       
+
    end;
-   
-      
-   
+
+
+
    %If Xc = Rckk * X_new + Tckk, then Xc = Rckk * R_transform * X_kk + Tckk + T_transform
-   
+
    Tckk = Tckk + Rckk* T_transform;
    Rckk = Rckk * R_transform;
 
    omckk = rodrigues(Rckk);
    Rckk = rodrigues(omckk);
-   
-   
+
+
 else
-   
+
    %fprintf(1,'Non planar structure detected: r=%f\n',r);
 
    % Computes an initial guess for extrinsic parameters (works for general 3d structure, not planar!!!):
    % The DLT method is applied here!!
-   
+
    J = zeros(2*Np,12);
-	
+
 	xX = (ones(3,1)*xn(1,:)).*X_kk;
 	yX = (ones(3,1)*xn(2,:)).*X_kk;
-	
+
 	J(1:2:end,[1 4 7]) = -X_kk';
 	J(2:2:end,[2 5 8]) = X_kk';
 	J(1:2:end,[3 6 9]) = xX';
@@ -190,25 +190,25 @@ else
 	J(2:2:end,12) = -xn(2,:)';
 	J(1:2:end,10) = -ones(Np,1);
 	J(2:2:end,11) = ones(Np,1);
-	
+
 	JJ = J'*J;
 	[U,S,V] = svd(JJ);
-   
+
    RR = reshape(V(1:9,12),3,3);
-   
+
    if det(RR) < 0,
       V(:,12) = -V(:,12);
       RR = -RR;
    end;
-   
+
    [Ur,Sr,Vr] = svd(RR);
-   
+
    Rckk = Ur*Vr';
-   
+
    sc = norm(V(1:9,12)) / norm(Rckk(:));
    Tckk = V(10:12,12)/sc;
-   
+
 	omckk = rodrigues(Rckk);
    Rckk = rodrigues(omckk);
-   
+
 end;

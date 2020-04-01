@@ -14,7 +14,7 @@ imres = imres(idxcams,:);
 if nargin < 2
 	% room [x_min, x_max, y_min, y_max, z_min, z_max]
 	room = [-3 3 -3 3 0 3];
-end	
+end
 
 % compose Pmat containing all P matrices
 Pmat = [];

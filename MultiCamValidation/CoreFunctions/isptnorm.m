@@ -12,7 +12,7 @@
 function [xnorm,T] = isptnorm(x);
 
 
-% data dimension 
+% data dimension
 dim = size(x,2);
 N	= size(x,1);
 

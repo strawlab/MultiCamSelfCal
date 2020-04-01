@@ -7,10 +7,10 @@ elseif strcmp(experiment,'1704BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/3;
-  config.cal.INL_TOL	= 1; % 
+  config.cal.INL_TOL	= 1; %
   config.cal.NUM_CAMS_FILL = 6;
   config.cal.DO_BA		= 0;
 
@@ -23,7 +23,7 @@ elseif strcmp(experiment,'DeRoeck01')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.img,'Pst.dat'];
   config.files.Cst		= [config.paths.img,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 
 elseif strcmp(experiment,'RolandBigBlue')
@@ -35,7 +35,7 @@ elseif strcmp(experiment,'RolandBigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 elseif strcmp(experiment,'Roland2BigBlue')
   config.paths.data		= ['/data/BigBlueC/Roland_BigBlue_20030217/'];
@@ -46,7 +46,7 @@ elseif strcmp(experiment,'Roland2BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 elseif strcmp(experiment,'Roland3BigBlue')
   config.paths.data		= ['/data/BigBlueC/Roland_BigBlue_20030219/'];
@@ -57,7 +57,7 @@ elseif strcmp(experiment,'Roland3BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 9; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1;
 
@@ -71,9 +71,9 @@ elseif strcmp(experiment,'0801BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
-  config.cal.INL_TOL	= 3; % if UNDO_RADIAL than it may be relatively small <1 
+  config.cal.INL_TOL	= 3; % if UNDO_RADIAL than it may be relatively small <1
   config.cal.NUM_CAMS_FILL = 12;
   config.cal.DO_BA		= 0;
   config.cal.UNDO_RADIAL= 1;
@@ -86,7 +86,7 @@ elseif strcmp(experiment,'1301BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 
 elseif strcmp(experiment,'2911BigBlue')
@@ -98,7 +98,7 @@ elseif strcmp(experiment,'2911BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 elseif strcmp(experiment,'0301BigBlue')
   config.paths.data		= ['/data/BigBlueC/20030103_BigBlueC/Calib2/'];
@@ -109,7 +109,7 @@ elseif strcmp(experiment,'0301BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.data,'Pst.dat'];
   config.files.Cst		= [config.paths.data,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 
 elseif strcmp(experiment,'2910BigBlue')
@@ -121,7 +121,7 @@ elseif strcmp(experiment,'2910BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.img,'Pst.dat'];
   config.files.Cst		= [config.paths.img,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
 
 elseif strcmp(experiment,'2210BigBlue')
@@ -132,5 +132,5 @@ elseif strcmp(experiment,'2210BigBlue')
   config.files.imgext	= 'jpg';
   config.files.Pst		= [config.paths.img,'Pst.dat'];
   config.files.Cst		= [config.paths.img,'Cst.dat'];
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer

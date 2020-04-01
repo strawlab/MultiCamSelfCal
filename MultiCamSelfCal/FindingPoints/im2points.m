@@ -1,6 +1,6 @@
 % Read all images and extract point coordinates.
 %
-% All information needed are stored and retrieved 
+% All information needed are stored and retrieved
 % from the function CONFIGDATA
 
 % $Author: svoboda $
@@ -24,7 +24,7 @@ config = read_configuration();
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
 
-NoCams = size(config.files.idxcams,2);	% number of cameras 
+NoCams = size(config.files.idxcams,2);	% number of cameras
 
 % load image names
 for i=1:NoCams,
@@ -66,7 +66,7 @@ end
 
 % In fact, some frames might be without any calibration point
 
-% Becouse of non-consistent stopping of capturing, the sequences might 
+% Becouse of non-consistent stopping of capturing, the sequences might
 % have different number of images, select the minimal value as the right one
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +116,7 @@ Res	  = [];	  % resolution of cameras
 % UsableFramesIdx = find(sum(FrameMat')>2);
 IdMat = ones(NoCams,NoPoints);
 % IdMat is very important for Martinec&Pajdla filling [ECCV2002]
-% it is a NoCams x NoPoints matrix, 
+% it is a NoCams x NoPoints matrix,
 % IdMat(i,j) = 0 -> no j-th point in i-th
 % IdMat(i,j) = 1 -> point successfully detected
 
@@ -139,7 +139,7 @@ for i=1:NoCams,
 	  else
 		  err = 1;
 	  end
-	if err	  
+	if err
 	  IdMat(i,j) = 0;
 	  Points = [Points, [NaN; NaN; NaN]];
 	else
@@ -168,7 +168,7 @@ save(config.files.points, 'Ws','-ASCII')
 save(config.files.Res, 'Res', '-ASCII')
 save(config.files.IdMat, 'IdMat', '-ASCII')
 
-% display the overall statistics 
+% display the overall statistics
 disp('Overall statistics from im2points:  ************************  ')
 disp(sprintf('Total number of frames (possible 3D points): %d',NoPoints))
 disp(sprintf('Total number of cameras %d', NoCams))

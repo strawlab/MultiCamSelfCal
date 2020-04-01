@@ -14,7 +14,7 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
   NDArray depths = args(3).array_value();
   NDArray central = args(4).array_value();
   Octave_map opt = args(5).map_value();
-  
+
 
   // function [nulltemp, result_code] = create_nullspace__run_one_trial(I, cols_scaled, M, depths, central, opt)
 
@@ -25,10 +25,10 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
   //rows = 1:m;
   //use_maxtuples = 0;   % only for debugging
   //
-  //cols_chosen = []; t=1; failed = 0; 
-  //if central, 
-  //  scaled_ensured = 0; 
-  //else 
+  //cols_chosen = []; t=1; failed = 0;
+  //if central,
+  //  scaled_ensured = 0;
+  //else
   //  scaled_ensured = 1;   % trial version: no scale controling when cutting
   //end
   //for t = 1:4
@@ -43,17 +43,17 @@ DEFUN_DLD(create_nullspace__run_one_trial, args, nargsout,
   //    [rows, cols, scaled_ensured] = cut_useless(I, cols_scaled, ...
   //                              cols_chosen, rows, cols, 4-t, scaled_ensured);
   //  end
-  //  
+  //
   //  if isempty(rows), failed = 1; break; end
   //end
 
-  //if ~failed    
+  //if ~failed
   //  % use the 4/max-tuple
   //  d = depths(rows,cols_chosen);
   //  % see ``debug code'' in the comment lower
-  //  
+  //
   //  rowsbig   = k2i(rows);
-  //  submatrix=[]; for j=1:length(cols_chosen) % 4, 
+  //  submatrix=[]; for j=1:length(cols_chosen) % 4,
   //    submatrix=[ submatrix ...
   //                spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
   //  debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) & opt.verbose

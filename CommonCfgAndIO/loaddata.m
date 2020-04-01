@@ -1,24 +1,24 @@
 % loaddata ... load the input data
 %
 % loaded = loaddata(config)
-% 
+%
 % config ... configuration structure, see the CONFIGDATA
-% 
+%
 %                  M cameras and N frames
 % loaded.Ws    ... 3M x N joint image matrix
 %       .IdMat ... M x N point identification matrix
 %       .Res   ... M x 2 image resolutions
 %       .Pmat  ... {1xM} cell array of the projection matrices
-% 
+%
 %       see the FindingPoint and MulticamSelfCalib for more details
-% 
+%
 % $Id: loaddata.m,v 2.2 2005/05/23 16:23:35 svoboda Exp $
 
 function loaded = loaddata(config)
 
 USED_MULTIPROC = 0;		% was the multipropcessing used?
 						% if yes then multiple IdMat.dat and points.dat have to be loaded
-						% setting to 1 it forces to read the multiprocessor data against the 
+						% setting to 1 it forces to read the multiprocessor data against the
 						% monoprocessor see the IM2POINTS, IM2PMULTIPROC.PL
 
 %%%
@@ -26,7 +26,7 @@ USED_MULTIPROC = 0;		% was the multipropcessing used?
 if ~USED_MULTIPROC
   try,
 	Ws	   = load(config.files.points);	% distorted points as found by Im2Points
-	IdMat  = load(config.files.IdMat);	% see function im2points for detailed comments	
+	IdMat  = load(config.files.IdMat);	% see function im2points for detailed comments
 	%%%
 	% try,load the file with Images resolutions which is on of the output files
 	% from finding LEDs procedure or take the pre-defined resolutions specified in the configdata
@@ -39,7 +39,7 @@ if ~USED_MULTIPROC
 	    IdMat = IdMat(1:end,start_i:resample_factor:end);
         end
   catch
-    warning('Data from mono-processor version not found, trying the multi-proc ones ...') 
+    warning('Data from mono-processor version not found, trying the multi-proc ones ...')
 	USED_MULTIPROC=1;
   end
 end
@@ -69,7 +69,7 @@ if USED_MULTIPROC
 	IdMat = [IdMat; IdM{i}(:,1:minpp)];
 	Res	 = [Res; Rs{i}];
   end
-  if isempty(Ws) | isempty(IdMat) 
+  if isempty(Ws) | isempty(IdMat)
 	error('Error in loading parallel data. Did you really use multi-processor version of finding points');
   end
 end
@@ -94,7 +94,7 @@ idx2use = zeros(size(config.cal.cams2use));
 for i=1:size(config.cal.cams2use,2),
 	idx2use(i) = find(config.cal.cams2use(i) == config.files.idxcams);
 end
-	
+
 idx2use3 = [];
 for i=1:size(idx2use,2),
   idx2use3 = [idx2use3, [idx2use(i)*3-2:idx2use(i)*3]];

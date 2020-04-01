@@ -14,7 +14,7 @@ from 30th July 2003
   The m-version of the RANSAC uses the 8-point algorithm not the
   7-point algorithm as the c-version. It is then less optimal. I was
   just too lazy to rewrite the more complicated 7-point algorithm. I
-  did many experiments, the 8-point algorithm did well in all cases. 
+  did many experiments, the 8-point algorithm did well in all cases.
 
 - gocal.m ... code cleaned, output better formatted (new function
   dispcamstats)
@@ -28,7 +28,7 @@ from 30th July 2003
 - showpoints.m ... it possible to switch between single images and
   image mosaics. The image mosaics may sometimes speed-up the
   debugging process when something goes wrong with the point
-  detection.  
+  detection.
 
 - The standard Matlab function quiver was copied to the BlueCCal
   distribution since it has problems in the newest Matlab ver>7.
@@ -53,4 +53,4 @@ Functionality:
 - main cycle in GOCAL. Some upgrade to make it more robust. I am
   testing the upgrades on all datasets I have. It should be backward
   compatible. Typically, new bad data discovers a small
-  functionality-bug in the main iterative cycle. 
+  functionality-bug in the main iterative cycle.

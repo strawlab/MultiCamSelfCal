@@ -1,6 +1,6 @@
 % LocalConfig configuration file for self-calibration experiments
-% 
-% 
+%
+%
 % config = configdata(experiment)
 %
 % experiment ... string with an experiment name
@@ -27,7 +27,7 @@ elseif strcmp(experiment,'BlueCHoengg')
   config.files.imnames	= 'arctic%d.pvi.*.';
   config.files.idxcams	= [1:16];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/5;
 elseif strcmp(experiment,'BlueCRZ')
@@ -36,7 +36,7 @@ elseif strcmp(experiment,'BlueCRZ')
   config.files.imnames	= 'atlantic%d.pvi.*.';
   config.files.idxcams	= [3:12,14:18];	% related to the imnames
   config.files.imgext	= 'jpg';
-  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels  
+  config.imgs.LEDsize	= 7; % avg diameter of a LED in pixels
   config.imgs.LEDcolor	= 'green'; % color of the laser pointer
   config.imgs.subpix	= 1/5;
 else

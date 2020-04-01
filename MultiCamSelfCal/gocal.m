@@ -304,7 +304,7 @@ while selfcal.iterate && selfcal.count < config.cal.GLOBAL_ITER_MAX,
   if Octave
     % all Octave data in ASCII format
     save(config.files.Pmats,'P');
-    save(config.files.Xe,'X'); 
+    save(config.files.Xe,'X');
     save(config.files.Re,'R');
     save(config.files.Ce,'C');
   else

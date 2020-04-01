@@ -25,7 +25,7 @@ def camera_calibration_yaml_to_radfile(yamlpath, radpath, lossy_ok=False):
         #
         #This results in a scaling and transformation computed and applied to K to give a new
         #P. The OpenCV docs describe this as:
-        #  By varying this parameter the user may retrieve only sensible pixels alpha=0 , keep all 
+        #  By varying this parameter the user may retrieve only sensible pixels alpha=0 , keep all
         #  the original image pixels if there is valuable information in the corners alpha=1 , or
         #  get something in between. When alpha>0 , the undistortion result will likely have some
         #  black pixels corresponding to "virtual" pixels outside of the captured distorted image.
@@ -51,7 +51,7 @@ def camera_calibration_yaml_to_radfile(yamlpath, radpath, lossy_ok=False):
         #
         #Further Notes:
         #
-        #In OpenCV nomenclature "camera_matrix" is 3x3 and pixel relative units (so, notably, 
+        #In OpenCV nomenclature "camera_matrix" is 3x3 and pixel relative units (so, notably,
         #focal lenght is in pixels). This is K, C, (or sometimes M). Also referred to as
         #intrinsics. The clearest and best name (HZ page 154) is "camera calibration matrix".
         #

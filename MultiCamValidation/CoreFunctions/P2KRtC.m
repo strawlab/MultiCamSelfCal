@@ -1,6 +1,6 @@
 % [K,R,t,C] = P2KRtC(P)
 % decompose the euclidean 3x4 projection matrix P into the
-% 
+%
 % K ... 3x3 upper triangular calibration matrix
 % R ... 3x3 rotation matrix
 % t ... 3x1 translation vector

@@ -8,7 +8,7 @@ function Fs = fu2F7(u)
 Z = lin_fm(u);
 
 NullSp   = null(Z);
-if size(NullSp,2) > 2 
+if size(NullSp,2) > 2
    Fs = [];
    return; %degenerated sample
 end

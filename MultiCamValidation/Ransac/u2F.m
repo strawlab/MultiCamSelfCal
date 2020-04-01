@@ -17,9 +17,9 @@ ptNum = size(u,2);
 if donorm
    A1    = normu(u(1:3,:));
    A2    = normu(u(4:6,:));
-   
-   u1   = A1*u(1:3,:); 
-   u2   = A2*u(4:6,:); 
+
+   u1   = A1*u(1:3,:);
+   u2   = A2*u(4:6,:);
 end
 
 for i = 1:ptNum
@@ -31,7 +31,7 @@ V       = seig(M);
 F = reshape(V(:,1),3,3);
 
 [uu,us,uv] = svd(F);
-[y,i]      = min (abs(diag(us)));  
+[y,i]      = min (abs(diag(us)));
 us(i,i)    = 0;
 F          = uu*us*uv';
 

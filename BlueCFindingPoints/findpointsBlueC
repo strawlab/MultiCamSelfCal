@@ -2,12 +2,12 @@
 
 # convert the *PVI files from on a local discs and copy only the *.jpg files
 
-echo "Tool to process PVI sequences, Tomas Svoboda, ETHZ, 07/2002"	 
+echo "Tool to process PVI sequences, Tomas Svoboda, ETHZ, 07/2002"
 
 # basepath for the selfcalib codes
 selfcalib_basepath=/home/svoboda/Work/BlueCCal/BlueCFindingPoints
 
-####################################################### 
+#######################################################
 ### config definitions
 ### the variables should be specified in .cshrc
 ### or something like that
@@ -19,7 +19,7 @@ imname=$BlueC_IMNAME
 # machine basename
 mname=$BlueC_MNAME
 workmachine=$BlueC_WORKMACHINE
-# working directory on local machines 
+# working directory on local machines
 localdir=$BlueC_LOCALDIR
 # for all available indexes
 indexes=$BlueC_INDEXES

@@ -25,7 +25,7 @@ align.simT.s = s;
 align.simT.R = R;
 align.simT.t = t;
 
-[align.P, align.X]							= align3d(in.Pe,in.Xe,align.simT);	 		
+[align.P, align.X]							= align3d(in.Pe,in.Xe,align.simT);
 % save aligned data
 if 1 % SAVE_STEPHI | SAVE_PGUHA
 	[align.Cst,align.Rot] = savecalpar(align.P,config);
@@ -35,7 +35,7 @@ drawscene(align.X,align.Cst',align.Rot,61,'cloud','Graphical Output Validation: 
 set(gca,'CameraTarget',[0,0,1]);
 set(gca,'CameraPosition',[0,0,2]);
 
-figure(61), 
+figure(61),
 % print -depsc graphevalaligned.eps
 eval(['print -depsc ', config.paths.data, 'topview.eps'])
 
@@ -44,7 +44,7 @@ drawscene(align.X,align.Cst',align.Rot,62,'cloud','Graphical Output Validation: 
 set(gca,'CameraTarget',[0,0,0.9]);
 set(gca,'CameraPosition',[2,0,0.9]);
 
-figure(62), 
+figure(62),
 % print -depsc graphevalaligned.eps
 eval(['print -depsc ', config.paths.data, 'sideview.eps'])
 

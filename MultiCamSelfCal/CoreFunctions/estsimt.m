@@ -2,7 +2,7 @@ function [s,R,T] = estsimt(X1,X2)
 % ESTimate SIMilarity Transformation
 %
 % [s,R,T] = estsimt(X1,X2)
-% 
+%
 % X1,X2 ... 3xN matrices with corresponding 3D points
 %
 % X2 = s*R*X1 + T

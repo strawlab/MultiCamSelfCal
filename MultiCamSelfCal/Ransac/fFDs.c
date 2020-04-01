@@ -25,7 +25,7 @@ void mexFunction( int dstN, mxArray **aDstP, int aSrcN, const mxArray **aSrcP )
   double rx, ry, rwc, ryc, rxc, r;
   int len = mxGetN(aSrcP[1]);
   int i;
-  
+
   aDstP[0] = mxCreateDoubleMatrix(1, len, mxREAL);
   p = (double *)mxGetData(aDstP[0]);
 
@@ -36,7 +36,7 @@ void mexFunction( int dstN, mxArray **aDstP, int aSrcN, const mxArray **aSrcP )
       rwc = f3 * u4 + f6 * u5 + f9;
       r =(u1 * rxc + u2 * ryc + rwc);
       rx = f1 * u1 + f2 * u2 + f3;
-      ry = f4 * u1 + f5 * u2 + f6; 
+      ry = f4 * u1 + f5 * u2 + f6;
 
       *p = r*r / (rxc*rxc + ryc*ryc + rx*rx + ry*ry);
       p ++;

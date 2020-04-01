@@ -20,7 +20,7 @@ end
 
 % definition of the absolute world frame (in mm) (Doug's cube)
 
-% cam(1).C = [10, 390, 600]';		
+% cam(1).C = [10, 390, 600]';
 % cam(2).C = [460,  380, 600]';
 % cam(3).C = [430, 115, 580]';
 % cam(4).C = [0, 0, 610]';
@@ -92,7 +92,7 @@ end
 %cam(5).C = [380, 120, 670]';
 
 if 1,
-  
+
 % 2006 03 31
 
 %cam(1).C = [640, -105, 170]';
@@ -168,16 +168,16 @@ if ~Octave,
   set(gca,'CameraTarget',[0,0,0]);
   set(gca,'CameraPosition',[0,0,1]);
 
-  figure(61), 
+  figure(61),
   % print -depsc graphevalaligned.eps
   eval(['print -depsc ', config.paths.data, 'topview.eps'])
 
   drawscene(align.X,align.Cst',align.Rot,62,'cloud','Graphical Output Validation: Aligned data',config.cal.cams2use);
-  
+
   set(gca,'CameraTarget',[0,0,0.9]);
   set(gca,'CameraPosition',[2,0,0.9]);
-  
-  %figure(62), 
+
+  %figure(62),
   % print -depsc graphevalaligned.eps
   %eval(['print -depsc ', config.paths.data, 'sideview.eps'])
 end

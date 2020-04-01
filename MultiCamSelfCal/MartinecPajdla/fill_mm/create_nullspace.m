@@ -30,11 +30,11 @@ for i = 1:num_trials
   % choose a 4/max-tuple
   cols = 1:n;
   rows = 1:m;
-  
-  cols_chosen = []; t=1; failed = 0; 
-  if central, 
-    scaled_ensured = 0; 
-  else 
+
+  cols_chosen = []; t=1; failed = 0;
+  if central,
+    scaled_ensured = 0;
+  else
     scaled_ensured = 1;   % trial version: no scale controling when cutting
   end
   for t = 1:4
@@ -49,17 +49,17 @@ for i = 1:num_trials
       [rows, cols, scaled_ensured] = cut_useless(I, cols_scaled, ...
                                 cols_chosen, rows, cols, 4-t, scaled_ensured);
     end
-    
+
     if isempty(rows), failed = 1; break; end
   end
 
-  if ~failed    
+  if ~failed
     % use the 4/max-tuple
     d = depths(rows,cols_chosen);
     % see ``debug code'' in the comment lower
-    
+
     rowsbig   = k2i(rows);
-    submatrix=[]; for j=1:length(cols_chosen) % 4, 
+    submatrix=[]; for j=1:length(cols_chosen) % 4,
       submatrix=[ submatrix ...
                   spread_depths_col(M(rowsbig,cols_chosen(j)), d(:,j)) ]; end
     debug=1; if debug, if size(submatrix, 1)<=size(submatrix,2) && opt.verbose
@@ -83,7 +83,7 @@ for i = 1:num_trials
   else
     result.failed = result.failed +1;
   end
-  
+
   if i/num_trials > .1*tenth
     if opt.verbose, fprintf(1,'%d%%', tenth*10); end
     if tenth < 1, tenth=0; end
@@ -115,19 +115,19 @@ function [rows, cols, scaled_ensured] = cut_useless( ... %)
     I, cols_scaled, ... % this is always same
     cols_chosen, rows, cols, demanded, scaled_ensured)
 
-if ~scaled_ensured  
+if ~scaled_ensured
   % check scaled columns
-  if length(rows) == 2, demanded_scaled = 3; demanded_rows = 2; 
+  if length(rows) == 2, demanded_scaled = 3; demanded_rows = 2;
   else                  demanded_scaled = 2; demanded_rows = 3; end
     cols_scaled_chosen = sum(cols_scaled(cols_chosen) > 0);
-    
+
   % if no unscaled are allowed, they must be all cut
   if demanded == demanded_scaled - cols_scaled_chosen,
     cols           = intersect(cols, find(cols_scaled > 0));
     scaled_ensured = 1;
   end
 else demanded_rows = 2; end
-  
+
 % check columns
 cols = cols(find(sum(I(rows,cols)) >= demanded_rows));
 
@@ -143,7 +143,7 @@ function y = random_int(from,to)
 y = floor(from + (1 + to - from)*rand);
 
 function [N,s] = nulleps(M,tol)
-% Find the nullspace of M.  This is the regular nullspace, augmented by 
+% Find the nullspace of M.  This is the regular nullspace, augmented by
 % vectors that aren't really in the nullspace, but have low singular
 % values associated with them.  tol is the threshold on these singular values.
 [u,s,v] = svd(M);

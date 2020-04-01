@@ -15,7 +15,7 @@ function next=combnext(n, k, com)
 	 next(i)=next(move)+i-move;
        end
        moved=1;
-     else 
+     else
        if move>1
 	 move=move-1;
        else

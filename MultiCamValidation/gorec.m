@@ -1,6 +1,6 @@
 % the main script for the multicamera validation
 % reads the points and the camera matrices
-% and does 3D reconstructions 
+% and does 3D reconstructions
 % evaluates the reprojection errors
 % to check whether the P matrices still hold or not
 %
@@ -98,7 +98,7 @@ disp(sprintf('Elapsed time for 3D computation: %d minutes %d seconds',floor((t2-
 for i=1:CAMS,
   xe		= linear.Pmat{i}*reconstructed.X;
   cam(i).xe	= xe./repmat(xe(3,:),3,1);
-  
+
   % these points were the input into Martinec and Pajdla filling
   mask.rec = zeros(1,FRAMES);	% mask of points that survived validation so far
   mask.vis = zeros(1,FRAMES); % maks of visible points
@@ -117,7 +117,7 @@ end
 % plot measured and reprojected 2D points
 for i=1:CAMS
   figure(i+10)
-  clf	
+  clf
   plot(cam(i).xgt(1,:),cam(i).xgt(2,:),'ro');
   hold on, grid on
   plot(cam(i).xgtin(1,:),cam(i).xgtin(2,:),'bo');
@@ -153,7 +153,7 @@ reconstructed
 %%%
 % save the data for non-linear estimation
 % the idea is to apply the caltech non-linear optimization
-% or any other alternative traditional calibration method to the 
+% or any other alternative traditional calibration method to the
 % robustly reconstructed points. These 3D points will play the role
 % of a calibration grid.
 %
@@ -170,4 +170,4 @@ for i=1:CAMS,
   corresp = [Xe',xe'];
   save(sprintf(config.files.points4cal,config.cal.cams2use(i)),'corresp','-ASCII');
 end
-																				
+

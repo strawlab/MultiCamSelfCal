@@ -1,7 +1,7 @@
 %k2i Compute indices of matrix rows corresponding to views k [with some step].
 %
 %  i = k2i(k [,step])
-%  
+%
 %  If k is scalar, it is i = [1:step]+step*(k-1).
 %
 %  Default: step = 3

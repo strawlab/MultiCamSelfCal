@@ -27,11 +27,11 @@ DEFUN_DLD (lin_fm, args, ,
             *(p+pos) = *(s+k+3) * (*(s+l));
 	    pos += len;
 	  }
-        }  
+        }
       s += 6;
       p++;
     }
   return octave_value(output_matrix);
 }
 
-  
+

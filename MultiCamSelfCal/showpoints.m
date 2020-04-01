@@ -23,7 +23,7 @@ config = read_configuration();
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
 
-NoCams = size(config.files.idxcams,2);	% number of cameras 
+NoCams = size(config.files.idxcams,2);	% number of cameras
 
 % load image names
 for i=1:NoCams,
@@ -65,11 +65,11 @@ if ~COMPOSE_IMGS
 	for j=1:size(loaded.IdMat,2),
 	  IM= imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  figure(1), clf, axes('Position',[0 0 1 1]), axis off
-	  imshow(IM), hold on, 
+	  imshow(IM), hold on,
 	  text(15,20,sprintf('Camera: %0.2d Frame: %0.3d',config.files.idxcams(i),j),'Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
 	  if loaded.IdMat(i,j)>0
 		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'go','MarkerSize',25,'LineWidth',2,'EraseMode','back');
-		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'r+','MarkerSize',15,'LineWidth',1,'EraseMode','back');	
+		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'r+','MarkerSize',15,'LineWidth',1,'EraseMode','back');
 	  else
 		text(15,40,'No point found','Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
 	  end
@@ -88,11 +88,11 @@ if COMPOSE_IMGS
 	for i=1:NoCams,
 	  IM= imread([sprintf(im.dir,seq(i).camId),seq(i).data(j).name]);
 	  fig1 = figure(1); clf, axes('Position',[0 0 1 1]), axis off
-	  imshow(IM), hold on, 
+	  imshow(IM), hold on,
 	  text(15,20,sprintf('Camera: %0.2d Frame: %0.3d',config.files.idxcams(i),j),'Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
 	  if loaded.IdMat(i,j)>0
 		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'go','MarkerSize',25,'LineWidth',2,'EraseMode','back');
-		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'r+','MarkerSize',15,'LineWidth',1,'EraseMode','back');	
+		plot(loaded.Ws(3*i-2,j),loaded.Ws(3*i-1,j),'r+','MarkerSize',15,'LineWidth',1,'EraseMode','back');
 	  else
 		text(15,40,'No point found','Color','green','FontWeight','bold','FontSize',12,'EraseMode','back');
 	  end

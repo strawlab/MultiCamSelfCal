@@ -1,4 +1,4 @@
-% main function to launch the estimation 
+% main function to launch the estimation
 % of the non-linear parameters by using the CalTech
 % calibration toolbox and the output from the Svoboda's
 % Multicamera self-calibration
@@ -44,7 +44,7 @@ for i = idxcams,
     if ~Octave,
       visualize_distortions
       figure(2),
-      eval(['print -depsc ', config.paths.data, sprintf('NonLinModel.cam%d.eps',i)]) 
+      eval(['print -depsc ', config.paths.data, sprintf('NonLinModel.cam%d.eps',i)])
     end
   end
   %
@@ -55,9 +55,9 @@ for i = idxcams,
   % outputfile = input('File basename: ', 's');
   configfile = outputfile;
   disp(['Writing ' configfile]);
-  
+
   fid = fopen(configfile, 'w');
-  
+
   fprintf(fid, 'K11 = %.16f\n', KK(1,1));
   fprintf(fid, 'K12 = %.16f\n', KK(1,2));
   fprintf(fid, 'K13 = %.16f\n', KK(1,3));
@@ -67,7 +67,7 @@ for i = idxcams,
   fprintf(fid, 'K31 = %.16f\n', KK(3,1));
   fprintf(fid, 'K32 = %.16f\n', KK(3,2));
   fprintf(fid, 'K33 = %.16f\n\n', KK(3,3));
-  
+
   fprintf(fid, 'kc1 = %.16f\n', kc(1));
   fprintf(fid, 'kc2 = %.16f\n', kc(2));
   fprintf(fid, 'kc3 = %.16f\n', kc(3));
@@ -84,4 +84,4 @@ for i = idxcams,
 end
 
 return
-																														     
+

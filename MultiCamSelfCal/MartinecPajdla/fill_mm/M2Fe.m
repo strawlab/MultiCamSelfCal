@@ -20,14 +20,14 @@ for k = rows
   else,       j = k-1; end
   G = u2FI([M(3*k-2:3*k,:);M(3*j-2:3*j,:)], 'donorm');
   if G==0
-    rows    = setdiff(rows,k); 
+    rows    = setdiff(rows,k);
     nonrows = [nonrows k];
   else
     %ep=null(G');  %it must be transposed otherwise it's the second epipole
     % sometimes returns empty matrix => compute it "by hand" by svd
     [u,s,v] = svd(G);
     epip = u(:,3);
-    
+
     F(k,j,1:3,1:3) = G;
     ep(k,j,1:3) = epip;
   end

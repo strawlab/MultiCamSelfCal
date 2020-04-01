@@ -1,6 +1,6 @@
 % Read all images and extract point coordinates.
 %
-% All information needed are stored and retrieved 
+% All information needed are stored and retrieved
 % from the function read_configuration,
 % which in turn uses the --config=FILENAME command-line
 % option.
@@ -26,7 +26,7 @@ config = read_configuration();
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
 
-NoCams = size(config.files.idxcams,2);	% number of cameras 
+NoCams = size(config.files.idxcams,2);	% number of cameras
 
 % load image names
 for i=1:NoCams,
@@ -49,7 +49,7 @@ end
 % Expected number of 3D points is equal to the number of frames.
 % In fact, some frames might be without any calibration point
 
-% Becouse of non-consistent stopping of capturing, the sequences might 
+% Becouse of non-consistent stopping of capturing, the sequences might
 % have different number of images, select the minimal value as the right one
 NoPoints = min([seq.size]);
 pointsIdx = [1:STEP4STAT:NoPoints];
@@ -97,9 +97,9 @@ disp(sprintf('Elapsed time for computation of images [sec]: %d',cputime-t))
 % find points in the images
 Ws    = [];	  % joint image matrix
 Res	  = [];	  % resolution of cameras
-IdMat = ones(NoCams,NoPoints); 
+IdMat = ones(NoCams,NoPoints);
 % IdMat is very important for Martinec&Pajdla filling [ECCV2002]
-% it is a NoCams x NoPoints matrix, 
+% it is a NoCams x NoPoints matrix,
 % IdMat(i,j) = 0 -> no j-th point in i-th
 % IdMat(i,j) = 1 -> point successfully detected
 
@@ -116,7 +116,7 @@ for i=1:NoCams,
   stdIM	= imread(sprintf(config.files.stdIM,seq(i).camId));
   for j=1:NoPoints,
 	[pos,err] = getpoint([sprintf(im.dir,seq(i).camId),seq(i).data(j).name], SHOWFIG, config.imgs, avIM, stdIM);
-	if err	  
+	if err
 	  IdMat(i,j) = 0;
 	  Points = [Points, [NaN; NaN; NaN]];
 	else
@@ -144,7 +144,7 @@ save(config.files.points, 'Ws','-ASCII')
 save(config.files.Res, 'Res', '-ASCII')
 save(config.files.IdMat, 'IdMat', '-ASCII')
 
-% display the overall statistics 
+% display the overall statistics
 disp('Overall statistics from im2points:  ************************  ')
 disp(sprintf('Total number of frames (possible 3D points): %d',NoPoints))
 disp(sprintf('Total number of cameras %d', NoCams))

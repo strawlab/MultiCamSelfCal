@@ -5,7 +5,7 @@
 % ptNum ... total number of points
 % s ... sample size
 % conf ... confidence value
-% 
+%
 % $Id: nsamples.m,v 1.1 2005/05/23 16:15:59 svoboda Exp $
 
 function N = nsamples(no_i,ptNum,s,conf)

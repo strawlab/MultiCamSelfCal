@@ -9,7 +9,7 @@ function hh = quiver(varargin)
 %   QUIVER(U,V) plots velocity vectors at equally spaced points in
 %   the x-y plane.
 %
-%   QUIVER(U,V,S) or QUIVER(X,Y,U,V,S) automatically scales the 
+%   QUIVER(U,V,S) or QUIVER(X,Y,U,V,S) automatically scales the
 %   arrows to fit within the grid and then stretches them by S.  Use
 %   S=0 to plot the arrows without the automatic scaling.
 %
@@ -31,7 +31,7 @@ function hh = quiver(varargin)
 %   See also FEATHER, QUIVER3, PLOT.
 
 %   Clay M. Thompson 3-3-94
-%   Copyright 1984-2002 The MathWorks, Inc. 
+%   Copyright 1984-2002 The MathWorks, Inc.
 %   $Revision: 2.1 $  $Date: 2005/05/23 16:20:12 $
 
 % Arrow head parameters
@@ -55,7 +55,7 @@ while isstr(varargin{nin}),
     nin = nin-1;
   else
     [l,c,m,msg] = colstyle(vv);
-    if ~isempty(msg), 
+    if ~isempty(msg),
       error(sprintf('Unknown option "%s".',vv));
     end
     if ~isempty(l), ls = l; end
@@ -99,7 +99,7 @@ if autoscale,
   else
     maxlen = 0;
   end
-  
+
   if maxlen>0
     autoscale = autoscale*0.9 / maxlen;
   else

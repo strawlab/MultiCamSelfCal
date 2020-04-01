@@ -8,7 +8,7 @@ http://cmp.felk.cvut.cz/~svoboda/SelfCal/
 look at the home page to get the newest information, latest sources,
 publications, sample data etc.
 
-Authors: 
+Authors:
 - Tomas Svoboda, svoboda@cmp.felk.cvut.cz, (design of the package,
 most of the codes), corresponding author
 
@@ -29,7 +29,7 @@ updated 12/2002, 01/2003, 02/2003, 03/2003, 06/2003, 07/2003
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% For BlueC users
-%%% Very short how-to for them who know 
+%%% Very short how-to for them who know
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 (the steps denoted by * are typically needed to be performed just once
@@ -43,7 +43,7 @@ for each user)
   there. They have some local settings which has to be set for each
   user differently.
 
-- run ./findpointsBlueC 
+- run ./findpointsBlueC
   This script starts finding process on each of the cluster machine
 
 - collect the data stored locally on the cluster machines.
@@ -62,7 +62,7 @@ From now on in matlab window:
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Information relevant to the BlueC project 
+%%% Information relevant to the BlueC project
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The CamSelfCal code is in /home/svoboda/Work/BlueCCal
@@ -114,17 +114,17 @@ endif
 
 The scripts are in Perl or C-shell and are very simple and not very
 robust. They use "convert" and "montage" tools from "ImageMagick"
-package whis a standard part of most Linux distributions. 
+package whis a standard part of most Linux distributions.
 
 BlueC acquisition software is mostly written by Edouard Carlo Lamboray,
 lamboray@inf.ethz.ch.
 
 Run the administration script "firewire" written by Stephan Wuermlin,
-wuermlin@inf.ethz.ch, if the 3DVideoRecorder does not work. 
-Try: 
->> firewire stop 
->> firewire reload 
->> firewire chmod 
+wuermlin@inf.ethz.ch, if the 3DVideoRecorder does not work.
+Try:
+>> firewire stop
+>> firewire reload
+>> firewire chmod
 This should help.
 
 Configuration is specified on the command-line
@@ -154,7 +154,7 @@ which in turn calls read_generic_configuration.m.)
 - Wave laser pointer. Try to fill the whole working volume. Try to
   keep the laser pointer visible to as many cameras as
   possible. Especially is necessary to fill the volume close to the
-  cave floor. 
+  cave floor.
 
 - The 3DVideoRecorder stores big *.pvi files in /local/ directory on
   each of the machine then ...
@@ -175,7 +175,7 @@ The codes are in the sub-directory FindingPoints
 
 Important note: To run the image processing in parallel we need: be
 able to run "matlab" in each of the machines and have ssh access
-without password (http://www.cs.umd.edu/~arun/misc/ssh.html). 
+without password (http://www.cs.umd.edu/~arun/misc/ssh.html).
 
 
 Alternatively, you can run the script im2points in one matlab, which
@@ -219,8 +219,8 @@ images.
 - the computation itself is rather robust. However, it may crash if
   some cameras have really strange points.
 
-- Check visually the detected points by typing 
-  "figure(100), imshow(IdMat.loaded)" 
+- Check visually the detected points by typing
+  "figure(100), imshow(IdMat.loaded)"
   in the main Matlab command window. The frameIds are on the x-axis,
   the cameraIds on the y-axis. Detected points are white, otherwise
   black. The whiter image the better. Black lines signalize some
@@ -238,7 +238,7 @@ images.
 - [Paths]
   Data: PATH
   # matlab: config.paths.data
-  
+
   The main working directory containg all data. Some data may be in
   subdirectories.
 
@@ -254,7 +254,7 @@ images.
 - [Paths]
   Camera-Images: PATH_TEMPLATE
   # matlab: config.paths.img
-  
+
   Basename for image sub-directories.
 
 
@@ -266,10 +266,10 @@ images.
 - config.files.idxcams	= [1:10,12:16];	% related to the imnames
 
   Numbers that index the image sub-directories and names of various
-  data files. These indexes must correspond to what is on the disk. 
+  data files. These indexes must correspond to what is on the disk.
 
 - [Images]
-  # avg diameter of a LED in pixels  
+  # avg diameter of a LED in pixels
   LED-Size: 7
   # matlab: config.imgs.LEDsize
 
@@ -282,7 +282,7 @@ images.
   LED-Color: green
   # matlab: config.imgs.LEDcolor
 
-  Used in the finding points. Color of the laser pointer used. 
+  Used in the finding points. Color of the laser pointer used.
 
 - [Images]
   LED-Threshold: 100
@@ -312,7 +312,7 @@ images.
   validation through the epipolar geometry computation and the
   iterative refinement at the end. It should correpond to the expected
   radial distortion in the cameras. This value is iteratively
-  decreased during the optimization process. 
+  decreased during the optimization process.
 
 
 - [Calibration]
@@ -326,7 +326,7 @@ images.
   the slower run of the complete procedure. On the other hand, in case
   of bad visibility, the high value may improve the robustness. From
   the principle, this value can be maximally #CAMS-3. If a higher
-  value is set, automatic correction is applied. 
+  value is set, automatic correction is applied.
 
 
 - [Calibration]
@@ -335,7 +335,7 @@ images.
 
   Do the Bundle Adjustment of the projective reconstruction a the end
   of the all iterations. It is quite slow for many points and
-  cameras. It may improve the overall accuracy. Often not need at all.  
+  cameras. It may improve the overall accuracy. Often not need at all.
 
 - [Calibration]
   Start-Bundle-Adjustment: 1
@@ -352,7 +352,7 @@ images.
   # matlab: config.cal.UNDO_RADIAL
 
   Undo the radial distortion by using the paramaters from the CalTech
-  camera calibration toolbox?  
+  camera calibration toolbox?
 
 
 - [Calibration]
@@ -369,7 +369,7 @@ images.
 
   How many cameras are to be used for on sample of the reconstruction?
   It turned out that "3" is optimal for most of the cases. "2" is
-  faster however, sometimes less robust. "4-5" more robust but slower. 
+  faster however, sometimes less robust. "4-5" more robust but slower.
 
 
 - [Calibration]
@@ -386,7 +386,7 @@ images.
 
 
 - config.cal.cams2use	= [1:10,13:16];
-  
+
   Which cameras are to be used in the particular
   experiments. Sometimes it is useful not to use all cameras specified
   in config.files.idxcams. If not set, all cameras will be used.
@@ -402,7 +402,7 @@ images.
   (5:6) ... estimate parameters of the tangential distortion?
 
   It is better to start with the default settings and leave the other
-  parameters to be estimated during the global optimization 
+  parameters to be estimated during the global optimization
 
 
 - [Calibration]
@@ -429,12 +429,12 @@ images.
   # matlab: config.cal.GLOBAL_ITER_THR
 
   Rather important value. This is one of the stopping condition for
-  the global optimization. The process ends if the maximum of the 
+  the global optimization. The process ends if the maximum of the
   reprojection error (average in each of the cameras) is lower than
   this threshold. Do not be too optimistic. The precision of the
   complete camera model can be hardly better than the precision of the
   finding points.
- 
+
 
 - [Calibration]
   Global-Iteration-Max: 10
@@ -463,7 +463,7 @@ directory and run the process with "conig.cal.UNDO_RADIAL=1" and
 Set "config.cal.DO_BA=1" if you have enough time and really insist on
 the highest possible precision. Actually, this is mosty not need at
 all. It typically improves the final numbers but not that much the
-real camera models. 
+real camera models.
 
 Setting "config.cal.START_BA = 1" might help resolve problems with
 really bad data (many outliers, bad sychronization etc.) The

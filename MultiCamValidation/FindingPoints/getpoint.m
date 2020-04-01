@@ -7,7 +7,7 @@
 % showfig .. show figures (1->on/0->off)
 % imconfig . config.imgs, see CONFIGDATA
 % avIM   ... average image of the camera, see IM2POINTS
-% stdIM  ... image of standard deviations, see IM2POINTS 
+% stdIM  ... image of standard deviations, see IM2POINTS
 %
 % pos ...... 2x1 vector containing (x,y)'-coordinates of the point
 %            if error then 0 is returned
@@ -42,15 +42,15 @@ fig.imOrig     = 2; % original image
 fig.blob       = 3; % ouput of bwlabel
 fig.subI       = 4; % subimage (local neighbourhood of est. LED pos.)
 
-im.info = imfinfo(im.name); 
+im.info = imfinfo(im.name);
 im.orig = imread(im.name);
 
 if findstr(im.info.ColorType,'grayscale');
   im.I = im.orig;
 else
   [im.r,im.c] = size(im.orig(:,:,1));
-  im.R  = im.orig(:,:,1);	% Red component 
-  im.G  = im.orig(:,:,2);	% Green	component		
+  im.R  = im.orig(:,:,1);	% Red component
+  im.G  = im.orig(:,:,2);	% Green	component
 end
 
 % find possible location of the point by thresholding
@@ -89,21 +89,21 @@ aboveThr	  = sum(sum(im.thr>leds.thr));
 % if too many, there is probably no LED at all
 % otherwise, take the position of the maximal intensity
 % as the LED position
-if aboveThr > (pi*LEDSIZE^2/2) 
+if aboveThr > (pi*LEDSIZE^2/2)
   if SHOW_WARN
 	warning('Perhaps no LED in the image, detected blob is too large')
   end
   err=1;
   pos=0;
   return;
-elseif ( (im.thr(idx) < 5*double(im.std(idx))) | ( im.thr(idx)< 70 )) 
+elseif ( (im.thr(idx) < 5*double(im.std(idx))) | ( im.thr(idx)< 70 ))
   if SHOW_WARN
 	warning('Perhaps no LED in the image, detected maximum of image difference is too low')
   end
   err=1;
   pos=0;
   return;
-else  
+else
   rawpos = zeros(1,2);
   [rawpos(1),rawpos(2)] = ind2sub(size(im.thr),idx);
 end
@@ -131,7 +131,7 @@ if TEST_ECC
 else
   im.stats = imfeature(L,'Centroid');
 end
- 
+
 if size(im.stats,1)>1,
   if SHOW_WARN
 	warning('More than one blob detected')
@@ -185,7 +185,7 @@ activecols = ceil(size(Gaussian,2)/2):(size(IM2,2)-floor(size(Gaussian,2)/2));
 if (size(activerows,2)<5 | size(activerows,2)>50)
   error('probably incorect setting of leds.size and leds.scale variables')
 end
-  
+
 corrcoefmat = zeros(size(IM2));
 % t1 = cputime;
 if BLK_PROC	% blkproc may be faster for big neighbourhoods
@@ -194,14 +194,14 @@ else
   G   = double(Gaussian(:));
   Gn  = G-mean(G);
   Gn2 = sum(Gn.^2);
-  B	  = im2col(double(IM2),size(Gaussian),'sliding'); 
+  B	  = im2col(double(IM2),size(Gaussian),'sliding');
   corrcoefmat(activerows,activecols) = col2im(mycorr2(B,G,Gn,Gn2), size(Gaussian), size(IM2),'sliding');
   % corrcoefmat(activerows,activecols) = colfilt(double(IM2(activerows,activecols)),size(Gaussian),'sliding','mycorr2',G,Gn,Gn2);
 end
 % disp(sprintf('elapsed for coorrelations: %f',cputime-t1'))
 
 [maxcorrcoef,idxmaxcorrcoef] = max(corrcoefmat(:));
-[rmax,cmax] = ind2sub(size(corrcoefmat),idxmaxcorrcoef);  
+[rmax,cmax] = ind2sub(size(corrcoefmat),idxmaxcorrcoef);
 finepos	  = rawpos+([rmax,cmax]-ceil(size(IM2)/2))./leds.scale;
 
 %%%

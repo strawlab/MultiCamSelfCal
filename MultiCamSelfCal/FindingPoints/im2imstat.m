@@ -1,6 +1,6 @@
 % im2imstat    computes image statistics from several images
 %              and finds the projections of laser points
-% 
+%
 % The computation core is taken from  im2points.m
 % computes average image and image of standard deviations
 % requires configdata.m
@@ -26,7 +26,7 @@ STEP4STAT = 5; % step for computing average and std images, if 1 then all images
 im.dir = config.paths.img;
 im.ext = config.files.imgext;
 
-% NoCams = size(config.files.idxcams,2);	% number of cameras 
+% NoCams = size(config.files.idxcams,2);	% number of cameras
 % Use concrete CameraIds instead of all cameras
 NoCams = size(CamsIds,2);
 CamsIds
@@ -49,7 +49,7 @@ end
 % Expected number of 3D points is equal to the number of frames.
 % In fact, some frames might be without any calibration point
 
-% Because of non-consistent stopping of capturing, the sequences might 
+% Because of non-consistent stopping of capturing, the sequences might
 % have different number of images, select the minimal value as the right one
 NoPoints = min([seq.size]);
 
@@ -98,9 +98,9 @@ Ws    = [];
 IdWs  = [];
 Res	  = [];
 
-IdMat = ones(NoCams,NoPoints); 
+IdMat = ones(NoCams,NoPoints);
 % IdMat is very important for Martinec&Pajdla filling [ECCV2002]
-% it is a NoCams x NoPoints matrix, 
+% it is a NoCams x NoPoints matrix,
 % IdMat(i,j) = 0 -> no j-th point in i-th
 % IdMat(i,j) = 1 -> point successfully detected
 
@@ -110,7 +110,7 @@ for i=1:NoCams,
   stdIM	= imread(sprintf(config.files.stdIM,seq(i).camId));
   for j=1:NoPoints,
 	[pos,err] = getpoint([sprintf(im.dir,seq(i).camId),seq(i).data(j).name], 0, config.imgs, avIM, stdIM);
-	if err	  
+	if err
 	  IdMat(i,j) = 0;
 	  Points = [Points, [NaN; NaN; NaN]];
 	else
@@ -125,7 +125,7 @@ idx = '.';
 for i=CamsIds,
   idx = sprintf('%s%02d',idx,i);
 end
-	
+
 save([config.files.points,idx], 'Ws','-ASCII')
 % save(config.files.IdPoints,'IdWs','-ASCII')
 save([config.files.Res,idx], 'Res', '-ASCII')

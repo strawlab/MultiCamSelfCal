@@ -44,7 +44,7 @@ end;
 Y = R*X + repmat(T,[1 n]);
 
 if nargout > 1,
-   
+
 
 dYdR = zeros(3*n,9);
 dYdT = zeros(3*n,3);

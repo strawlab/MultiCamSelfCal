@@ -9,7 +9,7 @@
 
 function [P,X,radial] = qPXbundle_cmp(P0,X0,q)
 
-RADIAL = (nargin > 3); % don't estimate/estimate radial distortion 
+RADIAL = (nargin > 3); % don't estimate/estimate radial distortion
 [K,N] = size(q); K = K/2;
 
 P0 = normP(P0);
@@ -30,7 +30,7 @@ for n = 1:N
   aux.TX{n} = qX(2:end,:)';
 end
 for k = 1:K
-  [qP,dummy] = qr(reshape(P0(k2idx(k),:),[12 1])); 
+  [qP,dummy] = qr(reshape(P0(k2idx(k),:),[12 1]));
   aux.TP{k} = qP(2:end,:)';
 end
 
@@ -158,7 +158,7 @@ for l = 1:length(kvis)  % loop for all VISIBLE points in all cameras
   n = nvis(l);
   xl = x(k2idx(k),n);
   ul = p2e(xl);
-  
+
   % Compute derivatives (Jacobians). Notation: E.g., dudx = du(x)/dx, etc.
   dxdP = kron(X(:,n)',eye(3))*aux.TP{k}; % dx(iP,iX)/diP
   dxdX = P(k2idx(k),:)*aux.TX{n}; % dx(iP,iX)/diX

@@ -15,7 +15,7 @@ if nargin < 3, metric = 2; end
 switch metric,
  case 1, I = ~isnan(M1(1:3:end,:)) &~isnan(M2(1:3:end,:));
   d = eucl_dist(M1, M2, I) / sum(sum(I));
- case 2, D = normalize_cut(M1) - normalize_cut(M2); 
+ case 2, D = normalize_cut(M1) - normalize_cut(M2);
   i = find(~isnan(D(1:2:end)));
   d = std([D(2*i-1) D(2*i)]);
  otherwise, error('dist: unknown metric');

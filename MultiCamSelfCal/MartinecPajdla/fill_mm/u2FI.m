@@ -26,12 +26,12 @@ if donorm
   A1    = normu(u(1:3,sampcols));
   A2    = normu(u(4:6,sampcols));
   if isempty(A1) | isempty(A2), F = 0; return; end
-  
+
   u1   = A1*u(1:3,sampcols);  %in u1, u2 there are only columns of sampcols
-  u2   = A2*u(4:6,sampcols); 
+  u2   = A2*u(4:6,sampcols);
 else
   u1   = u(1:3,sampcols);     %"					   "
-  u2   = u(4:6,sampcols); 
+  u2   = u(4:6,sampcols);
 end
 
 for i = 1:ptNum
@@ -44,7 +44,7 @@ F = reshape(V(:,1),3,3);
 
 %odrizneme nejmensi vlastni slozku, aby F melo hodnost 2
 [uu,us,uv] = svd(F);
-%[y,i]      = min (abs(diag(us)));  
+%[y,i]      = min (abs(diag(us)));
 i = 3;
 %if us(i,i) > 1e-12, disp('rank(F)>2'); end
 us(i,i)    = 0;

@@ -8,7 +8,7 @@ void mexFunction( int dstN, mxArray **aDstP, int aSrcN, const mxArray **aSrcP )
   double *p, *s;
   int len = mxGetN(aSrcP[0]);
   int i,k,l,pos;
-  
+
   aDstP[0] = mxCreateDoubleMatrix(len, 9, mxREAL );
   p = (double *)mxGetData(aDstP[0]);
 
@@ -23,10 +23,10 @@ void mexFunction( int dstN, mxArray **aDstP, int aSrcN, const mxArray **aSrcP )
             *(p+pos) = *(s+k+3) * (*(s+l));
 	    pos += len;
 	  }
-        }  
+        }
       s += 6;
       p++;
     }
 }
 
-  
+

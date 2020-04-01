@@ -88,8 +88,8 @@ for i = nonrows
   cols = find(~isnan(M(i,:)));
   if rank(X(:,cols)) == r
     if max(abs(M(i,cols)/X(:,cols) * X)) > 1/tol
-      unrecovered = [unrecovered i];      
-    else, row = row + 1; 
+      unrecovered = [unrecovered i];
+    else, row = row + 1;
       Pnonrows(row,:) = M(i,cols)/X(:,cols); E(i,:) = Pnonrows(row,:)*X;
     end
   else

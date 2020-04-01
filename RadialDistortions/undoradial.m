@@ -8,7 +8,7 @@
 %
 % xl ... linearized pixel coordinates
 %        these coordinates should obey the linear pinhole model
-% 
+%
 % It calls comp_distortion_oulu: undistort pixel coordinates.
 % function taken from the CalTech camera calibration toolbox
 

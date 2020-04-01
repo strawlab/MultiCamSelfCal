@@ -31,7 +31,7 @@ else
   r = 4;
   [L, S] = nullspace2L(NULLSPACE, r, opt);
   clear NULLSPACE;
-  
+
   if isempty(opt.create_nullspace), threshold = .01;
   else, threshold = opt.create_nullspace.threshold; end
   if svd_suff_data(S, r, threshold)
@@ -41,9 +41,9 @@ else
                                                   dS(end-2*r:end))); end
     [Mdepths, lambda] = L2depths(L, M, Idepths, opt); info.Mdepths = Mdepths;
     [P,X, u1b,u2] = approximate(Mdepths, r, L, opt);
-    u1 = union(ceil(u1b/3),[]); killb = setdiff(k2i(u1),u1b); 
+    u1 = union(ceil(u1b/3),[]); killb = setdiff(k2i(u1),u1b);
     if ~isempty(killb), r1b = setdiff(1:3*m,u1b); kill = killb;
-      for ib = killb(1:end-1), lower = find(killb > ib); 
+      for ib = killb(1:end-1), lower = find(killb > ib);
         if kill(lower(1)-1) < kill(lower(1)) - 1,
           kill(lower) = kill(lower) -1; end; end
       P = P(setdiff(1:length(r1b),kill),:);end
@@ -59,7 +59,7 @@ function [L,S] = nullspace2L(NULLSPACE, r, opt)
 if opt.verbose, fprintf(1,'Computing the basis...'); tic; end
 if size(NULLSPACE,2) < 10*size(NULLSPACE,1) % orig:[A,S,U] = svd(NULLSPACE',0);
   [U,S,V]             = svd(NULLSPACE);
-else 
+else
   [U,SS]              = eig(NULLSPACE*NULLSPACE');
   dSS                 = diag(SS); l = length(dSS);
   [sortdSS(l:-1:1),I] = sort(dSS); I(l:-1:1) = I;  U = U(:,I);
@@ -86,10 +86,10 @@ function y = svd_suff_data(S,r, threshold)
 % r-tuples.  We'll want to be able to take the r least significant columns
 % of U.  This is right because the columns of U should span the whole space
 % that M's columns might span.  That is, M is FxP.  The columns of U should
-% span the F-dimensional Euclidean space, since U is FxF.  However, we want 
+% span the F-dimensional Euclidean space, since U is FxF.  However, we want
 % to make sure that the F-r-1'th singular value of S isn't tiny.  If it is,
-% our answer is totally unreliable, because the nullspaces of the column 
-% r-tuples don't have sufficient rank.  If this happens, it means that the 
+% our answer is totally unreliable, because the nullspaces of the column
+% r-tuples don't have sufficient rank.  If this happens, it means that the
 % intersection of the column cross-product spaces is bigger than r-dimensional,
 % and randomly choosing an r-dimensional subspace of that isn't likely to
 % give the right answer.

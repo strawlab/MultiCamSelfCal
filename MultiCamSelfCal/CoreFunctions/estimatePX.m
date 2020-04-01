@@ -34,23 +34,23 @@ while (errs(iterations+1)-errs(iterations+2)>tol),
     for i = 5:size(D,2)
 	D(i, i) = 0;
     end
-    
+
     % projective shape X and motion P
     P = U*D(1:size(U,2),1:4);
     X = V(:,1:4)';
     % U*D*V' == P*X
-    
+
     % correct projective depths
     normfact = sum(P(3:3:(3*n),:)'.^2);
     Lambda_old = Lambda_new;
     Lambda_new = P(3:3:(3*n),:)./repmat(sqrt(normfact'),1,4)*X;
-    
+
     % normalize lambdas
     lambnfr = sum(Lambda_new.^2);
     Lambda_new = sqrt(n)*Lambda_new./repmat(sqrt(lambnfr),n,1);
     lambnfc = sum(Lambda_new'.^2);
     Lambda_new = sqrt(m)*Lambda_new./repmat(sqrt(lambnfc'),1,m);
-    
+
     for i = 1:n
 	for j = 1:m
 	    Ws_updated(3*i-2, j) = Ws(3*i-2, j) * Lambda_new(i, j);

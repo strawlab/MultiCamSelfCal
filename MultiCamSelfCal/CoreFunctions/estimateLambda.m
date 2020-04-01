@@ -10,7 +10,7 @@
 %
 % Ws ...... the 3*nxm measurement matrix (the data should be normalized
 %           before calling this functions)
-% pair .... array of camera pairs containing Fundamental matrices and 
+% pair .... array of camera pairs containing Fundamental matrices and
 %           indexes of points used for their computations
 %           it is the output from RANSAC validation step
 %

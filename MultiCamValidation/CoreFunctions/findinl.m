@@ -1,12 +1,12 @@
 % FindInl    find inliers in joint image matrix
 %			 by pairwise epipolar geometry
-% 
+%
 % function IdMatIn = findinl(Ws,IdMat,tol)
 % Ws ... 3MxN joint image matrix
 % IdMat ... MxN ... 0 -> no point detected
 %                   1 -> point detected
 % tol ... [pixels] tolerance for the epipolar geometry
-%         the point are accpted as outliers only if they 
+%         the point are accpted as outliers only if they
 %         are closer to the epipolar line than tol
 
 % $Author: svoboda $
@@ -16,7 +16,7 @@
 
 function IdMatIn = findinl(Ws,IdMat,tol)
 
-NoCams = size(IdMat,1); 
+NoCams = size(IdMat,1);
 
 % fill the array of structures not_used denoted as 0
 % allocate the array of structures for used

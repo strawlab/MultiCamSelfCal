@@ -1,7 +1,7 @@
 % reprerror   Estimate reprojection error
 %
 % [cam] = reprerror(cam,Pe,Xe,FRAMES,inliers);
-% 
+%
 % $Id: reprerror.m,v 2.0 2003/06/19 12:06:50 svoboda Exp $
 
 function [cam] = reprerror(cam,Pe,Xe,FRAMES,inliers);

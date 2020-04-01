@@ -8,7 +8,7 @@ if nargin < 2, delim = '/'; end
 
 idcs = findstr(s,delim);
 if isempty(idcs),
-  head = s; 
+  head = s;
   tail = [];
 else
   head = s(1:idcs(end));

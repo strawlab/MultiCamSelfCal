@@ -1,12 +1,12 @@
 % estimateX ... estimate 3D points robustly
-% 
+%
 % reconstructed = estimateX(loaded,IdMat,cam)
 %
 % data   ... data structure, see LOADDATA
 % IdMat  ... current point identification matrix
 % cam    ... array of camera structures, see the main script GO
 %
-% reconstructed.ptdIdx ... indexes->data of points used for the reconstruction 
+% reconstructed.ptdIdx ... indexes->data of points used for the reconstruction
 %              .X      ... reconstructed points, see u2PX
 %              .CamIdx ... indexes->data of cameras used for the reconstruction
 %

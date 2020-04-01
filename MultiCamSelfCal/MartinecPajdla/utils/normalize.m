@@ -24,7 +24,7 @@ Mnorm(1:3*m, 1:n) = M; % There are two reasons for this. (i) Make NaN the
 known      = find(I);
 big_enough = known(find( abs(M(known*3)) > eps ));
 if m == 1, big_enough = big_enough'; end
-  
+
 if ~isempty(big_enough)
   div_by                      = repmat(M(big_enough*3)',3,1);
   Mnorm(k2i(big_enough)) = M(k2i(big_enough)) ./ div_by(:);

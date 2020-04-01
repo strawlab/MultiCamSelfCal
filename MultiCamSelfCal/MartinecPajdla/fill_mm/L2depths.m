@@ -24,9 +24,9 @@ for j = 1:n
   mis_rows = intersect(find(Idepths(:,j)==0),full);
   if length(mis_rows) > 0
     submatrix = spread_depths_col(M(k2i(full),j),Idepths(full,j));
-        
-    % We want submatrix to be in the space L -> 
-    % we search for combination of columns of the base of L i.e. 
+
+    % We want submatrix to be in the space L ->
+    % we search for combination of columns of the base of L i.e.
     % L(k2i(full),:)*res(1:4)-submatrix*[1 res(5:length(res))] = 0
     right = submatrix(:,1);
     A     = [ L(k2i(full),:) -(submatrix(:,2:size(submatrix,2))) ];
@@ -35,17 +35,17 @@ for j = 1:n
       Mdepths(k2i(kill),j) = NaN; lambda(kill,j) = NaN;
     else
       res   = A \ right;
-      
+
       %test: er should be near to zero
       %er=L(k2i(full),:)*res(1:4)-submatrix*[1 res(5:length(res))']'
-      
+
       % depth corresponding to right is/are set to 1
       i = full(find(right(1:3:end))); lambda(i,j) = 1;
       Mdepths(k2i(i),j) = M(k2i(i),j);
-      
+
       for ii = 1:size(submatrix,2)-1
         i = full(find(submatrix(1:3:end,1+ii))); lambda(i,j) = res(4+ii);
-        Mdepths(k2i(i),j) = M(k2i(i),j)*lambda(i,j); 
+        Mdepths(k2i(i),j) = M(k2i(i),j)*lambda(i,j);
       end
     end
   end

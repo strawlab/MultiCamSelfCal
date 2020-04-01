@@ -7,7 +7,7 @@
 % Return:
 % R ... rotation matrix
 %
-% T. Svoboda, 3/1998, CMP Prague 
+% T. Svoboda, 3/1998, CMP Prague
 %
 % $Id: nfi2r.m,v 1.1 2003/07/03 15:38:40 svoboda Exp $
 
@@ -22,7 +22,7 @@
 % ISSN_ISBN          = {3-540-51263-5},
 %
 
-function R = nfi2r(n,fi) 
+function R = nfi2r(n,fi)
 
 n = n./norm(n,2);
 cfi = cos(fi);

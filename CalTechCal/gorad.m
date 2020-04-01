@@ -1,4 +1,4 @@
-% main script to launch the estimation 
+% main script to launch the estimation
 % of the non-linear parameters by using the CalTech
 % calibration toolbox and the output from the Svoboda's
 % Multicamera self-calibration
@@ -22,8 +22,8 @@ desactivated_images = [];
 
 idxcams = config.cal.cams2use;
 selfcalib.goradproblem = 0;
-					   
-for i = idxcams,  
+
+for i = idxcams,
   [X_1,x_1] = preparedata(sprintf(config.files.points4cal,i));
   go_calib_optim_iter
   if any(isnan(param))
@@ -32,9 +32,9 @@ for i = idxcams,
 	  kc(1:4) = [0,0,0,0];
 	  selfcalib.goradproblem=1;
   else
-	  visualize_distortions	  
+	  visualize_distortions
   end
-  
+
   disp(sprintf('***** camera %d **********************************',i))
   %
   outputfile = sprintf(config.files.rad,i);
@@ -43,9 +43,9 @@ for i = idxcams,
      % outputfile = input('File basename: ', 's');
      configfile = outputfile;
      disp(['Writing ' configfile]);
-     
+
      fid = fopen(configfile, 'w');
-     
+
      fprintf(fid, 'K11 = %.16f\n', KK(1,1));
      fprintf(fid, 'K12 = %.16f\n', KK(1,2));
      fprintf(fid, 'K13 = %.16f\n', KK(1,3));
@@ -55,7 +55,7 @@ for i = idxcams,
      fprintf(fid, 'K31 = %.16f\n', KK(3,1));
      fprintf(fid, 'K32 = %.16f\n', KK(3,2));
      fprintf(fid, 'K33 = %.16f\n\n', KK(3,3));
-     
+
      fprintf(fid, 'kc1 = %.16f\n', kc(1));
      fprintf(fid, 'kc2 = %.16f\n', kc(2));
      fprintf(fid, 'kc3 = %.16f\n', kc(3));
@@ -69,5 +69,5 @@ disp('Press any key to continue'),  pause
 % clear already estimated parameters
 clear fc kc alpha_c cc
 end
-																												
-																														     
+
+

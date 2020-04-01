@@ -3,9 +3,9 @@ function errs = Fsampson(F,u);
 % errs = Fsampson(F,u);
 % F ... 3x3 Fundamental matrix
 % u ... 6xN point pairs homogenous
-% 
+%
 % errs ... 1xN error for each point pair
-% 
+%
 % $Id: Fsampson.m,v 1.1 2005/05/23 16:15:59 svoboda Exp $
 
 N = size(u,2);

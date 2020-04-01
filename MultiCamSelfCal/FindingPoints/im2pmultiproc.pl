@@ -1,6 +1,6 @@
 #! /usr/bin/perl -w
 
-# find projections of LEDs in images 
+# find projections of LEDs in images
 # it spreads the job to all specified processors/machines
 # It requires:
 # - matlab
@@ -35,14 +35,14 @@ $donefile=".done";
 # load the info about local machines and parallel processes
 use atlantic;
 
-# just a debug cycle   
+# just a debug cycle
 foreach $process (@processes) {
 	print "$process->{'compname'} \n";
 	foreach $camId (@{$process->{'camIds'}}) {
 		print "$camId \n";
 	}
 }
-  
+
 # create temporary m-files with using the template m-file
 # store their names for delete at the very end
 # each process must have its own temporary m-file

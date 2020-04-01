@@ -35,25 +35,25 @@ len = size(u,2);
 ptr = 1:len;
 max_i = 5;
 max_sam = MAX_SAM;
- 
+
 no_sam = 0;
 no_mod = 0;
- 
+
 th = 2*th^2;
 
-while no_sam < max_sam   
+while no_sam < max_sam
   for pos = 1:ss
       idx = pos + ceil(rand * (len-pos));
       ptr([pos, idx]) = ptr([idx, pos]);
   end;
-  
+
   no_sam = no_sam +1;
-  
+
   sF = u2Fdlt(u(:,ptr(1:ss)),0);
   errs = Fsampson(sF,u);
   v	   = errs < th;
   no_i = sum(v);
-  
+
   if max_i < no_i
 	inls = v;
 	F	 = sF;

@@ -11,7 +11,7 @@ function p=imcorr(sys,par,dp)
 %   par2 = camera intrinsic parameters for correcting the coordinates.
 %          these parameters are computed by using invmodel.m.
 %   dp   = distorted image coordinates in pixels (n x 2 matrix)
-%   p    = corrected image coordinates 
+%   p    = corrected image coordinates
 
 %   Version 3.0  10-17-00
 %   Janne Heikkila, University of Oulu, Finland
@@ -29,8 +29,8 @@ dy=(dp(:,2)-Cpy)*Sy/NDY;
 r2=dx.*dx+dy.*dy;
 delta=Rad1*r2+Rad2*r2.*r2;
 
-cx=dx.*(1+delta)+2*Tan1*dx.*dy+Tan2*(r2+2*dx.*dx); 
-cy=dy.*(1+delta)+Tan1*(r2+2*dy.*dy)+2*Tan2*dx.*dy; 
+cx=dx.*(1+delta)+2*Tan1*dx.*dy+Tan2*(r2+2*dx.*dx);
+cy=dy.*(1+delta)+Tan1*(r2+2*dy.*dy)+2*Tan2*dx.*dy;
 
 p=NDX*Asp*cx/Sx+Cpx;
 p(:,2)=NDY*cy/Sy+Cpy;

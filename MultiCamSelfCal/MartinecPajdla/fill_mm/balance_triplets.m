@@ -1,4 +1,4 @@
-%balance_triplets Balance PRMM by column-wise and "triplet-of-rows"-wise 
+%balance_triplets Balance PRMM by column-wise and "triplet-of-rows"-wise
 %  scalar multiplications.
 %
 %  After balancing, overall weight of M will be m*n where 3m*n is size of M
@@ -36,13 +36,13 @@ while (change > 0.01  |  diff_rows > 1  |  diff_cols > 1)  &&  iteration <= 20
     rows = find(~isnan(M(1:3:end,l)));
     if length(rows) > 0
       rowsb           = k2i(rows);
-      s               = sum(B(rowsb,l) .^ 2); 
+      s               = sum(B(rowsb,l) .^ 2);
       supposed_weight = length(rows);   % the less data, the slighter impact
       diff_cols       = max(abs(s-supposed_weight), diff_cols);
       B(rowsb,l)      = B(rowsb,l) ./ sqrt(s/supposed_weight);
     end
   end
-  
+
  % 2. rescale each triplet of rows so that it's sum w_i_l^2=1 i.e. unit
  % area. However, due to the missing data, the area must be smaller in
  % (linear) dependance on amount of missing data.
@@ -56,7 +56,7 @@ while (change > 0.01  |  diff_rows > 1  |  diff_cols > 1)  &&  iteration <= 20
       B(3*k-2:3*k,cols) = B(3*k-2:3*k,cols) ./ sqrt(s/supposed_weight);
     end
   end
-  
+
  % repeat steps 1 and 2 if W changed significantly
  % Note: It is not ensured that sums (s) would not change significantly
  %       in the (hypothetical) next step. The reason is that rescaling

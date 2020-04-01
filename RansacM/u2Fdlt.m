@@ -19,7 +19,7 @@ end
 u = u';
 
 % parse the input parameters
-if NoPoints<8 
+if NoPoints<8
   error('Too few correspondences')
 end
 
@@ -43,7 +43,7 @@ A = zeros(NoPoints,9);
 for i=1:NoPoints                             % create equations
  for j=1:3
   for k=1:3
-   A(i,(j-1)*3+k)=u2(i,j)*u1(i,k);   
+   A(i,(j-1)*3+k)=u2(i,j)*u1(i,k);
   end
  end
 end

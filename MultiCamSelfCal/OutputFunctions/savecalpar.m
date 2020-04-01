@@ -1,5 +1,5 @@
 % SaveCalPar   save calibration parameters in different formats
-% 
+%
 % [Cst,Rot] = savecalpar(P,config)
 % P ... 3*CAM x 4 matrix containing result of selfcalibration, see EUCLIDIZE
 % config ... configuration structure, see CONFIGDATA
@@ -38,14 +38,14 @@ for i=1:CAMS,
   sc = norm(P(i*3,1:3));
   % first normalize the Projection matrices to get normalized pixel points
   P(i*3-2:i*3,:) = P(i*3-2:i*3,:)./sc;
-  % decompose the matrix by using rq decomposition  
+  % decompose the matrix by using rq decomposition
   [K,R] = rq(P(i*3-2:i*3,1:3));
   tvec= inv(K)*P(i*3-2:i*3,4);			% translation vector
   C	  = -R'*tvec;						% camera center
   % Stephi calib params
-  Pstephi		   = R'*inv(K);		
+  Pstephi		   = R'*inv(K);
   Pst(i*3-2:i*3,:) = Pstephi;
-  Cst(i,:)		   = C';		
+  Cst(i,:)		   = C';
   % Stephi requires to save the pars in more "wordy" form
   fid = fopen(sprintf(config.files.StCalPar,idxused(i)),'wt');
   if ~fid

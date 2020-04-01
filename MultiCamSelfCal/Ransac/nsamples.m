@@ -5,7 +5,7 @@ q  = prod ([(ni-pf+1) : ni] ./ [(ptNum-pf+1) : ptNum]);
 
 if (1 -q) < eps
    SampleCnt = 1;
-else  
+else
    SampleCnt  = log(1 - conf) / log(1 - q);
 end
 

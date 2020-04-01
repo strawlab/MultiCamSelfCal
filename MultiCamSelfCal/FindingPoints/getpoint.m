@@ -8,7 +8,7 @@ function [pos,err] = getpoint(imname, showfig, imconfig, avIM, stdIM)
 % showfig .. show figures (1->on/0->off)
 % imconfig . config.imgs, see CONFIGDATA
 % avIM   ... average image of the camera, see IM2POINTS
-% stdIM  ... image of standard deviations, see IM2POINTS 
+% stdIM  ... image of standard deviations, see IM2POINTS
 %
 % pos ...... 2x1 vector containing (x,y)'-coordinates of the point
 %            if error then 0 is returned
@@ -30,12 +30,12 @@ if IPT_VER >= 5
 else
   region_properties_function = 'imfeature';
 end
-  
+
 SHOW_WARN = 0;	% show warnings?
 BLK_PROC  = 0;	% blkproc may be faster for bigger LEDs, rather not
 SUB_PIX	  = 1/imconfig.subpix;	% required sub-pixel precision 3 -> 1/3 pixel
 
-TEST_AREA = 0;	% check the size of the thresholded blob? (mostly not necessary)				   
+TEST_AREA = 0;	% check the size of the thresholded blob? (mostly not necessary)
 TEST_ECC = 0;	% perform the eccentricity check? (mostly not necessary)
 ECC_THR	 = 0.99;	% eccentricity threshold (for validity check)
 					% this threshold is not usable in the current implementation
@@ -54,14 +54,14 @@ fig.imOrig     = 2; % original image
 fig.blob       = 3; % ouput of bwlabel
 fig.subI       = 4; % subimage (local neighbourhood of est. LED pos.)
 
-im.info = imfinfo(im.name); 
+im.info = imfinfo(im.name);
 im.orig = imread(im.name);
 
 if strcmp(im.info.ColorType,'grayscale');
 	im.I = im.orig;
 else
 	[im.r,im.c] = size(im.orig(:,:,1));
-	im.R  = im.orig(:,:,1);	% Red component 
+	im.R  = im.orig(:,:,1);	% Red component
 	im.G  = im.orig(:,:,2);	% Green	component
 end
 
@@ -76,8 +76,8 @@ elseif strcmp(imconfig.LEDcolor,'red')
   im.fit = im.R;			% image for fitting of the PSF
 elseif strcmp(im.info.ColorType,'grayscale')
   im.thr = uint8(abs(double(im.I)-double(avIM)));
-  im.std = stdIM; 
-  im.fit = im.I; 
+  im.std = stdIM;
+  im.fit = im.I;
 elseif ~strcmp(im.info.ColorType,'grayscale') & strcmp(imconfig.LEDcolor,'intensity')
   try im.I; catch im.I = uint8(round(mean(double(im.orig),3))); end
   im.thr = uint8(round(abs(double(im.I)-double(mean(avIM,3)))));
@@ -105,7 +105,7 @@ end
 [maxint,idx]  = max(im.thr(:));
 leds.thr	  = double(maxint)*0.99;  %4/5;
 
-if ( (im.thr(idx) < 5*double(im.std(idx))) | ( im.thr(idx)< imconfig.LEDthr )) 
+if ( (im.thr(idx) < 5*double(im.std(idx))) | ( im.thr(idx)< imconfig.LEDthr ))
   if SHOW_WARN
 	warning('Perhaps no LED in the image, detected maximum of image difference is too low')
 	disp(sprintf('Max: %d, Thr4Max1: %d, Thr4Max2: %d',double(im.thr(idx)), 10*double(im.std(idx)), imconfig.LEDthr))
@@ -127,15 +127,15 @@ if num>1 % sum(diff(any(im.thr>leds.thr,2))>0)>1
   err=1;
   pos=0;
   return;
-else    
-  im.stats = eval([region_properties_function,'(L,',char(39),'Centroid',char(39),')']);  
+else
+  im.stats = eval([region_properties_function,'(L,',char(39),'Centroid',char(39),')']);
   rawpos   = round([im.stats.Centroid(2),im.stats.Centroid(1)]);
   % rawpos = zeros(1,2);
   % [rawpos(1),rawpos(2)] = ind2sub(size(im.thr),idx);
 end
 
 
-leds.size  = round(LEDSIZE/1.2); 
+leds.size  = round(LEDSIZE/1.2);
 % (2*leds.size+1)x(2*leds.size+1) is the area of interest around each detected LED
 % check if the LED lies in the allowed position (not very close to the image border
 % it is because of the implementation not because of principle
@@ -155,7 +155,7 @@ leds.cols  = (rawpos(2)-leds.size):(rawpos(2)+leds.size);
 
 % perform checks of the thresholded blob if required
 if TEST_ECC
-  im.stats = eval([region_properties_function,'(L,',char(39),'Eccentricity',char(39),')']); 
+  im.stats = eval([region_properties_function,'(L,',char(39),'Eccentricity',char(39),')']);
   if (im.stats.Eccentricity > ECC_THR)
 	if SHOW_WARN
 	  warning(sprintf('eccentricity treshold %2.4f exceeded by %2.4f', ECC_THR, im.stats.Eccentricity));
@@ -164,7 +164,7 @@ if TEST_ECC
   end
 end
 if TEST_AREA
-  im.stats = eval([region_properties_function,'(L,',char(39),'Area',char(39),')']); 
+  im.stats = eval([region_properties_function,'(L,',char(39),'Area',char(39),')']);
   if im.stats.Area > size(leds.rows,2)*size(leds.cols,2)/1.5
 	if SHOW_WARN
 	  warning('Detected LED to too big')
@@ -236,16 +236,16 @@ function finepos = getfinepos(IM,rawpos,leds,LEDSIZE,BLK_PROC,showfig,SHOW_WARN)
 
   %%%
   % generally it evaluates only 5x5 region aroung the rough position
-  % it is scaled accordingly. The 5x5 grid is a compromise between the speed 
+  % it is scaled accordingly. The 5x5 grid is a compromise between the speed
   % and the robustness against bad rough position
   sc = 2; % 2 is for 5x5 neigh, 1 is for 3x3, 3 is for 9x9 and so on
   activerows = ceil(size(IM2,1)/2)-sc*round(leds.scale):ceil(size(IM2,1)/2)+sc*round(leds.scale);
   activecols = ceil(size(IM2,2)/2)-sc*round(leds.scale):ceil(size(IM2,2)/2)+sc*round(leds.scale);
   im2activerows = ceil(size(IM2,1)/2)-floor(size(Gaussian,1)/2)-sc*round(leds.scale):ceil(size(IM2,1)/2)+floor(size(Gaussian,1)/2)+sc*round(leds.scale);
   im2activecols = ceil(size(IM2,2)/2)-floor(size(Gaussian,2)/2)-sc*round(leds.scale):ceil(size(IM2,2)/2)+floor(size(Gaussian,2)/2)+sc*round(leds.scale);
-  
+
   % CHECK if leds.size and leds.scale have reasonable values
-  % and correct them if not. 
+  % and correct them if not.
   % typically, if the assumed LED size is fairly small, a complete IM2 must be taken
   if (min([im2activerows,im2activecols])<1)
 	if SHOW_WARN
@@ -256,7 +256,7 @@ function finepos = getfinepos(IM,rawpos,leds,LEDSIZE,BLK_PROC,showfig,SHOW_WARN)
 	activerows = ceil(size(Gaussian,1)/2):(size(IM2,1)-floor(size(Gaussian,1)/2));
 	activecols = ceil(size(Gaussian,2)/2):(size(IM2,2)-floor(size(Gaussian,2)/2));
   end
-  
+
   corrcoefmat = zeros(size(IM2));
   % t1 = cputime;
   if BLK_PROC	% blkproc may be faster for big neighbourhoods
@@ -265,14 +265,14 @@ function finepos = getfinepos(IM,rawpos,leds,LEDSIZE,BLK_PROC,showfig,SHOW_WARN)
 	G   = double(Gaussian(:));
 	Gn  = G-mean(G);
 	Gn2 = sum(Gn.^2);
-	B	= im2col(double(IM2(im2activerows,im2activecols)),size(Gaussian),'sliding'); 
+	B	= im2col(double(IM2(im2activerows,im2activecols)),size(Gaussian),'sliding');
 	corrcoefmat(activerows,activecols) = col2im(mycorr2(B,G,Gn,Gn2), size(Gaussian), size(IM2(im2activerows,im2activecols)),'sliding');
 	% corrcoefmat(activerows,activecols) = colfilt(double(IM2(activerows,activecols)),size(Gaussian),'sliding','mycorr2',G,Gn,Gn2);
   end
   % disp(sprintf('elapsed for coorrelations: %f',cputime-t1'))
 
   [maxcorrcoef,idxmaxcorrcoef] = max(corrcoefmat(:));
-  [rmax,cmax] = ind2sub(size(corrcoefmat),idxmaxcorrcoef);  
+  [rmax,cmax] = ind2sub(size(corrcoefmat),idxmaxcorrcoef);
   finepos	  = rawpos+([rmax,cmax]-ceil(size(IM2)/2))./leds.scale;
 
   %%%

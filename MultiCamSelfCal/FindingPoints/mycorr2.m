@@ -1,7 +1,7 @@
 % mycorr2 modified version of the 2D correlation
 %         for the use with im2col and col2im
 %         see GETPOINT
-% 
+%
 %
 % $Id: mycorr2.m,v 2.0 2003/06/19 12:06:52 svoboda Exp $
 
@@ -14,7 +14,7 @@ function R = mycorr2(X,G,Gn,Gn2)
 
 mX	= repmat(mean(X),size(X,1),1);
 mXn = X - mX;
-smX	= sum(mXn.^2); 
+smX	= sum(mXn.^2);
 
 numerator = (mXn'*Gn)';
 denominator = smX*Gn2;

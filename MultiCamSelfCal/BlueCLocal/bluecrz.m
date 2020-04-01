@@ -31,12 +31,12 @@ cave.x=2.8; cave.y=2.8; cave.z=2.36;
 cam(9).C  = [cave.x/2, -cave.y/2, cave.z]';
 cam(10).C =	[cave.x/2, cave.y/2, cave.z]';
 cam(17).C = [-cave.x/2, -cave.y/2, cave.z]';
-cam(18).C = [-cave.x/2, cave.y/2, cave.z]'; 
-cam(4).C  = [0,0.05,3.7]';		   % relatively ad hoc values to improve the stability 
+cam(18).C = [-cave.x/2, cave.y/2, cave.z]';
+cam(4).C  = [0,0.05,3.7]';		   % relatively ad hoc values to improve the stability
 % of the similarity computation
 
 [align.simT.s, align.simT.R, align.simT.t]  = estsimt([Cst(find(config.cal.cams2use==4),:)',Cst(horizplane.idx,1:3)'],[cam(:).C]);
-[align.P, align.X]							= align3d(in.Pe,in.Xe,align.simT);	 		
+[align.P, align.X]							= align3d(in.Pe,in.Xe,align.simT);
 % save aligned data
 if 1 % SAVE_STEPHI | SAVE_PGUHA
 	[align.Cst,align.Rot] = savecalpar(align.P,config);
@@ -51,13 +51,13 @@ drawscene(align.X,align.Cst',align.Rot,61,'cloud','Graphical Output Validation: 
 % set the camera on top
 set(gca,'CameraTarget',mean(align.Cst(horizplane.idx,:)));
 set(gca,'CameraPosition',mean(align.Cst(horizplane.idx,:))+3*horizplane.n');
-% set(gca,'CameraPosition',align.Cst(find(config.cal.cams2use==4),:)); % view from the perspective of the camera4 
+% set(gca,'CameraPosition',align.Cst(find(config.cal.cams2use==4),:)); % view from the perspective of the camera4
 
 %   drawscene(in.Xe,Cst',Rot,42,'cloud','Graphical Output Validation: View from side',config.cal.cams2use);
 %   set(gca,'CameraTarget',mean(Cst(horizplane.idx,:)));
 %   set(gca,'CameraPosition',mean(Cst(horizplane.idx,:)+Cst(horizplane(4),:)-Cst(horizplane(1),:))');
 
-figure(61), 
+figure(61),
 % print -depsc graphevalaligned.eps
 eval(['print -depsc ', config.paths.data, 'graphevalaligned.eps'])
 

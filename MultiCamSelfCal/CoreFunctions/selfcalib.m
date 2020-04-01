@@ -36,14 +36,14 @@ Lambda_est = estimateLambda(Ws,IdMat);
 % Lambda_est = ones(CAMS,POINTS);
 
 if 1
-  % normalize estimated lambdas. 
+  % normalize estimated lambdas.
   % it is more balancing than normalization
   % Check it again. Probably not correct?
   lambnfr = sum(Lambda_est.^2);
   Lambda_est = sqrt(CAMS)*Lambda_est./repmat(sqrt(lambnfr),CAMS,1);
   lambnfc = sum(Lambda_est'.^2);
   Lambda_est = sqrt(POINTS)*Lambda_est./repmat(sqrt(lambnfc'),1,POINTS);
-end 
+end
 
 % no need for negative lambdas
 Lambda_est = abs(Lambda_est);
@@ -70,7 +70,7 @@ end
 
 % Euclidian reconstruction
 warn = 0;
-[Pe,Xe,C,R,T,foc,warn] = euclidize(Ws,Lambda,P,X);    
+[Pe,Xe,C,R,T,foc,warn] = euclidize(Ws,Lambda,P,X);
 
 
 
