@@ -1,6 +1,11 @@
 Multi Camera Self Calibration toolbox
 =====================================
 
+|CI test|
+
+.. |CI test| image:: https://github.com/strawlab/multicamselfcal/workflows/test/badge.svg?branch=master
+   :target: https://github.com/strawlab/multicamselfcal/actions?query=branch%3Amaster
+
 The is an updated version of the Multi Camera Self Calibration toolbox
 by Svoboda et al.
 
