@@ -1,0 +1,19 @@
+name: test
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install octave
+      run: sudo apt install -y octave
+    - name: Run test
+      run: cd MultiCamSelfCal && octave gocal.m --config=../strawlab/test-data/DATA20100906_134124/no-global-iterations.cfg
