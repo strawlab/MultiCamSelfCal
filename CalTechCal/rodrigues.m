@@ -27,7 +27,7 @@ function	[out,dout]=rodrigues(in)
 %bigeps = 10e+4*eps;
 bigeps = 10e+20*eps;
 
-if ((m==1) & (n==3)) | ((m==3) & (n==1)) %% it is a rotation vector
+if ((m==1) & (n==3)) | ((m==3) && (n==1)) %% it is a rotation vector
    theta = norm(in);
    if theta < eps
       R = eye(3);

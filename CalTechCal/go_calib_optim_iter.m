@@ -577,7 +577,7 @@ param_error(ind_Jac) =  3*sqrt(full(diag(JJ2_inv)))*sigma_x;
 
 solution_error = param_error;
 
-if ~est_aspect_ratio & isequal(est_fc,[1;1]),
+if ~est_aspect_ratio && isequal(est_fc,[1;1]),
     solution_error(2) = solution_error(1);
 end;
 
@@ -605,7 +605,7 @@ fprintf(1,'Note: The numerical errors are approximately three times the standard
 alpha_c_min = alpha_c - alpha_c_error/2;
 alpha_c_max = alpha_c + alpha_c_error/2;
 
-if (alpha_c_min < 0) & (alpha_c_max > 0),
+if (alpha_c_min < 0) && (alpha_c_max > 0),
     fprintf(1,'Recommendation: The skew coefficient alpha_c is found to be equal to zero (within its uncertainty).\n');
     fprintf(1,'                You may want to reject it from the optimization by setting est_alpha=0 and run Calibration\n\n');
 end;
