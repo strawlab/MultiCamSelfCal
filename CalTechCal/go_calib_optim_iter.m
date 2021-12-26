@@ -112,7 +112,7 @@ for kk = ind_active,
 end;
 
 
-if center_optim & (length(ind_active) < 2) & ~rig3D,
+if center_optim && (length(ind_active) < 2) && ~rig3D,
     fprintf(1,'WARNING: Principal point rejected from the optimization when using one image and planar rig (center_optim = 1).\n');
     center_optim = 0; %%% when using a single image, please, no principal point estimation!!!
     est_alpha = 0;
@@ -122,7 +122,7 @@ if ~exist('dont_ask'),
     dont_ask = 0;
 end;
 
-if center_optim & (length(ind_active) < 5) & ~rig3D,
+if center_optim && (length(ind_active) < 5) && ~rig3D,
     fprintf(1,'WARNING: The principal point estimation may be unreliable (using less than 5 images for calibration).\n');
     %if ~dont_ask,
     %   quest = input('Are you sure you want to keep the principal point in the optimization process? ([]=yes, other=no) ');
@@ -174,7 +174,7 @@ else
 end;
 
 
-if ~center_optim & (est_alpha),
+if ~center_optim && (est_alpha),
     fprintf(1,'WARNING: Since there is no principal point estimation (center_optim=0), no skew estimation (est_alpha = 0)\n');
     est_alpha = 0;
 end;
@@ -257,7 +257,7 @@ if ~exist('alpha_c'),
     alpha_smooth = 0.4; % slow convergence
 end;
 
-if ~exist('fc')& quick_init,
+if ~exist('fc') && quick_init,
     FOV_angle = initFOV; % Initial camera field of view in degrees % initially 35
     fprintf(1,['Initialization of the focal length to a FOV of ' num2str(FOV_angle) ' degrees.\n']);
     fc = (nx/2)/tan(pi*FOV_angle/360) * ones(2,1);
@@ -440,7 +440,7 @@ while (change > 1e-9)&(iter < MaxIter),
     kc_current = param(6:10);
 
 
-    if ~est_aspect_ratio & isequal(est_fc,[1;1]),
+    if ~est_aspect_ratio && isequal(est_fc,[1;1]),
         fc_current(2) = fc_current(1);
         param(2) = param(1);
     end;
@@ -615,7 +615,7 @@ kc_max = kc + kc_error/2;
 
 prob_kc = (kc_min < 0) & (kc_max > 0);
 
-if ~(prob_kc(3) & prob_kc(4))
+if ~(prob_kc(3) && prob_kc(4))
     prob_kc(3:4) = [0;0];
 end;
 
