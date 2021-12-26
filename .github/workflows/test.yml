@@ -2,18 +2,33 @@ name: test
 
 on:
   push:
-    branches: [ '**' ]
+    branches: ["**"]
   pull_request:
-    branches: [ '**' ]
+    branches: ["**"]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Install octave
-      run: sudo apt install -y octave
-    - name: Run test
-      run: cd MultiCamSelfCal && octave gocal.m --config=../strawlab/test-data/DATA20100906_134124/no-global-iterations.cfg
+      - uses: actions/checkout@v2
+      - name: Install octave
+        run: sudo apt install -y octave
+      - name: Run test
+        run: cd MultiCamSelfCal && octave gocal.m --config=../strawlab/test-data/DATA20100906_134124/no-global-iterations.cfg
+
+  test-python:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install octave, python and pip
+        run: sudo apt install -y octave python3 python3-pip
+      - name: Install numpy
+        run: pip3 install numpy
+      - name: Install Python MCSC wrapper
+        run: cd python && pip3 install -e .
+      - name: Install Nose testing framework
+        run: pip3 install nose
+      - name: Test Python wrapper
+        run: cd python/test && nosetests
