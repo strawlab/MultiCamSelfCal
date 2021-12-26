@@ -4,7 +4,7 @@ import yaml
 
 def camera_calibration_yaml_to_radfile(yamlpath, radpath, lossy_ok=False):
     with open(yamlpath,'r') as yf:
-        y = yaml.load(yf)
+        y = yaml.safe_load(yf)
 
         K = y['camera_matrix']['data']
         Knp = np.array(K)
