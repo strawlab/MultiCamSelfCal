@@ -45,7 +45,7 @@ fig.subI       = 4; % subimage (local neighbourhood of est. LED pos.)
 im.info = imfinfo(im.name);
 im.orig = imread(im.name);
 
-if findstr(im.info.ColorType,'grayscale');
+if strfind(im.info.ColorType,'grayscale');
   im.I = im.orig;
 else
   [im.r,im.c] = size(im.orig(:,:,1));

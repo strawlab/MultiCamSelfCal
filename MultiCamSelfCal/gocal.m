@@ -63,7 +63,7 @@ USED_MULTIPROC = 0;		% was the multipropcessing used?
 % lin.* corrected values which obey linear model
 % in.* inliers, detected by a chain application of Ransac
 
-if findstr(expname,'oscar')
+if strfind(expname,'oscar')
   % add a projector idx to the cameras
   % they are handled the same
   config.files.cams2use = [config.files.idxcams,config.files.idxproj];
@@ -321,26 +321,26 @@ while selfcal.iterate && selfcal.count < config.cal.GLOBAL_ITER_MAX,
   % they align the coordinate frame from the selfcalibration
   % with the pre-defined world frame
   % it is assumed the necessary informations are avialable
-  if findstr('BlueCRZ',expname)
+  if strfind(expname,'BlueCRZ')
 	  [align] = bluecrz(in,config);
   end
-  if findstr('Hoengg',expname)
+  if strfind(expname,'Hoengg')
 	  [align] = bluechoengg(in,config);
   end
-  if findstr('Erlangen',expname)
+  if strfind(expname,'Erlangen')
 	  [align] = erlangen(in,config);
 	  % [align] = planarmove(in,config);
   end
-  if findstr('G9',expname)
+  if strfind(expname,'G9')
 	  [align] = g9(in,config);
   end
-  if findstr('flydra',expname)
+  if strfind(expname,'flydra')
 	  [align] = flydra(in,config);
   end
-  if findstr('mamarama',expname)
+  if strfind(expname,'mamarama')
 	  [align] = mamarama(in,config);
   end
-  if findstr('humdra',expname)
+  if strfind(expname,'humdra')
 	  [align] = humdra(in,config);
   end
 

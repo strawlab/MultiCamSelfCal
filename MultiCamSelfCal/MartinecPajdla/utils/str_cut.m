@@ -6,7 +6,7 @@ function [ head, tail ] = str_cut(s, delim)
 
 if nargin < 2, delim = '/'; end
 
-idcs = findstr(s,delim);
+idcs = strfind(s,delim);
 if isempty(idcs),
   head = s;
   tail = [];

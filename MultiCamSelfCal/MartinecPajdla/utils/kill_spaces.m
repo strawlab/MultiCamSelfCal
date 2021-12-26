@@ -2,4 +2,4 @@
 
 function r = kill_spaces(s)
 
-r = s(setdiff(1:length(s),findstr(s,' ')));
+r = s(setdiff(1:length(s),strfind(s,' ')));

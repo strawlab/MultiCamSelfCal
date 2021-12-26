@@ -30,7 +30,7 @@ NoCams = size(config.files.idxcams,2);	% number of cameras
 for i=1:NoCams,
   seq(i).camId = config.files.idxcams(i);
   if seq(i).camId > -1
-	if findstr(config.expname,'oscar')
+	if strfind(config.expname,'oscar')
 	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),config.files.imnames,'*.',im.ext]);
 	else
 	  seq(i).data = dir([sprintf(im.dir,seq(i).camId),sprintf(config.files.imnames,seq(i).camId),im.ext]);
@@ -156,7 +156,7 @@ end
 %%% End of the findings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if findstr(config.expname,'oscar')
+if strfind(config.expname,'oscar')
   % needs special care for handling projector data
   ProjPoints = load(config.files.projdata,'-ASCII');
   Ws = [Ws; ProjPoints(:,end-1:end)'; ones(size(ProjPoints(:,1)'))];
