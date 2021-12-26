@@ -11,7 +11,7 @@
 %        };
 function config = read_generic_configuration(metacfg, cfg_filename);
 
-if isdir(cfg_filename)
+if isfolder(cfg_filename)
   cfg_filename = fullfile(cfg_filename, 'multicamselfcal.cfg'); % default config name in directory
 end
 

@@ -42,7 +42,7 @@ end
 % Do generic parsing based on metaconfiguration
 config = read_generic_configuration(get_metaconfiguration(), filename);
 
-if isdir(filename)
+if isfolder(filename)
   config_dirname = filename;
 else
   config_dirname = fileparts(filename);
