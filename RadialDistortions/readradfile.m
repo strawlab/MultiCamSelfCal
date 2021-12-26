@@ -1,16 +1,16 @@
 % emacs, this is -*-Matlab-*- mode
 %
-% readradfiles    reads the BlueC *.rad files
+% readradfile    reads the BlueC *.rad files
 %
 % *.rad files contain paprameters of the radial distortion
-% [K,kc] = readradfiles(name)
+% [K,kc] = readradfile(name)
 % name ... name of the *.rad file with its full path
 %
 % K ... 3x3 calibration matrix
 % kc ... 4x1 vector of distortion parameters
 %
 % $Id: readradfile.m,v 2.0 2003/06/19 12:07:16 svoboda Exp $
-function [K,kc] = readradfiles(name);
+function [K,kc] = readradfile(name);
 
 fid = fopen(name,'r');
 if fid<0
