@@ -1,0 +1,10 @@
+[project]
+name = "multicamselfcal"
+version = "0.1.0"
+description = "wrapper for the Octave/Matlab multicamselfcal library"
+authors = [{ name = "John Stowers"}]
+maintainers = [{ name = "Andrew Straw", email = "strawman@astraw.com" }]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
