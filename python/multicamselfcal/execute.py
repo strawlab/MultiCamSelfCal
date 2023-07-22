@@ -15,44 +15,6 @@ from .visualization import create_pcd_file_from_points
 
 LOG = logging.getLogger('mcsc')
 
-class ThreadedCommand(threading.Thread):
-    def __init__(self, cmds,cwd,stdout,stderr,stdin=None,shell=False,executable=None):
-        threading.Thread.__init__(self)
-        if not shell:
-            cmds = shlex.split(cmds)
-        self._cmds = cmds
-        self._cwd = cwd
-        self._stdin = stdin
-        self._stdout = stdout
-        self._stderr = stderr
-        self._shell=shell
-        self._executable=executable
-        self._cb = None
-        self._cbargs = tuple()
-
-    def run(self):
-        kwargs = dict(              stdin=self._stdin,
-                                    stdout=self._stdout,
-                                    stderr=self._stderr,
-                                    shell=self._shell,
-                                    executable=self._executable,
-                                    cwd=self._cwd)
-
-        logging.getLogger('mcsc.cmd').debug("running cmd %r kwargs: %r" % (
-            self._cmds,kwargs))
-
-        self._cmd = subprocess.Popen(self._cmds, **kwargs)
-
-        self.pid = self._cmd.pid
-        self.results = self._cmd.communicate(self._stdin)
-        self.returncode = self._cmd.returncode
-        if self._cb:
-            self._cb(self, *self._cbargs)
-
-    def set_finished_cb(self, cb, *args):
-        self._cb = cb
-        self._cbargs = args
-
 _cfg_file = """[Files]
 Basename: {basename}
 Image-Extension: jpg
@@ -181,13 +143,12 @@ class MultiCamSelfCal(_Calibrator):
             cwd = self.mcscdir
         return cmds,cwd
 
-    def execute(self, blocking=True, cb=None, dest=None, silent=True, copy_files=True):
+    def execute(self, dest=None, copy_files=True):
         """
         if dest is specified then all files are copied there unless copy is false. If dest is not
         specified then it is in a subdir of out_dirname called result
 
-        @returns: dest (or nothing if blocking is false). In that case cb is called when complete
-        and is passed the dest argument
+        @returns: dest.
         """
         if not dest:
             dest = os.path.join(self.out_dirname,'result')
@@ -222,33 +183,10 @@ class MultiCamSelfCal(_Calibrator):
 
         cmds,cwd = self.get_cmd_and_cwd(cfg)
 
-        bash_path = '/bin/bash'
-        if os.path.exists(bash_path) and not silent:
-            shell=True
-            # http://stackoverflow.com/questions/692000
-            cmds = cmds + ' > >(tee %s) 2> >(tee %s >&2)'%(stdout_fname,stderr_fname)
-            executable = bash_path
-            stdout = stderr = None
-        else:
-            shell=False
-            executable=None
-            if not silent:
-                LOG.warn('you requested not silent, but bash is required to support that.')
-            stdout = open(stdout_fname,'w')
-            stderr = open(stderr_fname,'w')
+        subprocess.check_call(cmds, cwd=cwd, shell=True)
+        return dest
 
-        cmd = ThreadedCommand(cmds,cwd=cwd,stdout=stdout,stderr=stderr,
-                              shell=shell,executable=executable)
-        cmd.set_finished_cb(cb,dest)
-        cmd.start()
-
-        if blocking:
-            cmd.join()
-            if cmd.returncode != 0:
-                raise RuntimeError('MCSC failed')
-            return dest
-
-    def create_from_cams(self, cam_ids=[], cam_resolutions={}, cam_points={}, cam_calibrations={}, num_cameras_fill=-1, **kwargs):
+    def create_from_cams(self, cam_ids=[], cam_resolutions={}, cam_points={}, cam_calibrations={}, num_cameras_fill=-1, initial_tolerance=10.0):
         #num_cameras_fill = -1 means use all cameras (= len(cam_ids))
 
         if not cam_ids:
@@ -316,7 +254,8 @@ class MultiCamSelfCal(_Calibrator):
                         undo_radial,
                         True,
                         num_cameras_fill,
-                        [])
+                        [],
+                        initial_tolerance)
         LOG.debug("dropped cams: %s" % ','.join(cams_to_remove))
 
     def create_calibration_directory(self, cam_ids, IdMat, points, Res, cam_calibrations=[], cam_centers=[], radial_distortion=0, square_pixels=1, num_cameras_fill=-1, initial_tolerance=10.0):
@@ -407,12 +346,11 @@ if __name__ == "__main__":
                     'strawlab','test-data','DATA20100906_134124'))
 
     mcscdir = os.path.join(SRC_PATH,'MultiCamSelfCal')
-    kwargs = {}
     if os.path.exists(mcscdir):
         # assume running from source
         kwargs['mcscdir']=mcscdir
 
     mcsc = MultiCamSelfCal(data, **kwargs)
-    caldir = mcsc.execute(silent=False)
+    caldir = mcsc.execute()
 
     print("result:",caldir)
