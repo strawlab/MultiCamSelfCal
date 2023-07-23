@@ -4,7 +4,13 @@ version = "0.1.0"
 description = "wrapper for the Octave/Matlab multicamselfcal library"
 authors = [{ name = "John Stowers"}]
 maintainers = [{ name = "Andrew Straw", email = "strawman@astraw.com" }]
+readme = "README.rst"
+urls.homepage = "https://github.com/strawlab/multicamselfcal"
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+# The source for the multicamselfcal package is in "python/multicamselfcal"
+multicamselfcal = "python/multicamselfcal"
