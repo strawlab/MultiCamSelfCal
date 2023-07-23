@@ -105,8 +105,8 @@ class _Calibrator:
         else:
             out_dirname = tempfile.mkdtemp(prefix=self.__class__.__name__)
 
-        self.octave = kwargs.get('octave','/usr/bin/octave')
-        self.matlab = kwargs.get('matlab','/opt/matlab/R2011a/bin/matlab')
+        self.octave = kwargs.get('octave','octave')
+        self.matlab = kwargs.get('matlab','matlab')
         self.use_matlab = kwargs.get('use_matlab', False)
         self.out_dirname = out_dirname
 
