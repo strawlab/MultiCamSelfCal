@@ -55,7 +55,7 @@ def save_ascii_matrix(arr,fd,isint=False):
     write a np.ndarray with 2 dims
     """
     assert arr.ndim==2
-    if arr.dtype==np.bool:
+    if arr.dtype==bool:
         arr = arr.astype( np.uint8 )
 
     close_file = False
