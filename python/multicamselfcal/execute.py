@@ -128,7 +128,7 @@ class MultiCamSelfCal(_Calibrator):
         self.align_existing = False
 
         # if not os.path.exists(os.path.join(self.mcscdir,'gocal.m')):
-        #     LOG.warn("could not find MultiCamSelfCal gocal.m in %s" % self.mcscdir)
+        #     LOG.warning("could not find MultiCamSelfCal gocal.m in %s" % self.mcscdir)
 
     def _write_cam_ids(self, cam_ids):
         with open(os.path.join(self.out_dirname,'camera_order.txt'),'w') as f:
@@ -183,10 +183,10 @@ class MultiCamSelfCal(_Calibrator):
                 if os.path.isfile(src):
                     shutil.copy(src, dest)
                 else:
-                    LOG.warn("Could not find %s" % src)
+                    LOG.warning("Could not find %s" % src)
             else:
                 if not os.path.isfile(src):
-                    LOG.warn("Could not find %s" % src)
+                    LOG.warning("Could not find %s" % src)
 
         if copy_files:
             for k,v in self.get_camera_names_map().items():
@@ -194,7 +194,7 @@ class MultiCamSelfCal(_Calibrator):
                 if os.path.isfile(src):
                     shutil.copy(src, dest)
                 else:
-                    LOG.warn("Could not find %s" % src)
+                    LOG.warning("Could not find %s" % src)
 
         cfg = os.path.abspath(os.path.join(dest, "multicamselfcal.cfg"))
 
@@ -229,7 +229,7 @@ class MultiCamSelfCal(_Calibrator):
             nvalid = np.count_nonzero(np.nan_to_num(np.array(cam_points[cam])))
             if nvalid == 0:
                 cams_to_remove.append(cam)
-                LOG.warn("removing cam %s - no points detected" % cam)
+                LOG.warning("removing cam %s - no points detected" % cam)
         map(cam_ids.remove, cams_to_remove)
 
         self._write_cam_ids(cam_ids)
