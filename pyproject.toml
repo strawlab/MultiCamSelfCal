@@ -11,12 +11,26 @@ urls.homepage = "https://github.com/strawlab/multicamselfcal"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.package-dir]
-# The source for the multicamselfcal package is in "python/multicamselfcal"
-multicamselfcal = "python/multicamselfcal"
-
-[tool.setuptools.packages.find]
-namespaces = true
+[tool.setuptools]
+package-dir = {"multicamselfcal" = "python/multicamselfcal"}
+packages = [
+    "multicamselfcal",   # Python wrapper
+    "MultiCamSelfCal",   # Octave/Matlab MCSC code
+    "MultiCamSelfCal.BlueCLocal",
+    "MultiCamSelfCal.CoreFunctions",
+    "MultiCamSelfCal.FindingPoints",
+    "MultiCamSelfCal.LocalAlignments",
+    "MultiCamSelfCal.MartinecPajdla",
+    "MultiCamSelfCal.MartinecPajdla.fill_mm",
+    "MultiCamSelfCal.MartinecPajdla.fill_mm_test",
+    "MultiCamSelfCal.MartinecPajdla.utils",
+    "MultiCamSelfCal.OutputFunctions",
+    "MultiCamSelfCal.Ransac",
+    "CommonCfgAndIO",    # Octave/Matlab MCSC code
+    "RadialDistortions", # Octave/Matlab MCSC code
+    "CalTechCal",        # Octave/Matlab MCSC code
+    "RansacM",           # Octave/Matlab MCSC code
+    ]
 
 [tool.setuptools.package-data]
 # include all .m files as package data for python
