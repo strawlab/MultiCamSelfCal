@@ -14,3 +14,10 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.package-dir]
 # The source for the multicamselfcal package is in "python/multicamselfcal"
 multicamselfcal = "python/multicamselfcal"
+
+[tool.setuptools.packages.find]
+namespaces = true
+
+[tool.setuptools.package-data]
+# include all .m files as package data for python
+"*" = ["*.m"]
