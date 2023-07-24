@@ -7,7 +7,7 @@ import logging
 logging.basicConfig()
 import tempfile
 import shutil
-import importlib.resources
+import importlib_resources # backport of importlib.resources that works on Python 3.8 and 3.9
 import pathlib
 
 import numpy as np
@@ -89,7 +89,7 @@ def copy_traversable_tree(traversable, dest_path):
     for xap in traversable.iterdir():
         xap_dest_path = dest_path / xap.name
         if xap.is_file():
-            with importlib.resources.as_file(xap) as myfile:
+            with importlib_resources.as_file(xap) as myfile:
                 shutil.copy(myfile, xap_dest_path)
         else:
             assert xap.is_dir()
@@ -203,7 +203,7 @@ class MultiCamSelfCal(_Calibrator):
             for subdir in MCSC_DIRS:
                 copied_sub_dir = mcscdir/subdir
                 copied_sub_dir.mkdir()
-                traversable = importlib.resources.files(subdir)
+                traversable = importlib_resources.files(subdir)
                 copy_traversable_tree(traversable, copied_sub_dir)
 
             if self.use_matlab:
