@@ -24,11 +24,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install octave, python and pip
         run: sudo apt install -y octave python3 python3-pip
-      - name: Install numpy
-        run: pip3 install numpy
+      - name: Install requirements
+        run: pip3 install -r requirements.txt
       - name: Install Python MCSC wrapper
-        run: cd python && pip3 install -e .
-      - name: Install Nose testing framework
-        run: pip3 install nose
+        run: pip3 install -e .
+      - name: Install pytest testing framework
+        run: pip3 install pytest
       - name: Test Python wrapper
-        run: cd python/test && nosetests
+        run: pytest
