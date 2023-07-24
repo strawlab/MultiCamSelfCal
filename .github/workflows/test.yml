@@ -30,7 +30,7 @@ jobs:
       - name: Install requirements
         run: pip3 install -r requirements.txt
       - name: Install Python MCSC wrapper
-        run: pip3 install -e .
+        run: pip3 install .
       - name: Install pytest testing framework
         run: pip3 install pytest
       - name: Test Python wrapper
