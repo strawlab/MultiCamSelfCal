@@ -8,6 +8,12 @@ readme = "README.md"
 requires-python = ">=3.8"
 urls.homepage = "https://github.com/strawlab/multicamselfcal"
 
+dependencies = [
+    "numpy",
+    "PyYAML",
+    "importlib-resources >= 6",
+]
+
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
