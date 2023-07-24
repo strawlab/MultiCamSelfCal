@@ -5,6 +5,9 @@ on:
     branches: ["**"]
   pull_request:
     branches: ["**"]
+  schedule:
+    # At 23:25 on Thursday.
+    - cron: "25 23 * * 4"
 
 jobs:
   test:
