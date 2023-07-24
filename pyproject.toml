@@ -5,6 +5,7 @@ description = "wrapper for the Octave/Matlab multicamselfcal library"
 authors = [{ name = "John Stowers"}]
 maintainers = [{ name = "Andrew Straw", email = "strawman@astraw.com" }]
 readme = "README.md"
+requires-python = ">=3.8"
 urls.homepage = "https://github.com/strawlab/multicamselfcal"
 
 [build-system]

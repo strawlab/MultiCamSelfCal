@@ -11,8 +11,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
       - name: Install octave
@@ -21,19 +23,24 @@ jobs:
         run: cd MultiCamSelfCal && octave gocal.m --config=../strawlab/test-data/DATA20100906_134124/no-global-iterations.cfg
 
   test-python:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-latest]
+        python-version: [ '3.8', '3.x' ]
     steps:
       - uses: actions/checkout@v3
       - name: Install octave, python and pip
-        run: sudo apt install -y octave python3 python3-pip
-      - name : Upgrade pip
-        run: pip3 install --upgrade pip
+        run: sudo apt install -y octave
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
       - name: Install requirements
-        run: pip3 install -r requirements.txt
+        run: pip install -r requirements.txt
       - name: Install Python MCSC wrapper
-        run: pip3 install . -v
+        run: pip install . -v
       - name: Install pytest testing framework
-        run: pip3 install pytest
+        run: pip install pytest
       - name: Test Python wrapper
         run: pytest
