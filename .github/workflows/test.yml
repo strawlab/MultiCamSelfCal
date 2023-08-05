@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install octave
-        run: sudo apt install -y octave
+        run: sudo apt update && sudo apt install -y octave
       - name: Run test
         run: cd MultiCamSelfCal && octave gocal.m --config=../strawlab/test-data/DATA20100906_134124/no-global-iterations.cfg
 
@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install octave
-        run: sudo apt install -y octave
+        run: sudo apt update && sudo apt install -y octave
       - name: Setup python
         uses: actions/setup-python@v4
         with:
