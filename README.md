@@ -124,7 +124,6 @@ To install:
 
 To install from the git repository:
 
-    pip install -r requirements.txt
     pip install -e .
 
 To test:
