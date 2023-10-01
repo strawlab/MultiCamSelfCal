@@ -19,9 +19,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"multicamselfcal" = "python/multicamselfcal"}
 packages = [
-    "multicamselfcal",   # Python wrapper
+    "pymulticamselfcal",                           # Python wrapper
     "MultiCamSelfCal",   # Octave/Matlab MCSC code
     "MultiCamSelfCal.BlueCLocal",
     "MultiCamSelfCal.CoreFunctions",
