@@ -8,8 +8,8 @@ function Mnorm=normalize_cut(M,I)
 
 m=size(M,1)/3;
 
-if nargin < 2, Mnorm=normalize(M);
-else           Mnorm=normalize(M,I); end
+if nargin < 2, Mnorm=normalize_mp(M);
+else           Mnorm=normalize_mp(M,I); end
 
 Mnorm=Mnorm(union((1:m)*3-2,(1:m)*3-1),:);
 

@@ -1,12 +1,12 @@
 %
-% 	Function Mnorm=normalize(M,I)
+% 	Function Mnorm=normalize_mp(M,I)
 %
 % normalizes M by dividing each point by its homogenous coordinate
 % (these coordinates equal to ones afterwards).
 %
 % Parameter I can be omitted for complete scenes.
 
-function Mnorm=normalize(M,I)
+function Mnorm=normalize_mp(M,I)
 
 m=size(M,1)/3;
 n=size(M,2);
