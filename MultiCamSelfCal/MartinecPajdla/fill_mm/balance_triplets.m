@@ -25,7 +25,7 @@ m=size(M,1)/3;  	%number of cameras
 n=size(M,2);  		%number of points
 
 B=M;  change=inf; diff_rows = inf; diff_cols = inf; iteration = 0;
-while (change > 0.01  |  diff_rows > 1  |  diff_cols > 1)  &&  iteration <= 20
+while (change > 0.01  ||  diff_rows > 1  ||  diff_cols > 1)  &&  iteration <= 20
   Bold=B;
 
  % 1. rescale each column l so that sum w_r_l^2=1 i.e. column of unit

@@ -12,7 +12,7 @@ Octave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 disp('2D reprojection error')
 disp(sprintf('All points: mean  %2.2f pixels, std is %2.2f',mean([cam.err2d]), std([cam.err2d])'));
 % disp(sprintf('Inliers:    mean  %2.2f pixels, std is %2.2f',mean([cam.inerr2d]), std([cam.inerr2d])'));
-if mean([cam.err2d])>1.5 | std([cam.err2d])>1.5
+if mean([cam.err2d])>1.5 || std([cam.err2d])>1.5
 	disp('***************************************************')
 	disp('W A R N I N G: the reprojection error is relatively high !')
 end
