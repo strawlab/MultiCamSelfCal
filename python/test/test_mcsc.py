@@ -1,6 +1,6 @@
 import os, shutil
-import multicamselfcal.execute
-from multicamselfcal.execute import MultiCamSelfCal
+import pymulticamselfcal.execute
+from pymulticamselfcal.execute import MultiCamSelfCal
 import tempfile
 import pytest
 

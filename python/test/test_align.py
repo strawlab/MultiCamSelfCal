@@ -1,5 +1,5 @@
 from __future__ import print_function
-from multicamselfcal.align import estsimt, align_points, align_pmat
+from pymulticamselfcal.align import estsimt, align_points, align_pmat
 import numpy as np
 
 def test_align():
