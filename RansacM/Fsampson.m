@@ -16,6 +16,6 @@ u2 = u(4:6,:);
 errs = zeros(1,N);
 for i=1:N
   Fu1 = F*u1(:,i);
-  Fu2 = F'*u1(:,i);
+  Fu2 = F'*u2(:,i);  % FIX: was u1, should be u2 for standard Sampson distance
   errs(i) = (u2(:,i)'*F*u1(:,i))^2 / (sum([Fu1(1:2)'.^2,Fu2(1:2)'.^2]));
 end
