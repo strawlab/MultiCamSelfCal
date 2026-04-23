@@ -159,7 +159,7 @@ while (nfail < 20) && (stepy*opt.res_scale > opt.max_stepy) && (niter < opt.max_
   end
 
   % if success, print out residuals
-  if (opt.verbose || opt.verbose_short) && nfail==0
+  if (opt.verbose | opt.verbose_short) && nfail==0
     if ~opt.verbose_short
       fprintf(' %7.2g [lam]: %14.10g [rms] %14.10g [max] %10.5g [stepmax]\n',lam,opt.res_scale*sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy);
     else fprintf(' %g/%g/%g', sqrt(mean((Fp).^2)),opt.res_scale*max(abs(Fp)),opt.res_scale*stepy); end

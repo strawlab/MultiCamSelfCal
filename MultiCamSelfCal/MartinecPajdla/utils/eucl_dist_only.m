@@ -10,7 +10,7 @@
 
 function [e_norm, distances] = eucl_dist_only(M0, M, I, step)
 
-if nargin < 3, I = ~isnan(M0(1:2:end,:)) && ~isnan(M(1:2:end,:)); end
+if nargin < 3, I = ~isnan(M0(1:2:end,:)) & ~isnan(M(1:2:end,:)); end
 if nargin < 4, step = 2; end
 
 if nargin >= 3

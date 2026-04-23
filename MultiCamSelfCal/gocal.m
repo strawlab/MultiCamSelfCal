@@ -114,7 +114,7 @@ while selfcal.iterate && selfcal.count < config.cal.GLOBAL_ITER_MAX,
   CAMS = size(config.cal.cams2use,2);
   FRAMES = size(loaded.IdMat,2);
 
-  if CAMS < 3 || FRAMES < 20
+  if CAMS < 3 | FRAMES < 20
 	error('gocal: Not enough cameras or images -> Problem in loading data?')
   end
 
@@ -400,9 +400,9 @@ while selfcal.iterate && selfcal.count < config.cal.GLOBAL_ITER_MAX,
       % add the second radial distortion parameter
       if config.cal.NL_UPDATE(4), selfcal.par2estimate(4) = 1; end
       % estimate also the principal point
-      if selfcal.count > 1 && config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
+      if selfcal.count > 1 & config.cal.NL_UPDATE(2), selfcal.par2estimate(2) = 1; end
       % estimate also the tangential distortion
-      if selfcal.count > 3 && all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
+      if selfcal.count > 3 & all(config.cal.NL_UPDATE(5:6)), selfcal.par2estimate(5:6) = 1; end
     else
       INL_TOL = min([3/2*INL_TOL,config.cal.INL_TOL]);
     end

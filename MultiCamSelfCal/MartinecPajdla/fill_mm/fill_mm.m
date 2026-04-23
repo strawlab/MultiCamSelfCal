@@ -149,7 +149,7 @@ while recoverable > 0 ... % not all parts of JIM are restored
       if isempty(r1) | isempty(r2), fill = []; else,
       fill = find(isnan(M(3*r1, r2)) ... % some depths (lambda) could not
                                      ... % have been computed L2depths
-                  | (~isnan(M(3*r1,r2)) && isnan(lambda))); end
+                  | (~isnan(M(3*r1,r2)) & isnan(lambda))); end
       M_ = M(k2i(r1),r2); M_(k2i(fill)) = R(k2i(fill)); M(k2i(r1),r2) = M_;
 
       added = length(fill); I = ~isnan(M(1:3:end,:));
@@ -258,7 +258,7 @@ good_rows = [];
 	%display(central);
 % fundamental matrices
  for i = setdiff(1:m, central)
-   common = find(I(i,:) && I(central,:));
+   common = find(I(i,:) & I(central,:));
    if length(common) >= 8   % 7 for 7-points algorithm
      good_rows = [good_rows i];
 

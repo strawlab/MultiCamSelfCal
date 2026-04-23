@@ -12,7 +12,7 @@ idxoutMat = zeros(size(inliers.IdMat));
 for i=1:CAMS,
 	if (cam(i).std2Derr > cam(i).mean2Derr) || (cam(i).mean2Derr > INL_TOL)
 		reprerrs = cam(i).err2d - cam(i).mean2Derr;
-		idxout   = find((reprerrs > 3*cam(i).std2Derr) && reprerrs > INL_TOL);
+		idxout   = find((reprerrs > 3*cam(i).std2Derr) & reprerrs > INL_TOL);
 	else
 		idxout = [];
 	end
